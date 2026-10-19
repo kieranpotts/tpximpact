@@ -23,11 +23,6 @@
   An historical archive of key design and technical decisions, plus active
   proposals and their discussion threads.
 
-- [**⚠️ Risk register**](./docs/risks/) \
-  Security and privacy risks inherent in the system, and the implementation
-  status of mitigation strategies. Plus an archive of past threat modeling
-  workshop reports.
-
 -----
 
 Copyright © 2020-present Kieran Potts, [MIT license](./LICENSE.txt)
