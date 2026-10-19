@@ -1,0 +1,32 @@
+#
+# Flag old issues. Runs on a schedule overnight.
+#
+
+name: Flag Stale Issues
+
+on:
+  schedule:
+    - cron: '0 5 * * 1'  # Every Monday at 05:00 UTC.
+
+permissions:
+  issues: write
+
+jobs:
+  stale-issues:
+    name: Check for stale issues
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check for stale issues
+        uses: kieranpotts/actions/stale-issues@latest/dev
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          threshold-1: '60'
+          threshold-2: ''
+          threshold-3: ''
+          label-1: '# stale'
+          label-2: ''
+          label-3: ''
+          comment-1: ''
+          comment-2: ''
+          comment-3: ''

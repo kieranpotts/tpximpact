@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+#
+# Removes build output and caches.
+#
+# This is a placeholder. Replace the body of this script with the real
+# clean command for this project, e.g. `rm -rf dist/ .cache/`.
+#
+
+# Exit immediately on error (-e), treat unset variables as errors (-u), and
+# propagate failures through pipelines (-o pipefail).
+set -euo pipefail
+
+# Resolve the project root (parent of the run/ directory) and change into it.
+# This ensures the script behaves the same regardless of where it's invoked
+# from.
+cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+
+echo "run/clean: not yet implemented" >&2
+exit 1

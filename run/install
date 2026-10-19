@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+#
+# Installs project dependencies.
+#
+# This is a placeholder. Replace the body of this script with the real
+# install command for this project's toolchain, e.g. `npm install`,
+# `pip install -r requirements.txt`, or `go mod download`.
+#
+
+# Exit immediately on error (-e), treat unset variables as errors (-u), and
+# propagate failures through pipelines (-o pipefail).
+set -euo pipefail
+
+# Resolve the project root (parent of the run/ directory) and change into it.
+# This ensures the script behaves the same regardless of where it's invoked
+# from.
+cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+
+echo "run/install: not yet implemented" >&2
+exit 1

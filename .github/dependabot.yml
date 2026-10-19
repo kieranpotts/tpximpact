@@ -1,0 +1,82 @@
+#
+# Dependabot keeps third-party dependencies up to date by raising pull requests
+# against the repository's default branch. Set `target-branch` on an entry if
+# updates should land on a different branch.
+#
+# Dependabot does not understand every manifest in this template. Notably, the
+# hook versions in `.pre-commit-config.yaml` are not tracked, and neither is the
+# `version` input given to the EditorConfig checker in the lint workflow. Both
+# MUST be bumped by hand.
+#
+# https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference
+#
+
+version: 2
+
+updates:
+
+  # GitHub Actions used by the workflows in this repository. Third-party
+  # actions are pinned to a commit SHA, which Dependabot updates in place,
+  # rewriting the trailing version comment as it goes.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "05:00"
+      timezone: Etc/UTC
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: maintenance
+    labels:
+      - MAINTENANCE
+    # Batch all action updates into a single pull request, to keep the
+    # review overhead proportionate to the risk.
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  # Add one entry per package manifest in the repository. Delete the examples
+  # below if they do not apply.
+  #
+  # - package-ecosystem: npm
+  #   directory: /
+  #   schedule:
+  #     interval: weekly
+  #     day: monday
+  #     time: "05:00"
+  #     timezone: Etc/UTC
+  #   open-pull-requests-limit: 5
+  #   commit-message:
+  #     prefix: maintenance
+  #   labels:
+  #     - MAINTENANCE
+  #   groups:
+  #     # Production and development dependencies are grouped separately, so
+  #     # that a risky runtime bump is not buried among tooling updates.
+  #     production:
+  #       dependency-type: production
+  #       update-types:
+  #         - minor
+  #         - patch
+  #     development:
+  #       dependency-type: development
+  #
+  # - package-ecosystem: docker
+  #   directory: /
+  #   schedule:
+  #     interval: weekly
+  #   commit-message:
+  #     prefix: maintenance
+  #   labels:
+  #     - MAINTENANCE
+  #
+  # - package-ecosystem: terraform
+  #   directory: /
+  #   schedule:
+  #     interval: weekly
+  #   commit-message:
+  #     prefix: maintenance
+  #   labels:
+  #     - MAINTENANCE
