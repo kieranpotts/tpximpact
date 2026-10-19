@@ -1,4 +1,4 @@
-# TPXImpact programming project
+# TPXimpact programming project
 
 **A simple URL shortener in Kotlin and Express.**
 
