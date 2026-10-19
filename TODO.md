@@ -18,7 +18,8 @@ Work plan for the TPXImpact URL shortener exercise.
 ## 2. Project scaffolding
 
 - [ ] Monorepo layout: `api/`, `web/`, `docs/`, root `compose.yaml`.
-- [ ] Copy `openapi.yaml` into the repo as the source-of-truth contract.
+- [x] Copy `openapi.yaml` into the repo as the source-of-truth contract, at
+      `contracts/openapi.yaml`.
 - [ ] Wire `run/*` scripts and `Makefile` targets (`install`, `build`, `test`,
       `lint`, `clean`) to the real toolchains.
 - [ ] Update the devcontainer with the JDK, Gradle, and Node toolchains.
