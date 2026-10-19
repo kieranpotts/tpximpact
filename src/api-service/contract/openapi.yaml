@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: URL Shortener API
-  version: 1.0.0
+  version: 1.1.0
   description: Simple RESTful API for shortening URLs.
 
 paths:
@@ -36,6 +36,27 @@ paths:
                     example: http://localhost:8080/my-custom-alias
         '400':
           description: Invalid input or alias already taken
+        '413':
+          description: Request body is larger than 16 KiB
+        '415':
+          description: Request body is not application/json
+          headers:
+            Accept-Post:
+              description: The media type the endpoint accepts.
+              schema:
+                type: string
+                example: application/json
+
+  /openapi.yaml:
+    get:
+      summary: Get this API contract
+      responses:
+        '200':
+          description: This OpenAPI document
+          content:
+            application/yaml:
+              schema:
+                type: string
 
   /{alias}:
     get:
