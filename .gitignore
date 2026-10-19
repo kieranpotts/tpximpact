@@ -9,32 +9,3 @@
 # GitHub provides a collection of useful `.gitignore` templates for a variety of
 # software stacks here: https://github.com/github/gitignore
 #
-
-# Build artifacts (but keep the README or .keep file).
-dist/*
-!dist/.keep
-!dist/README.adoc
-
-# Managed packages.
-node_modules/*
-
-# Logs.
-*.log
-
-# Test coverage.
-coverage/*
-
-# ESLint.
-.eslintcache
-
-# Pre-commit.
-.pre-commit
-
-# Terraform.
-.terraform/
-*.tfstate
-*.tfstate.backup
-*.local.hcl
-terraform.tfvars
-*.auto.tfvars
-*.auto.tfvars.json
