@@ -25,4 +25,4 @@
 
 -----
 
-Copyright © 2020-present Kieran Potts, [MIT license](./LICENSE.txt)
+Copyright © 2026 Kieran Potts, all rights reserved.
