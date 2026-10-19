@@ -39,7 +39,7 @@ A commit message consists of a header, an optional body, and optional footers.
 Each block is separated by a single empty line.
 
 ```txt
-<type>: <description> - <flag>
+<type>: <description>
 
 [<body>]
 
@@ -63,9 +63,8 @@ commit type and a description, separated by a colon and exactly one space.
   only name the problem being fixed, and a `version` need only give the
   version number.
 
-- Keep the whole header — type, description, and flag — under 50 characters
-  where possible. It MUST NOT exceed 72. Only automated `merge` and `revert`
-  headers are exempt.
+- Keep the whole header under 50 characters where possible. It MUST NOT exceed
+  72. Only automated `merge` and `revert` headers are exempt.
 
 - Do not put issue numbers in the header. They belong in the footers.
 
@@ -80,32 +79,6 @@ refactor: move openapi spec to resources directory
 behavior: enable route to openapi spec
 version: 0.0.0-beta
 ```
-
-### Flags
-
-The header MAY end with a single flag, demarcated from the description by a
-spaced hyphen and written in full capitals.
-
-| Flag         | Meaning                                                                      |
-| ------------ | ---------------------------------------------------------------------------- |
-| `BREAKING`   | A change incompatible with existing external clients of an API or interface. |
-| `INCOMPAT`   | An _internal_ breaking change, eg. a changed function signature.             |
-| `WIP`        | Work-in-progress that breaks the build.                                      |
-| `EXPERIMENT` | An experimental change that may be rolled back.                              |
-| `TEMPORARY`  | A change that will definitely be reverted, such as debug output.             |
-
-```txt
-behavior: remove password from login endpoint - BREAKING
-step: remove third param of login action - INCOMPAT
-maintenance: add more logging - TEMPORARY
-```
-
-Where a commit is flagged `BREAKING` or `INCOMPAT`, use the body to explain the
-change, why the interface had to break, and what the consequences are.
-
-`WIP` commits are permitted only on temporary and epic branches. They MUST be
-cleaned up — rebased, squashed, or amended — before the work is integrated,
-and MUST NOT reach the main trunks.
 
 ### Body
 
@@ -151,14 +124,4 @@ Refs: #456
 
 ## Validation
 
-Commit messages are validated in two places:
-
-- Locally, by the `validate-commit-message` pre-commit hook, at the moment you
-  commit.
-
-- In CI, by the `validate-commit-messages` workflow, which checks every commit
-  added by a push, on every branch.
-
-Both check the header against the `<type>: <description>` format and the list
-of permitted revision types. Neither checks the body, the footers, the line
-lengths, or the mood of the description. Those remain a matter of discipline.
+Commit validation is not enabled for this project.
