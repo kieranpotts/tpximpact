@@ -1,6 +1,6 @@
-# Repository template
+# TPXImpact programming project
 
-**A template for new code repositories.**
+**A simple URL shortener in Kotlin and Express.**
 
 The root-level `README` provides usage instructions for end users.
 
