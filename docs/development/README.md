@@ -6,6 +6,9 @@ workflow.
 - [**Get started**](./onboard.md) \
   Runtime requirements, how to install the project, and how to use it.
 
+- [**Repository filesystem structure**](./structure.md) \
+  How the repository is organized on disk.
+
 - [**Tools**](./tools.md) \
   The `Makefile` and `run/` scripts that drive the development lifecycle.
 
