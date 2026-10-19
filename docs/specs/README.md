@@ -93,8 +93,8 @@ form.
 
 ### Q1 — Conforms to the API contract
 
-Every API path, method, status code, and response body shape matches
-[`contracts/openapi.yaml`](../../contracts/openapi.yaml).
+Every API path, method, status code, and response body shape matches the
+OpenAPI contract.
 
 ### Q2 — Fails gracefully
 
