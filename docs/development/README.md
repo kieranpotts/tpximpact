@@ -3,6 +3,9 @@
 Setting up a local working environment, and the day-to-day development
 workflow.
 
+- [**Installation and usage**](./installation.md) \
+  Runtime requirements, how to install the project, and how to use it.
+
 - [**Prerequisites**](./prerequisites.md) \
   Tooling needed for development and maintenance.
 

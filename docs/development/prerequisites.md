@@ -1,7 +1,7 @@
 # Prerequisites
 
 The tooling needed to develop the project, over and above the runtime
-requirements listed in the the project's root-level `README`.
+requirements listed in [installation and usage](./installation.md).
 
 # Pre-commit hooks
 
