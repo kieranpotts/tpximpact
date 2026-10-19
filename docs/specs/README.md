@@ -10,8 +10,7 @@ optionally a custom alias of their choosing, and gets back a short URL that
 redirects to the original.
 
 The system has two components: a RESTful API, written in Kotlin, and a
-decoupled web frontend, served by Express. The API's contract is fixed, and
-defined at [`contracts/openapi.yaml`](../../contracts/openapi.yaml).
+decoupled web frontend, served by Express.
 
 The system depends on a persistent data store, which holds the mapping from
 each alias to its full URL. It has no other external dependencies.
@@ -42,9 +41,10 @@ the system's public base URL followed by that alias.
 
 ### B3 — Reject invalid input
 
-A `POST /shorten` request returns `400 Bad Request`, and stores nothing, when
-the body is not valid JSON, `fullUrl` is missing, `fullUrl` is not a valid
-absolute URL, or `customAlias` is not a valid alias.
+A `POST /shorten` request returns `400 Bad Request`, and mutates no state,
+when any part of the request body is not valid JSON or does not conform to
+the schema defined in the API contract. The response says which input fields
+are invalid, and why.
 
 ### B4 — Reject an alias that's already taken
 
