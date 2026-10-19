@@ -23,10 +23,6 @@
   An historical archive of key design and technical decisions, plus active
   proposals and their discussion threads.
 
-- [**🔍 Architecture audits**](./docs/audits/) \
-  Point-in-time evaluations of the structural integrity of the code and data,
-  which drive refactoring work.
-
 - [**⚠️ Risk register**](./docs/risks/) \
   Security and privacy risks inherent in the system, and the implementation
   status of mitigation strategies. Plus an archive of past threat modeling
