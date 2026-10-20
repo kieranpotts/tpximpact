@@ -5,6 +5,17 @@ info:
     Simple RESTful API for shortening URLs.
 
 paths:
+  /openapi.yaml:
+    get:
+      summary: Get this API contract
+      responses:
+        '200':
+          description: This OpenAPI document
+          content:
+            application/yaml:
+              schema:
+                type: string
+
   /shorten:
     post:
       summary: Shorten a URL
@@ -66,16 +77,21 @@ paths:
             application/problem+json:
               schema:
                 oneOf:
+                  - $ref: '#/components/schemas/AliasTakenProblem'
                   - $ref: '#/components/schemas/MalformedRequestProblem'
                   - $ref: '#/components/schemas/ValidationFailedProblem'
-                  - $ref: '#/components/schemas/AliasTakenProblem'
                 discriminator:
                   propertyName: type
                   mapping:
+                    urn:problem:url-shortener:alias-taken: '#/components/schemas/AliasTakenProblem'
                     urn:problem:url-shortener:malformed-request: '#/components/schemas/MalformedRequestProblem'
                     urn:problem:url-shortener:validation-failed: '#/components/schemas/ValidationFailedProblem'
-                    urn:problem:url-shortener:alias-taken: '#/components/schemas/AliasTakenProblem'
               examples:
+                alias-taken:
+                  value:
+                    type: urn:problem:url-shortener:alias-taken
+                    title: The alias is already taken
+                    status: 400
                 malformed-request:
                   value:
                     type: urn:problem:url-shortener:malformed-request
@@ -94,11 +110,6 @@ paths:
                       - field: customAlias
                         code: alias-invalid-length
                         message: Alias must be between 3 and 64 characters
-                alias-taken:
-                  value:
-                    type: urn:problem:url-shortener:alias-taken
-                    title: The alias is already taken
-                    status: 400
         '413':
           description: Request body is larger than 16 KiB
           headers:
@@ -115,13 +126,13 @@ paths:
         '415':
           description: Request body is not application/json
           headers:
-            X-Request-Id:
-              $ref: '#/components/headers/RequestId'
             Accept-Post:
               description: The media type the endpoint accepts.
               schema:
                 type: string
                 example: application/json
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
           content:
             application/problem+json:
               schema:
@@ -130,64 +141,6 @@ paths:
                 type: urn:problem:url-shortener:unsupported-media-type
                 title: The content type is not supported
                 status: 415
-        '500':
-          $ref: '#/components/responses/InternalError'
-
-  /openapi.yaml:
-    get:
-      summary: Get this API contract
-      responses:
-        '200':
-          description: This OpenAPI document
-          content:
-            application/yaml:
-              schema:
-                type: string
-
-  /{alias}:
-    get:
-      summary: Redirect to destination URL
-      description: |
-        Redirects are never cached. A request with
-        `Accept: text/html` for an unknown alias gets a small HTML
-        "link not found" page, instead of a problem body.
-      parameters:
-        - $ref: '#/components/parameters/Alias'
-        - $ref: '#/components/parameters/RequestId'
-      responses:
-        '302':
-          description: Redirect to the original URL
-          headers:
-            Location:
-              description: The destination URL, as stored.
-              schema:
-                type: string
-                example: https://example.com/very/long/url
-            Cache-Control:
-              description: Always `no-store`, so a deleted alias stops resolving at once.
-              schema:
-                type: string
-                example: no-store
-            X-Request-Id:
-              $ref: '#/components/headers/RequestId'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/InternalError'
-
-    delete:
-      summary: Delete a shortened URL
-      parameters:
-        - $ref: '#/components/parameters/Alias'
-        - $ref: '#/components/parameters/RequestId'
-      responses:
-        '204':
-          description: Successfully deleted
-          headers:
-            X-Request-Id:
-              $ref: '#/components/headers/RequestId'
-        '404':
-          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalError'
 
@@ -222,7 +175,61 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
 
+  /{alias}:
+    get:
+      summary: Redirect to destination URL
+      description: |
+        Redirects are never cached. A request with
+        `Accept: text/html` for an unknown alias gets a small HTML
+        "link not found" page, instead of a problem body.
+      parameters:
+        - $ref: '#/components/parameters/Alias'
+        - $ref: '#/components/parameters/RequestId'
+      responses:
+        '302':
+          description: Redirect to the original URL
+          headers:
+            Cache-Control:
+              description: Always `no-store`, so a deleted alias stops resolving at once.
+              schema:
+                type: string
+                example: no-store
+            Location:
+              description: The destination URL, as stored.
+              schema:
+                type: string
+                example: https://example.com/very/long/url
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    delete:
+      summary: Delete a shortened URL
+      parameters:
+        - $ref: '#/components/parameters/Alias'
+        - $ref: '#/components/parameters/RequestId'
+      responses:
+        '204':
+          description: Successfully deleted
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
 components:
+  headers:
+    RequestId:
+      description: The request ID, accepted from the request or generated.
+      schema:
+        type: string
+        example: 6f1c0f8e-2c1d-4a53-9e55-1d3c1b7a9c10
+
   parameters:
     Alias:
       name: alias
@@ -245,27 +252,7 @@ components:
       schema:
         type: string
 
-  headers:
-    RequestId:
-      description: The request ID, accepted from the request or generated.
-      schema:
-        type: string
-        example: 6f1c0f8e-2c1d-4a53-9e55-1d3c1b7a9c10
-
   responses:
-    NotFound:
-      description: Alias not found
-      headers:
-        X-Request-Id:
-          $ref: '#/components/headers/RequestId'
-      content:
-        application/problem+json:
-          schema:
-            $ref: '#/components/schemas/NotFoundProblem'
-          example:
-            type: urn:problem:url-shortener:not-found
-            title: The alias was not found
-            status: 404
     InternalError:
       description: |
         Unexpected fault. The body exposes no internal detail, only the
@@ -282,30 +269,76 @@ components:
             title: Something went wrong
             status: 500
             detail: Quote request ID 6f1c0f8e-2c1d-4a53-9e55-1d3c1b7a9c10 when reporting this.
+    NotFound:
+      description: Alias not found
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/NotFoundProblem'
+          example:
+            type: urn:problem:url-shortener:not-found
+            title: The alias was not found
+            status: 404
 
   schemas:
-    Problem:
+    AliasTakenProblem:
+      description: The `customAlias` already exists.
+      allOf:
+        - $ref: '#/components/schemas/Problem'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [urn:problem:url-shortener:alias-taken]
+            status:
+              type: integer
+              enum: [400]
+
+    FieldError:
       type: object
-      description: |
-        Base RFC 9457 problem details object. Each kind of error extends it
-        with a fixed `type` and `status` (see the schemas below).
       required:
-        - type
-        - title
-        - status
+        - field
+        - code
+        - message
       properties:
-        type:
+        field:
           type: string
-          description: A fixed URN identifying the kind of error.
-        title:
+          enum:
+            - customAlias
+            - fullUrl
+        code:
           type: string
-          description: A short, fixed summary of the kind of error.
-        status:
-          type: integer
-          description: The HTTP status code, repeated from the response.
-        detail:
+          enum:
+            - alias-invalid-characters
+            - alias-invalid-length
+            - alias-reserved
+            - url-has-credentials
+            - url-invalid
+            - url-required
+            - url-self-referential
+            - url-too-long
+            - url-unsupported-scheme
+        message:
           type: string
-          description: An explanation specific to this occurrence.
+          description: Written for end users, and shown verbatim by the web client.
+
+    InternalErrorProblem:
+      description: |
+        An unexpected fault. `detail` carries only the request ID, never
+        internal detail.
+      allOf:
+        - $ref: '#/components/schemas/Problem'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [urn:problem:url-shortener:internal-error]
+            status:
+              type: integer
+              enum: [500]
 
     MalformedRequestProblem:
       description: The body is not valid JSON, or not a JSON object.
@@ -316,39 +349,6 @@ components:
             type:
               type: string
               enum: [urn:problem:url-shortener:malformed-request]
-            status:
-              type: integer
-              enum: [400]
-
-    ValidationFailedProblem:
-      description: One or more field rules were broken. `errors` lists every one.
-      allOf:
-        - $ref: '#/components/schemas/Problem'
-        - type: object
-          required:
-            - errors
-          properties:
-            type:
-              type: string
-              enum: [urn:problem:url-shortener:validation-failed]
-            status:
-              type: integer
-              enum: [400]
-            errors:
-              type: array
-              minItems: 1
-              items:
-                $ref: '#/components/schemas/FieldError'
-
-    AliasTakenProblem:
-      description: The `customAlias` already exists.
-      allOf:
-        - $ref: '#/components/schemas/Problem'
-        - type: object
-          properties:
-            type:
-              type: string
-              enum: [urn:problem:url-shortener:alias-taken]
             status:
               type: integer
               enum: [400]
@@ -379,6 +379,29 @@ components:
               type: integer
               enum: [413]
 
+    Problem:
+      type: object
+      description: |
+        Base RFC 9457 problem details object. Each kind of error extends it
+        with a fixed `type` and `status` (see the `*Problem` schemas).
+      required:
+        - type
+        - title
+        - status
+      properties:
+        type:
+          type: string
+          description: A fixed URN identifying the kind of error.
+        title:
+          type: string
+          description: A short, fixed summary of the kind of error.
+        status:
+          type: integer
+          description: The HTTP status code, repeated from the response.
+        detail:
+          type: string
+          description: An explanation specific to this occurrence.
+
     UnsupportedMediaTypeProblem:
       description: The request `Content-Type` is not `application/json`.
       allOf:
@@ -392,45 +415,22 @@ components:
               type: integer
               enum: [415]
 
-    InternalErrorProblem:
-      description: |
-        An unexpected fault. `detail` carries only the request ID, never
-        internal detail.
+    ValidationFailedProblem:
+      description: One or more field rules were broken. `errors` lists every one.
       allOf:
         - $ref: '#/components/schemas/Problem'
         - type: object
+          required:
+            - errors
           properties:
             type:
               type: string
-              enum: [urn:problem:url-shortener:internal-error]
+              enum: [urn:problem:url-shortener:validation-failed]
             status:
               type: integer
-              enum: [500]
-
-    FieldError:
-      type: object
-      required:
-        - field
-        - code
-        - message
-      properties:
-        field:
-          type: string
-          enum:
-            - fullUrl
-            - customAlias
-        code:
-          type: string
-          enum:
-            - url-required
-            - url-too-long
-            - url-invalid
-            - url-unsupported-scheme
-            - url-has-credentials
-            - url-self-referential
-            - alias-invalid-characters
-            - alias-invalid-length
-            - alias-reserved
-        message:
-          type: string
-          description: Written for end users, and shown verbatim by the web client.
+              enum: [400]
+            errors:
+              type: array
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/FieldError'
