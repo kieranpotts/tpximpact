@@ -9,3 +9,6 @@ This architectural view captures the whole system at a glance.
 
 - **[Actors](./actors.md)** \
   The people and programs that use the system.
+
+- **[Components](./components.md)** \
+  The main components that compose the system.
