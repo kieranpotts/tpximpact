@@ -14,33 +14,21 @@ PROPOSED | ACCEPTED | REJECTED | SUPERSEDED
 
 ## Context
 
-What is the situation that forces a decision? Describe the relevant part of the
-system as it stands today and where it falls short. State the constraints —
-technical, operational, or organizational — that bound the options. Omit any
-history that does not bear on the choice.
+The forces behind the decision, in a few sentences: the problem, and the
+constraints that bound the options.
 
 ## Decision
 
-The decision, stated plainly and in the active voice: "We will …". Describe the
-solution in enough detail that a reader can recognize it in the code. Cover the
-corner cases you can foresee. Diagrams and other artifacts MAY be embedded or
-linked.
+The decision, stated plainly, without first-person pronouns: "The API will be
+built with …". Only what a reader needs to recognize the choice, not how it's
+implemented.
 
 ## Consequences
 
-What becomes easier, and what becomes harder. Be honest about the downsides.
-Note any effect on cross-cutting concerns — security, performance, availability,
-operability — and any technical debt this decision knowingly takes on.
+What becomes easier, and what becomes harder, one short bullet each. Be honest
+about the downsides.
 
 ## Alternatives
 
-What else was considered, and why it was not chosen. One short paragraph each.
-An alternative dismissed without explanation is worse than none at all, because
-it will be raised again.
-
-## References
-
-Links to supporting artifacts and external sources. Artifacts that back this
-record — diagrams, prototypes, benchmarks, data — SHOULD live alongside it in
-this directory and be linked with relative paths, so the record stays
-self-contained.
+OPTIONAL. Include it when a credible alternative will otherwise be raised
+again. One or two sentences each, saying what it is and why it wasn't chosen.

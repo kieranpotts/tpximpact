@@ -6,6 +6,9 @@ made about this project, including ideas that were ultimately rejected.
 An ADR covers a technical decision — _how_ the system is built. Product
 decisions — _what_ the system should do — belong under [`specs/`](../specs/).
 
+ADRs SHOULD be short, capturing only high-level decisions, while leaving
+implementation details to the [design docs](../design/).
+
 ## Structure
 
 One file per decision, numbered in the order the decisions were made. An ADR's
