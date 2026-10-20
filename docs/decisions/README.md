@@ -50,3 +50,4 @@ Thus, to revisit a past decision, write a new record. Do not edit an old one.
 - [0010](./0010/) Random alias generation — PROPOSED
 - [0011](./0011/) URL validation rules — PROPOSED
 - [0012](./0012/) No caching of redirects — PROPOSED
+- [0013](./0013/) The API serves its contract at `/openapi.yaml` — PROPOSED

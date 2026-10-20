@@ -33,7 +33,9 @@ The following validation rules will be implemented.
 An alias, whether custom or generated, is valid when it is 3 to 64 characters
 from `A–Z`, `a–z`, `0–9`, `-`, and `_`, and isn't a reserved word. Reserved
 words are today's routes, plus a few held back for routes the API may need in
-the future.
+the future. These include the version path segments `v1`, `v2`, and so on,
+which are held back so the API can serve versioned paths, such as
+`/v1/openapi.yaml`, without clashing with a custom alias.
 
 Excluding `.` keeps file-like paths, such as `/openapi.yaml`, free for the API
 to use for future fixed routes.
