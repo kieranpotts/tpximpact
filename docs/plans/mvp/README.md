@@ -1,0 +1,142 @@
+# URL shortener MVP - high level delivery plan
+
+- Authors: Kieran Potts [@kieranpotts]
+- Created: 2026-10-20
+- Last updated: 2026-10-20
+- Plan PR: —
+
+## Status
+
+DRAFT
+
+## References
+
+- Implements: [requirements specification](../../specs/), B1 to B14, R1 to
+  R11, and Q1 to Q6.
+
+- Informed by: the accepted architectural decisions,
+  [ADR 0001](../../decisions/0001/) to [ADR 0018](../../decisions/0018/).
+
+- Targets design: [`docs/design/`](../../design/), and the
+  [repository layout](../../development/structure.md).
+
+## Out-of-scope
+
+- Everything in the proposed decisions, [ADR 0019](../../decisions/0019/) to
+  [ADR 0023](../../decisions/0023/).
+
+- Pagination of `GET /urls`, authentication, and link ownership. Each needs a
+  change to the specification first.
+
+## Approach
+
+**Walking skeleton first.** The riskiest part of the project is the toolchain
+and wiring, not the features: two build systems, three test packages, test
+suites that live outside the apps they test, Testcontainers inside a
+devcontainer, and Playwright against Compose. The first increment proves all
+of it end to end, around placeholder apps, so every later increment is
+ordinary feature work.
+
+**Then vertical slices, one behavior at a time.** Each later increment
+delivers a small set of requirements whole: code, tests at every relevant
+level, and acceptance tests named after the requirement IDs. The API service
+leads, and each web client increment follows once the endpoints it calls
+exist, so its acceptance tests run against the real system.
+
+**Every increment is shippable.** Each lands as one pull request. At the end
+of every increment, `docker compose up --build` runs the system, and
+`make lint`, `make test`, and `make acceptance` pass. No increment relies on
+work scheduled after it.
+
+**Details are settled in implementation.** The design docs and ADRs say what
+to build. Where implementation shows them to be wrong or incomplete, the
+increment that finds out corrects the docs in the same pull request.
+
+## Task breakdown
+
+There are no tracker issues yet.
+
+| ID  | Increment                                      | Delivers                     | Tracker | Depends on |
+| --- | ---------------------------------------------- | ---------------------------- | ------- | ---------- |
+| T01 | Walking skeleton                               | Q4, Q5, Q6                   | —       | —          |
+| T02 | API service foundations, and the contract      | B14, Q1, Q2                  | —       | T01        |
+| T03 | Shorten URLs through the API                   | B1 to B4, B12, B13, R1 to R8 | —       | T02        |
+| T04 | Follow short URLs                              | B5, B8                       | —       | T03        |
+| T05 | Shorten URLs from the web client               | B9, B11, Q3                  | —       | T03        |
+| T06 | List and delete short URLs through the API     | B6, B7, R9 to R11            | —       | T04        |
+| T07 | List and delete short URLs from the web client | B10                          | —       | T05, T06   |
+| T08 | Accessibility and progressive enhancement      | —                            | —       | T07        |
+| T09 | Documentation and release                      | —                            | —       | T08        |
+
+### Increments
+
+- **T01 — Walking skeleton.** The devcontainer, with the JDK, Node.js, and
+  access to Docker. The API service's Gradle build, with its unit and
+  integration suites sourced from `tests/api-service/`. The web client and its
+  test package, and the acceptance test package. Linters and formatters for
+  both languages. Both `Dockerfile`s, and `compose.yaml` with `db`, `api`, and
+  `web`. The `run/` scripts and `Makefile` targets. Each app serves only a
+  placeholder page. Done when every `make` target works, and one placeholder
+  test passes at each test level, including a Testcontainers database test
+  and a Playwright smoke test against Compose.
+
+- **T02 — API service foundations, and the contract.** The
+  [configuration](../../design/concepts/configuration.md),
+  [error handling](../../design/concepts/error-handling.md) (problem details
+  and `X-Request-Id`), graceful shutdown, the database connection pool, and
+  migrations at startup. The HTTP test harness, which validates every
+  response against the contract. `GET /openapi.yaml` is the first real
+  behavior, and proves the harness, the image, and the acceptance suite.
+
+- **T03 — Shorten URLs through the API.** The
+  [domain model](../../design/concepts/domain-model.md), with the alias and
+  destination URL rules. The schema and repository for short URLs.
+  `POST /shorten`, with random and custom aliases, validation, alias
+  conflicts, and the `415` and `413` checks. Hostile-input tests show that no
+  input causes a `5xx`.
+
+- **T04 — Follow short URLs.** `GET /{alias}` redirects, and `404`s for
+  unknown and invalid aliases. Tests that restart the API service and its
+  database, and show that every alias survives.
+
+- **T05 — Shorten URLs from the web client.** The web client's
+  configuration, security headers, GOV.UK Frontend layout, and its client for
+  the API service. The shorten form, the result shown after a successful
+  submission, and error messages that keep the link editor's input, both when
+  the API service rejects the request and when it can't be reached.
+
+- **T06 — List and delete short URLs through the API.** `GET /urls`, newest
+  first, and `DELETE /{alias}`. Tests show that a deleted alias stops
+  redirecting, and can be created again straight away.
+
+- **T07 — List and delete short URLs from the web client.** The table of
+  short URLs on the home page, and a delete button on each row.
+
+- **T08 — Accessibility and progressive enhancement.** The copy-link button,
+  which the page works without. Automated accessibility scans of every page
+  state in the acceptance suite. A check that every requirement ID has a test
+  named after it.
+
+- **T09 — Documentation and release.** Rewrite the README: prerequisites, how
+  to run and test the system, example requests, notes and assumptions, links
+  to the docs, and time spent. Fill in the developer docs that are still
+  templates. Correct any design doc the implementation has drifted from.
+  Verify everything from a clean clone, tag a versioned release, and submit.
+
+## Dependency graph
+
+```mermaid
+graph LR
+  T01 --> T02 --> T03
+  T03 --> T04 --> T06
+  T03 --> T05
+  T05 --> T07
+  T06 --> T07
+  T07 --> T08 --> T09
+```
+
+## Open questions
+
+- **Tracker issues.** Should each increment get a GitHub issue, so the
+  `Tracker` column can link to it, or is this plan enough tracking for a
+  one-person exercise?

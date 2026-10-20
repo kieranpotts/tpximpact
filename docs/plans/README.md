@@ -36,3 +36,7 @@ once it is done or abandoned.
 
 Keep the task breakdown and dependency graph current — adding, dropping, and
 re-sequencing tasks — as reality unfolds.
+
+## Index
+
+- [mvp](./mvp/) — URL shortener MVP
