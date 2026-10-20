@@ -121,6 +121,16 @@ paths:
         '302':
           description: Redirect to the original URL
           headers:
+            Location:
+              description: The destination URL, as stored.
+              schema:
+                type: string
+                example: https://example.com/very/long/url
+            Cache-Control:
+              description: Always `no-store`, so a deleted alias stops resolving at once.
+              schema:
+                type: string
+                example: no-store
             X-Request-Id:
               $ref: '#/components/headers/RequestId'
         '404':
@@ -235,6 +245,7 @@ components:
             title: Something went wrong
             status: 500
             detail: Quote request ID 6f1c0f8e-2c1d-4a53-9e55-1d3c1b7a9c10 when reporting this.
+
   schemas:
     Problem:
       type: object
