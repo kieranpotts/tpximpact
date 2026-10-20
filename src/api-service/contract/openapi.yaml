@@ -93,6 +93,8 @@ paths:
                 type: urn:problem:url-shortener:unsupported-media-type
                 title: The content type is not supported
                 status: 415
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /openapi.yaml:
     get:
@@ -122,7 +124,8 @@ paths:
             X-Request-Id:
               $ref: '#/components/headers/RequestId'
         '404':
-          description: Alias not found
+        '500':
+          $ref: '#/components/responses/InternalError'
 
     delete:
       summary: Delete a shortened URL
@@ -136,7 +139,8 @@ paths:
             X-Request-Id:
               $ref: '#/components/headers/RequestId'
         '404':
-          description: Alias not found
+        '500':
+          $ref: '#/components/responses/InternalError'
 
   /urls:
     get:
@@ -166,6 +170,9 @@ paths:
                     shortUrl:
                       type: string
                       example: http://localhost:8080/my-custom-alias
+        '500':
+          $ref: '#/components/responses/InternalError'
+
 components:
   parameters:
     Alias:
@@ -197,6 +204,22 @@ components:
         example: 6f1c0f8e-2c1d-4a53-9e55-1d3c1b7a9c10
 
   responses:
+    InternalError:
+      description: |
+        Unexpected fault. The body exposes no internal detail, only the
+        request ID.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/InternalErrorProblem'
+          example:
+            type: urn:problem:url-shortener:internal-error
+            title: Something went wrong
+            status: 500
+            detail: Quote request ID 6f1c0f8e-2c1d-4a53-9e55-1d3c1b7a9c10 when reporting this.
   schemas:
     Problem:
       type: object
@@ -246,3 +269,18 @@ components:
             status:
               type: integer
               enum: [415]
+
+    InternalErrorProblem:
+      description: |
+        An unexpected fault. `detail` carries only the request ID, never
+        internal detail.
+      allOf:
+        - $ref: '#/components/schemas/Problem'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [urn:problem:url-shortener:internal-error]
+            status:
+              type: integer
+              enum: [500]
