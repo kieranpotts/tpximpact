@@ -5,15 +5,15 @@ rules, and the constraints within which the system must operate.
 
 ## Context
 
-The system turns long URLs into short ones. A user submits a full URL, and
-optionally a custom alias of their choosing, and gets back a short URL that
+The system turns long URLs into short ones. A user submits a destination URL,
+and optionally a custom alias of their choosing, and gets back a short URL that
 redirects to the original.
 
 The system has two components: a RESTful API, written in Kotlin, and a
 decoupled web frontend, served by Express.
 
 The system depends on a persistent data store, which holds the mapping from
-each alias to its full URL. It has no other external dependencies.
+each alias to its destination URL. It has no other external dependencies.
 
 The actors on this system are:
 
@@ -23,19 +23,20 @@ The actors on this system are:
 - **API clients**, such as `curl` or other services, which call the API
   directly.
 
-- **Link visitors**, who follow a short URL and are redirected to the full URL.
+- **Link visitors**, who follow a short URL and are redirected to the
+  destination URL.
 
 ## Behaviors (functional requirements)
 
 ### B1 — Shorten a URL with a random alias
 
-A `POST /shorten` request whose body holds a valid `fullUrl` and no
+A `POST /shorten` request whose body holds a valid `destinationUrl` and no
 `customAlias` returns `201 Created`, with a JSON body whose `shortUrl` is the
 system's public base URL followed by a randomly generated alias.
 
 ### B2 — Shorten a URL with a custom alias
 
-A `POST /shorten` request whose body holds a valid `fullUrl` and a valid,
+A `POST /shorten` request whose body holds a valid `destinationUrl` and a valid,
 unused `customAlias` returns `201 Created`, with a JSON body whose `shortUrl` is
 the system's public base URL followed by that alias.
 
@@ -54,8 +55,8 @@ mapping unchanged, when its `customAlias` is already in use.
 ### B5 — Redirect a short URL
 
 A `GET /{alias}` request for an existing alias returns `302 Found`, with a
-`Location` header holding the alias's full URL. For an alias that does not
-exist, it returns `404 Not Found`.
+`Location` header holding the alias's destination URL. For an alias that does
+not exist, it returns `404 Not Found`.
 
 ### B6 — Delete a short URL
 
@@ -66,22 +67,23 @@ alias that does not exist, it returns `404 Not Found`.
 ### B7 — List all short URLs
 
 A `GET /urls` request returns `200 OK`, with a JSON array holding one
-`{ alias, fullUrl, shortUrl }` object for every alias currently stored.
+`{ alias, destinationUrl, shortUrl }` object for every alias currently stored.
 
 ### B8 — Persist across restarts
 
-Every alias that exists when the API stops still exists, with the same full URL,
-when the API starts again.
+Every alias that exists when the API stops still exists, with the same
+destination URL, when the API starts again.
 
 ### B9 — Shorten a URL from the frontend
 
-The frontend presents a form with a required full URL field and an optional
-custom alias field. Submitting a valid form shows the resulting short URL.
+The web client presents a form with a required destination URL field and an
+optional custom alias field. Submitting a valid form shows the resulting short
+URL.
 
 ### B10 — List and delete short URLs from the frontend
 
-The frontend lists every stored short URL, with its alias and full URL, and lets
-the user delete any of them.
+The web client lists every stored short URL, with its alias and destination
+URL, and lets the user delete any of them.
 
 ### B11 — Show API errors in the frontend
 
@@ -138,9 +140,9 @@ A randomly generated alias is 7 characters long, drawn from letters and digits
 only. It's unpredictable. Knowing one alias reveals nothing about any other
 alias, or about how many exist. It's never a reserved alias.
 
-### R5 — Valid full URLs
+### R5 — Valid destination URLs
 
-After surrounding whitespace is trimmed, a full URL is valid when:
+After surrounding whitespace is trimmed, a destination URL is valid when:
 
 - it is at most 2,048 characters long;
 - it is an absolute URL with the scheme `http` or `https`;
@@ -159,20 +161,20 @@ A `customAlias` that is present but empty is rejected as invalid, not treated
 as a request for a random alias. Only a missing or `null` `customAlias` asks
 for a random one.
 
-### R7 — Full URLs are stored as given
+### R7 — Destination URLs are stored as given
 
-The trimmed full URL is stored and redirected to exactly as submitted, with no
-other normalisation.
+The trimmed destination URL is stored and redirected to exactly as submitted,
+with no other normalisation.
 
 ### R8 — No deduplication
 
-Shortening the same full URL more than once creates a separate alias each
+Shortening the same destination URL more than once creates a separate alias each
 time. Each alias is independent, and can be deleted on its own.
 
 ### R9 — Short URLs can't be changed
 
-An alias's full URL never changes. To point an alias somewhere else, delete it
-and create it again.
+An alias's destination URL never changes. To point an alias somewhere else,
+delete it and create it again.
 
 ### R10 — Deleted aliases are free to reuse
 

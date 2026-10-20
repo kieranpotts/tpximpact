@@ -30,7 +30,8 @@ Architecture- and domain-specific terms used across all the architectural views.
   reads and writes it.
 
 - **Destination URL** \
-  The destination a short URL redirects to, supplied via the `fullUrl` field.
+  The destination a short URL redirects to, supplied via the `destinationUrl`
+  field.
 
 - **Link creator** \
   A person who shortens, lists, or deletes URLs using the web client.
