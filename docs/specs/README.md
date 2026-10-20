@@ -10,7 +10,7 @@ and optionally a custom alias of their choosing, and gets back a short URL that
 redirects to the original.
 
 The system has two components: a RESTful API, written in Kotlin, and a
-decoupled web frontend, served by Express.
+decoupled web client, served by Express.
 
 The system depends on a persistent data store, which holds the mapping from
 each alias to its destination URL. It has no other external dependencies.
@@ -18,7 +18,7 @@ each alias to its destination URL. It has no other external dependencies.
 The actors on this system are:
 
 - **Link creators**, who shorten, list, and delete URLs through the web
-  frontend.
+  client.
 
 - **API clients**, such as `curl` or other services, which call the API
   directly.
@@ -74,20 +74,20 @@ A `GET /urls` request returns `200 OK`, with a JSON array holding one
 Every alias that exists when the API stops still exists, with the same
 destination URL, when the API starts again.
 
-### B9 — Shorten a URL from the frontend
+### B9 — Shorten a URL from the web client
 
 The web client presents a form with a required destination URL field and an
 optional custom alias field. Submitting a valid form shows the resulting short
 URL.
 
-### B10 — List and delete short URLs from the frontend
+### B10 — List and delete short URLs from the web client
 
 The web client lists every stored short URL, with its alias and destination
 URL, and lets the user delete any of them.
 
-### B11 — Show API errors in the frontend
+### B11 — Show API errors in the web client
 
-When the API rejects a request, or cannot be reached, the frontend shows the
+When the API rejects a request, or cannot be reached, the web client shows the
 user a message that says what went wrong, and keeps what they entered in the
 form.
 
@@ -197,23 +197,23 @@ OpenAPI contract.
 
 No client input, however malformed, causes the API to return a `5xx` response.
 
-### Q3 — Decoupled frontend
+### Q3 — Decoupled web client
 
-The frontend is a separately built and deployed component. It interacts with
+The web client is a separately built and deployed component. It interacts with
 stored URLs only through the API's public HTTP interface, and it reads the API's
 base URL from configuration.
 
 ### Q4 — Containerised
 
-The API and the frontend each build to a container image. The whole system
+The API and the web client each build to a container image. The whole system
 starts locally with the commands documented in the README.
 
 ### Q5 — Tested
 
-Automated tests cover the behaviors of both the API and the frontend. They run
+Automated tests cover the behaviors of both the API and the web client. They run
 with a single documented command, and they pass.
 
 ### Q6 — Technology stack
 
-The API is written in Kotlin. The frontend is served by Express on Node.js.
+The API is written in Kotlin. The web client is served by Express on Node.js.
 These are fixed requirements for programming evaluation.

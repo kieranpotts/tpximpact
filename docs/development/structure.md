@@ -15,10 +15,10 @@ for everything that proves it works, and `docs/` for everything that explains it
 │   ├── api-service/          # Kotlin API service (self-contained Gradle build).
 │   │   └── contract/         # The API contract, owned and served by the API service.
 │   │       └── openapi.yaml
-│   └── web-client/           # Express frontend (self-contained npm package).
+│   └── web-client/           # Express front-end (self-contained npm package).
 ├── tests/
 │   ├── api-service/          # API service tests, compiled and run by its Gradle build.
-│   ├── web-client/           # Frontend tests (npm package).
+│   ├── web-client/           # Front-end tests (npm package).
 │   └── acceptance/           # End-to-end acceptance tests of the whole system (npm package).
 │
 ├── .devcontainer/

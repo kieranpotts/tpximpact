@@ -7,6 +7,6 @@ Everything that ships. One subdirectory per independently-deployable application
   Gradle build, and it builds to a container image. It owns the API contract.
 
 - [**`web-client/`**](./web-client/) \
-  The web frontend, written in TypeScript with Express. It's a self-contained
+  The web front-end, written in TypeScript with Express. It's a self-contained
   npm package, and it builds to a container image. It's a client of
   `api-service`.
