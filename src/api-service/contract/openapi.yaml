@@ -1,13 +1,16 @@
 openapi: 3.0.3
 info:
   title: URL Shortener API
-  version: 1.1.0
-  description: Simple RESTful API for shortening URLs.
+  description: |
+    Simple RESTful API for shortening URLs.
 
 paths:
   /shorten:
     post:
       summary: Shorten a URL
+      description: |
+        With an absent or null `customAlias`, a random 7-character alias is
+        automatically generated.
       parameters:
         - $ref: '#/components/parameters/RequestId'
       requestBody:
@@ -21,9 +24,21 @@ paths:
               properties:
                 fullUrl:
                   type: string
+                  maxLength: 2048
+                  description: |
+                    Destination URL. After trimming, it must be an absolute
+                    `http` or `https` URL with a host, no user-info, and not
+                    pointing at the shortener's own host.
                   example: https://example.com/very/long/url
                 customAlias:
                   type: string
+                  nullable: true
+                  minLength: 3
+                  maxLength: 64
+                  pattern: '^[A-Za-z0-9_-]{3,64}$'
+                  description: |
+                    Case-sensitive. Must not be a reserved word, compared
+                    case-insensitively.
                   example: my-custom-alias
       responses:
         '201':
@@ -40,6 +55,10 @@ paths:
                     type: string
                     example: http://localhost:8080/my-custom-alias
         '400':
+          description: |
+            Malformed request, invalid input, or alias already taken. The
+            problem `type` is one of `malformed-request`,
+            `validation-failed`, or `alias-taken`.
           headers:
             X-Request-Id:
               $ref: '#/components/headers/RequestId'
@@ -72,7 +91,11 @@ paths:
 
   /{alias}:
     get:
-      summary: Redirect to full URL
+      summary: Redirect to destination URL
+      description: |
+        Redirects are never cached. A request with
+        `Accept: text/html` for an unknown alias gets a small HTML
+        "link not found" page, instead of a problem body.
       parameters:
         - $ref: '#/components/parameters/RequestId'
       responses:
@@ -100,6 +123,7 @@ paths:
   /urls:
     get:
       summary: List all shortened URLs
+      description: Newest first. URLs created at the same instant are ordered by alias.
       parameters:
         - $ref: '#/components/parameters/RequestId'
       responses:
