@@ -40,3 +40,4 @@ Thus, to revisit a past decision, write a new record. Do not edit an old one.
 
 - [0001](./0001/) Monorepo — ACCEPTED
 - [0002](./0002/) Ktor for the API — PROPOSED
+- [0003](./0003/) PostgreSQL for persistence — PROPOSED
