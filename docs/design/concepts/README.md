@@ -25,5 +25,8 @@ that touches it.
 - **[Security](./security.md)** \
   The threats the MVP addresses, and the controls in every layer.
 
+- **[Testing strategy](./testing.md)** \
+  Test levels, and which tests prove which requirement.
+
 - **[Scalability and resilience](./scalability-and-resilience.md)** \
   Expected traffic pattern, and the scalability and resilience measures built into the MVP.
