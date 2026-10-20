@@ -64,3 +64,5 @@ The records above are in scope for the exercise brief. The records below
 are out of scope, and remain proposals.
 
 - [0019](./0019/) Health and metrics on a separate management port — PROPOSED
+- [0020](./0020/) Structured JSON logs with request-ID propagation — PROPOSED
+- [0020](./0020/) Structured JSON logs with request-ID propagation — PROPOSED
