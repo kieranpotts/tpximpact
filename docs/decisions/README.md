@@ -53,3 +53,4 @@ Thus, to revisit a past decision, write a new record. Do not edit an old one.
 - [0013](./0013/) The API serves its contract at `/openapi.yaml` — ACCEPTED
 - [0014](./0014/) RFC 9457 for API errors — ACCEPTED
 - [0015](./0015/) `415` and `413` for malformed requests — ACCEPTED
+- [0016](./0016/) Containers — ACCEPTED
