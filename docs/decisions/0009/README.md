@@ -17,7 +17,7 @@ an alias as a plain string, which accepts any value.
 
 Aliases share the API service's root path with fixed routes, so an alias has the
 potential to clash with a fixed route. For example, if the API service serves
-`GET /health` and a link creator creates the custom alias `health`, without
+`GET /health` and a link editor creates the custom alias `health`, without
 validation the alias would be stored but requests to `/health` would reach the
 fixed route instead — the alias is never resolved. Worse, existing aliases may
 become unreachable if they clash with fixed routes that are added in the future.
@@ -54,7 +54,7 @@ messages.
   needs a check that no stored alias already uses it.
 
 - Aliases that differ only in case can belong to different people. A link
-  creator who mistypes the case of a link gets a `404`.
+  editor who mistypes the case of a link gets a `404`.
 
 - An empty form field shouldn't silently produce a random alias, so the web
   client must omit a blank alias.

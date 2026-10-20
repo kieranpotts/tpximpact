@@ -12,7 +12,7 @@ ACCEPTED
 ## Context
 
 The contract declares error status codes, but no error body. The web client
-must show the link creator which form field was at fault, and a single `400`
+must show the link editor which form field was at fault, and a single `400`
 can mean an invalid URL, an invalid alias, or an alias that's taken.
 
 ## Decision

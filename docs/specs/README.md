@@ -5,7 +5,7 @@ rules, and the constraints within which the system must operate.
 
 ## Context
 
-The system turns long URLs into short ones. A link creator submits a destination URL,
+The system turns long URLs into short ones. A link editor submits a destination URL,
 and optionally a custom alias of their choosing, and gets back a short URL that
 redirects to the original.
 
@@ -17,13 +17,13 @@ each alias to its destination URL. It has no other external dependencies.
 
 The actors on this system are:
 
-- **Link creators**, who shorten, list, and delete URLs through the web
+- **Link editors**, who shorten, list, and delete URLs through the web
   client.
 
-- **API clients**, such as `curl` or other services, which call the API service
-  directly.
+- **API clients**, such as `curl` or other services, which call the
+  API service directly.
 
-- **Link visitors**, who follow a short URL and are redirected to the
+- **Short URL visitors**, who follow a short URL and are redirected to the
   destination URL.
 
 ## Behaviors (functional requirements)
@@ -83,12 +83,12 @@ URL.
 ### B10 — List and delete short URLs from the web client
 
 The web client lists every stored short URL, with its alias and destination
-URL, and lets the link creator delete any of them.
+URL, and lets the link editor delete any of them.
 
 ### B11 — Show API errors in the web client
 
 When the API service rejects a request, or cannot be reached, the web client shows the
-link creator a message that says what went wrong, and keeps what they entered in the
+link editor a message that says what went wrong, and keeps what they entered in the
 form.
 
 ### B12 — Reject an unsupported content type

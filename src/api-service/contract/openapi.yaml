@@ -324,7 +324,7 @@ components:
             - url-unsupported-scheme
         message:
           type: string
-          description: Written for link creators, and shown verbatim by the web client.
+          description: Written for link editors, and shown verbatim by the web client.
 
     InternalErrorProblem:
       description: |

@@ -18,7 +18,7 @@ Random aliases must be short, safe in a URL path, unique among all stored
 aliases (including custom ones), and never be a reserved alias.
 
 Generates aliases must be highly random. They must not be predictable from the
-previous alias, so a link creator can't traverse the links created after theirs.
+previous alias, so a link editor can't traverse the links created after theirs.
 
 ## Decision
 

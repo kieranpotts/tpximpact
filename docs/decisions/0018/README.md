@@ -15,7 +15,7 @@ Both applications need settings that differ by environment, and the same image
 must run unchanged in every environment.
 
 There are two base URLs, and they're easy to confuse. The public base URL is the
-prefix of every short URL that link visitors see. The API base URL is
+prefix of every short URL that short URL visitors see. The API base URL is
 how the web client reaches the API service.
 
 ## Decision

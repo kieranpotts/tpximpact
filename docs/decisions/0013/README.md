@@ -11,9 +11,9 @@ ACCEPTED
 
 ## Context
 
-API clients need the contract. Publishing it from the running service is a
-common convention. It lets tools load it straight from the API service, and the
-published document always matches the deployed version.
+API client applications need the contract. Publishing it from the running
+service is a common convention. It lets tools load it straight from the API
+service, and the published document always matches the deployed version.
 
 ## Decision
 
