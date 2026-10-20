@@ -12,6 +12,9 @@ that touches it.
 - **[Domain model](./domain-model.md)** \
   Aliases, destination URLs, short URLs, and how they relate.
 
+- **[Error handling](./error-handling.md)** \
+  The API service's problem-details format, and how the web client presents errors.
+
 - **[Configuration](./configuration.md)** \
   Environment variables, the two base URLs, and the secrets that security
   depends on.
