@@ -1,25 +1,24 @@
 # Context diagram
 
 ```mermaid
-flowchart TB
-  creator["👤 Link editor<br/><i>Shortens, lists, and deletes URLs in a browser</i>"]
-  client["⚙️ API client<br/><i>curl, scripts, other services</i>"]
-  visitor["👤 Short URL visitor<br/><i>Follows a short URL</i>"]
+C4Context
+  title URL shortener: system context
 
-  subgraph system["URL shortener"]
-    web["Web client<br/><i>Server-rendered pages</i>"]
-    api["API service<br/><i>Aliases, URLs, redirects</i>"]
-    db[("Database<br/><i>Alias → destination URL</i>")]
-  end
+  Person(creator, "Link editor", "Shortens, lists, and deletes URLs in a browser")
+  System_Ext(client, "API client", "curl, scripts, other services")
+  System(shortener, "URL shortener", "Turns long URLs into short ones, and redirects visitors to the destination URL")
+  Person(visitor, "Short URL visitor", "Follows a short URL")
+  System_Ext(target, "Destination website", "Any http(s) URL")
 
-  target["🌐 Destination website<br/><i>Any http(s) URL</i>"]
+  Rel(creator, shortener, "Shortens, lists, and deletes URLs", "HTTPS")
+  Rel(client, shortener, "Shortens, lists, and deletes URLs", "JSON over HTTP")
+  Rel(visitor, shortener, "Follows a short URL, and is redirected", "GET /{alias}, 302")
+  Rel(visitor, target, "Then visits")
 
-  creator -- "Uses forms and pages (HTTPS)" --> web
-  web -- "Shorten, list, delete (JSON over HTTP)" --> api
-  client -- "Shorten, list, delete (JSON over HTTP)" --> api
-  visitor -- "GET /{alias}" --> api
-  api -- "Reads and writes mappings" --> db
-  api -. "302 redirect to the destination URL" .-> visitor
-  visitor -. "Then visits" .-> target
+  UpdateRelStyle(creator, shortener, $offsetX="-110", $offsetY="-10")
+  UpdateRelStyle(client, shortener, $offsetX="10", $offsetY="-40")
+  UpdateRelStyle(visitor, shortener, $offsetX="-20", $offsetY="-110")
+  UpdateRelStyle(visitor, target, $offsetX="-60", $offsetY="10")
+
+  UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="1")
 ```
-
