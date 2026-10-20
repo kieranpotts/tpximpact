@@ -12,6 +12,9 @@ that touches it.
 - **[Domain model](./domain-model.md)** \
   Aliases, destination URLs, short URLs, and how they relate.
 
+- **[Configuration](./configuration.md)** \
+  Environment variables, the two base URLs, and the secrets that security
+  depends on.
 
 - **[Scalability and resilience](./scalability-and-resilience.md)** \
   Expected traffic pattern, and the scalability and resilience measures built into the MVP.
