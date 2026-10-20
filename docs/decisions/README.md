@@ -8,17 +8,16 @@ decisions — _what_ the system should do — belong under [`specs/`](../specs/)
 
 ## Structure
 
-One file per decision, numbered in the order the decisions were made.
+One file per decision, numbered in the order the decisions were made. An ADR's
+index number is unique and permanent.
 
 ```
 decisions/
 ├── TEMPLATE.md         # The starting point for a new record.
-└── 0001-<slug>/        # One decision.
+└── <index>/            # One decision.
     ├── README.md       # The decision record itself.
     └── …               # Diagrams and other materials referenced from the README.
 ```
-
-An ADR's index number is unique and permanent.
 
 ## Lifecycle
 
@@ -35,4 +34,7 @@ Once merged, the document is immutable. Only the value of a merged report's
 `Status` field may later be changed to `SUPERSEDED`, with a pointer added to
 the newer decision record that overrides it.
 
-To revisit a past decision, write a new record. Do not edit an old one.
+Thus, to revisit a past decision, write a new record. Do not edit an old one.
+
+## Index
+
