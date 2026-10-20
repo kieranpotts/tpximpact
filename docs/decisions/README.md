@@ -47,3 +47,4 @@ Thus, to revisit a past decision, write a new record. Do not edit an old one.
 - [0007](./0007/) TypeScript for the web client — PROPOSED
 - [0008](./0008/) GOV.UK Frontend for the user interface — PROPOSED
 - [0009](./0009/) Custom alias validation rules — PROPOSED
+- [0010](./0010/) Random alias generation — PROPOSED
