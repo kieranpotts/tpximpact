@@ -2,6 +2,11 @@
 
 Architecture- and domain-specific terms used across all the architectural views.
 
+> [!IMPORTANT]
+> The domain and architectural terms defined in this glossary MUST be used
+> consistently throughout the code, tests, docs, and all other artifacts in this
+> repository. Do not introduce synonyms or alternative names for a defined term.
+
 - **Alias** \
   The path segment that identifies a short URL, for example `my-alias` in
   `http://localhost:8080/my-alias`. It's case-sensitive.
