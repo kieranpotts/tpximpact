@@ -44,3 +44,4 @@ Thus, to revisit a past decision, write a new record. Do not edit an old one.
 - [0004](./0004/) Flyway for schema migrations, run at API startup — PROPOSED
 - [0005](./0005/) Plain JDBC with HikariCP for data access — PROPOSED
 - [0011](./0006/) Server-rendered web client with Express and Nunjucks — PROPOSED
+- [0013](./0007/) TypeScript for the web client — PROPOSED
