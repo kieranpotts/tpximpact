@@ -22,5 +22,8 @@ that touches it.
   Environment variables, the two base URLs, and the secrets that security
   depends on.
 
+- **[Security](./security.md)** \
+  The threats the MVP addresses, and the controls in every layer.
+
 - **[Scalability and resilience](./scalability-and-resilience.md)** \
   Expected traffic pattern, and the scalability and resilience measures built into the MVP.
