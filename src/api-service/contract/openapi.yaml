@@ -97,6 +97,7 @@ paths:
         `Accept: text/html` for an unknown alias gets a small HTML
         "link not found" page, instead of a problem body.
       parameters:
+        - $ref: '#/components/parameters/Alias'
         - $ref: '#/components/parameters/RequestId'
       responses:
         '302':
@@ -110,6 +111,7 @@ paths:
     delete:
       summary: Delete a shortened URL
       parameters:
+        - $ref: '#/components/parameters/Alias'
         - $ref: '#/components/parameters/RequestId'
       responses:
         '204':
@@ -150,6 +152,17 @@ paths:
                       example: http://localhost:8080/my-custom-alias
 components:
   parameters:
+    Alias:
+      name: alias
+      in: path
+      required: true
+      description: |
+        A valid alias is 3 to 64 characters from `A-Z`, `a-z`, `0-9`, `-`
+        and `_`. A value that can't be an alias gets the same `404` as one
+        that doesn't exist.
+      schema:
+        type: string
+        example: my-custom-alias
     RequestId:
       name: X-Request-Id
       in: header
