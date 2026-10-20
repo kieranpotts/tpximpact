@@ -11,7 +11,7 @@ where new code belongs.
   The three deployable containers, and how they connect.
 
 - **[API service components](./api-service.md)** \
-  Layers, components, and dependencies inside the API service.
+  High-level internal design of the API service.
 
 - **[Web client components](./web-client.md)** \
-  Route handlers, views, and the API client inside the web client.
+  High-level internal design of the web client.
