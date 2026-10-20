@@ -56,8 +56,9 @@ Architecture- and domain-specific terms used across all the architectural views.
   route, for example `urls`.
 
 - **Short URL** \
-  The public base URL followed by `/` and an alias (`shortUrl` in the
-  contract). It's computed when needed, and not stored.
+  The public base URL followed by `/` and an alias. It is the `shortUrl` field
+  in the API contract. It's computed when needed, and not stored whole (only the
+  alias part is persisted).
 
 - **Web client** \
   The Express application that serves the HTML user interface.
