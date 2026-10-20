@@ -8,6 +8,8 @@ paths:
   /shorten:
     post:
       summary: Shorten a URL
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
       requestBody:
         required: true
         content:
@@ -26,6 +28,9 @@ paths:
       responses:
         '201':
           description: URL successfully shortened
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
           content:
             application/json:
               schema:
@@ -35,12 +40,19 @@ paths:
                     type: string
                     example: http://localhost:8080/my-custom-alias
         '400':
-          description: Invalid input or alias already taken
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
         '413':
           description: Request body is larger than 16 KiB
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
         '415':
           description: Request body is not application/json
           headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
             Accept-Post:
               description: The media type the endpoint accepts.
               schema:
@@ -62,37 +74,40 @@ paths:
     get:
       summary: Redirect to full URL
       parameters:
-        - name: alias
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/RequestId'
       responses:
         '302':
           description: Redirect to the original URL
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
         '404':
           description: Alias not found
 
     delete:
       summary: Delete a shortened URL
       parameters:
-        - name: alias
-          in: path
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/RequestId'
       responses:
         '204':
           description: Successfully deleted
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
         '404':
           description: Alias not found
 
   /urls:
     get:
       summary: List all shortened URLs
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
       responses:
         '200':
           description: A list of shortened URLs
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
           content:
             application/json:
               schema:
@@ -109,3 +124,22 @@ paths:
                     shortUrl:
                       type: string
                       example: http://localhost:8080/my-custom-alias
+components:
+  parameters:
+    RequestId:
+      name: X-Request-Id
+      in: header
+      required: false
+      description: |
+        Correlates log lines across the web client and the API. Generated
+        by the API if absent, and always echoed in the response.
+      schema:
+        type: string
+
+  headers:
+    RequestId:
+      description: The request ID, accepted from the request or generated.
+      schema:
+        type: string
+        example: 6f1c0f8e-2c1d-4a53-9e55-1d3c1b7a9c10
+
