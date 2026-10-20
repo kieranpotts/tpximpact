@@ -42,4 +42,5 @@ at whatever altitude answers their question.
   applied system-wide.
 
 The [`glossary`](./glossary.md) defines the architecture- and domain-specific
-terms used across the views.
+terms used across the views and throughout the code, tests, and all other
+artifacts in this repository.
