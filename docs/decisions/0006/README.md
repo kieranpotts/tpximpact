@@ -47,9 +47,9 @@ without client-side JavaScript.
 
 ## Alternatives
 
-**A single-page application, such as React, served by Express.** It puts two
-build pipelines in one component. Either the browser calls the API, which needs
-CORS, or Express proxies every call, which makes it a back-end for front-end
-anyway, with more moving parts.
+- **A single-page application, such as React, served by Express.** It puts two
+  build pipelines in one component. Either the browser calls the API, which
+  needs CORS, or Express proxies every call, which makes it a back-end for
+  front-end anyway, with more moving parts.
 
-**Next.js.** It would replace Express, not run on it.
+- **Next.js.** It would replace Express, not run on it.

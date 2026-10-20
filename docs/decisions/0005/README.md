@@ -39,10 +39,10 @@ bound how long any request can wait on the database.
 
 ## Alternatives
 
-**Exposed.** JetBrains' Kotlin SQL library, and a common pairing with Ktor. It
-adds a DSL, table definitions, and its own transaction model.
+- **Exposed.** JetBrains' Kotlin SQL library, and a common pairing with Ktor. It
+  adds a DSL, table definitions, and its own transaction model.
 
-**jOOQ.** Type-safe, but its code generation needs a database at build time.
+- **jOOQ.** Type-safe, but its code generation needs a database at build time.
 
 ## Deferred decisions
 

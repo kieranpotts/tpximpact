@@ -41,11 +41,11 @@ catalog.
 
 ## Alternatives
 
-**Spring Boot.** The most widely recognised JVM stack, with problem details,
-health checks, and metrics built-in. For a service this size, though, most of
-the code a reviewer would read is configuration and annotations, and the
-behavior lives inside the framework. It's the right choice where an
-organisation already standardises on Spring.
+- **Spring Boot.** The most widely recognised JVM stack, with problem details,
+  health checks, and metrics built-in. For a service this size, though, most of
+  the code a reviewer would read is configuration and annotations, and the
+  behavior lives inside the framework. It's the right choice where an
+  organisation already standardises on Spring.
 
-**http4k.** Very easy to test in memory, but less widely known, and its idioms
-need more explanation, for little gain over Ktor.
+- **http4k.** Very easy to test in memory, but less widely known, and its idioms
+  need more explanation, for little gain over Ktor.

@@ -33,16 +33,16 @@ contract, not generated from it.
 
 ## Alternatives
 
-**Plain JavaScript, with JSDoc types.** JSDoc with `tsc --noEmit` would give
-the same type checking without a build step. But JSDoc syntax is verbose for
-discriminated unions. It is also less familiar to developers.
+- **Plain JavaScript, with JSDoc types.** JSDoc with `tsc --noEmit` would give
+  the same type checking without a build step. But JSDoc syntax is verbose for
+  discriminated unions. It is also less familiar to developers.
 
-**Node.js native type stripping.** It would remove the build step, but it
-doesn't support every TypeScript feature, and type checking still needs `tsc`.
-It may be worth revisiting later, once it's more common.
+- **Node.js native type stripping.** It would remove the build step, but it
+  doesn't support every TypeScript feature, and type checking still needs `tsc`.
+  It may be worth revisiting later, once it's more common.
 
-**Types generated from the contract.** No drift, but added complexity of
-generating the API contract from code. To be revisited in a later ADR.
+- **Types generated from the contract.** No drift, but added complexity of
+  generating the API contract from code. To be revisited in a later ADR.
 
 ## Deferred decisions
 

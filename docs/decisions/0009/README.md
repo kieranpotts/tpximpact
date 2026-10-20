@@ -58,9 +58,9 @@ client doesn't duplicate them, but renders the API's validation messages.
 
 ## Alternatives
 
-**Case-insensitive aliases.** Friendlier to type, but they shrink the random
-keyspace (assuming a consistent maximum length) by a high factor.
+- **Case-insensitive aliases.** Friendlier to type, but they shrink the random
+  keyspace (assuming a consistent maximum length) by a high factor.
 
-**Any non-empty string, percent-encoded.** Maximally permissive, but it invites
-slashes, spaces, and look-alike Unicode characters, which make short URLs hard
-to share.
+- **Any non-empty string, percent-encoded.** Maximally permissive, but it
+  invites slashes, spaces, and look-alike Unicode characters, which make short
+  URLs hard to share.

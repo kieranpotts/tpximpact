@@ -48,17 +48,18 @@ failed attempts the request should fail with `500`.
 
 ## Alternatives
 
-**Encoding a database sequence.** Unique without retries, but aliases become
-sequential and enumerable, they leak creation volume, and custom aliases can
-still collide with them.
+- **Encoding a database sequence.** Unique without retries, but aliases become
+  sequential and enumerable, they leak creation volume, and custom aliases can
+  still collide with them.
 
-**Hashing the full destination URL.** Aliases would be deterministic, so anyone
-could compute the alias for a known destination URL. This conflicts with the
-requirement that aliases be unpredictable. It would also force every request to
-shorten the same URL to share one alias, which would limit feature extensibility.
+- **Hashing the full destination URL.** Aliases would be deterministic, so
+  anyone could compute the alias for a known destination URL. This conflicts
+  with the requirement that aliases be unpredictable. It would also force every
+  request to shorten the same URL to share one alias, which would limit feature
+  extensibility.
 
-**Six characters.** Workable, but collisions climb noticeably at hundreds of
-millions of links. One more character makes retries a non-issue.
+- **Six characters.** Workable, but collisions climb noticeably at hundreds of
+  millions of links. One more character makes retries a non-issue.
 
 ## Deferred decisions
 

@@ -46,10 +46,10 @@ code.
 
 ## Alternatives
 
-**SQLite on a volume.** The simplest way to persist data, with no extra
-service. But it can't be shared by several API replicas, so production would
-need a different engine, and local runs would stop being representative.
+- **SQLite on a volume.** The simplest way to persist data, with no extra
+  service. But it can't be shared by several API replicas, so production would
+  need a different engine, and local runs would stop being representative.
 
-**A key-value store, such as Redis or DynamoDB.** A natural fit for lookups by
-alias, but listing every URL needs a full scan, and neither runs locally as
-simply as PostgreSQL.
+- **A key-value store, such as Redis or DynamoDB.** A natural fit for lookups by
+  alias, but listing every URL needs a full scan, and neither runs locally as
+  simply as PostgreSQL.

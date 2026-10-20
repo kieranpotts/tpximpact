@@ -40,10 +40,10 @@ fail, it exits with a non-zero status.
 
 ## Alternatives
 
-**A separate migration task.** The cleaner production pattern, with a
-least-privilege API user, and migrations decoupled from rollout. But it adds a
-Compose service and a deployment step, which a one-table schema doesn't yet
-justify. To be revisited in a future technical decision.
+- **A separate migration task.** The cleaner production pattern, with a
+  least-privilege API user, and migrations decoupled from rollout. But it adds a
+  Compose service and a deployment step, which a one-table schema doesn't yet
+  justify. To be revisited in a future technical decision.
 
 ## Deferred decisions
 

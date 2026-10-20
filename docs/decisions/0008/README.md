@@ -40,6 +40,6 @@ design system's validation pattern.
 
 ## Alternatives
 
-**Bootstrap or Tailwind CSS.** Neither provides an accessible, prescribed
-pattern for validation errors, so a bespoke one would have to be designed.
-Tailwind also needs a CSS build step.
+- **Bootstrap or Tailwind CSS.** Neither provides an accessible, prescribed
+  pattern for validation errors, so a bespoke one would have to be designed.
+  Tailwind also needs a CSS build step.

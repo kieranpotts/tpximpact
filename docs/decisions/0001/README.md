@@ -58,8 +58,8 @@ which will be targets of the root-level `Makefile`.
 
 ## Alternatives
 
-**One independently deployable application per code repository.** Overkill for
-such a simple system, in which server-side and client-side changes can be
-comfortably made at the same time. Each application could easily be lifted into
-its own repository later, by moving `src/x` and `tests/x` together, plus other
-minor repointing.
+- **One independently deployable application per code repository.** Overkill for
+  such a simple system, in which server-side and client-side changes can be
+  comfortably made at the same time. Each application could easily be lifted
+  into its own repository later, by moving `src/x` and `tests/x` together, plus
+  other minor repointing.
