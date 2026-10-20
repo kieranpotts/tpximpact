@@ -59,3 +59,8 @@ Thus, to revisit a past decision, write a new record. Do not edit an old one.
 - [0016](./0016/) Containers — ACCEPTED
 - [0017](./0017/) Testing strategy — ACCEPTED
 - [0018](./0018/) Configuration through environment variables — ACCEPTED
+
+The records above are in scope for the exercise brief. The records below
+are out of scope, and remain proposals.
+
+- [0019](./0019/) Health and metrics on a separate management port — PROPOSED
