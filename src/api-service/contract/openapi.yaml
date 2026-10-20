@@ -67,6 +67,14 @@ paths:
           headers:
             X-Request-Id:
               $ref: '#/components/headers/RequestId'
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/PayloadTooLargeProblem'
+              example:
+                type: urn:problem:url-shortener:payload-too-large
+                title: The request body is too large
+                status: 413
         '415':
           description: Request body is not application/json
           headers:
@@ -77,6 +85,14 @@ paths:
               schema:
                 type: string
                 example: application/json
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/UnsupportedMediaTypeProblem'
+              example:
+                type: urn:problem:url-shortener:unsupported-media-type
+                title: The content type is not supported
+                status: 415
 
   /openapi.yaml:
     get:
@@ -180,3 +196,53 @@ components:
         type: string
         example: 6f1c0f8e-2c1d-4a53-9e55-1d3c1b7a9c10
 
+  responses:
+  schemas:
+    Problem:
+      type: object
+      description: |
+        Base RFC 9457 problem details object. Each kind of error extends it
+        with a fixed `type` and `status` (see the schemas below).
+      required:
+        - type
+        - title
+        - status
+      properties:
+        type:
+          type: string
+          description: A fixed URN identifying the kind of error.
+        title:
+          type: string
+          description: A short, fixed summary of the kind of error.
+        status:
+          type: integer
+          description: The HTTP status code, repeated from the response.
+        detail:
+          type: string
+          description: An explanation specific to this occurrence.
+
+    PayloadTooLargeProblem:
+      description: The request body is larger than 16 KiB.
+      allOf:
+        - $ref: '#/components/schemas/Problem'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [urn:problem:url-shortener:payload-too-large]
+            status:
+              type: integer
+              enum: [413]
+
+    UnsupportedMediaTypeProblem:
+      description: The request `Content-Type` is not `application/json`.
+      allOf:
+        - $ref: '#/components/schemas/Problem'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [urn:problem:url-shortener:unsupported-media-type]
+            status:
+              type: integer
+              enum: [415]
