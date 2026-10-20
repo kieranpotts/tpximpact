@@ -66,3 +66,4 @@ are out of scope, and remain proposals.
 - [0019](./0019/) Health and metrics on a separate management port — PROPOSED
 - [0020](./0020/) Structured JSON logs with request-ID propagation — PROPOSED
 - [0021](./0021/) Production hosting — PROPOSED
+- [0022](./0022/) Delivery pipeline (CI/CD) — PROPOSED
