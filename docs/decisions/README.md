@@ -67,3 +67,4 @@ are out of scope, and remain proposals.
 - [0020](./0020/) Structured JSON logs with request-ID propagation — PROPOSED
 - [0021](./0021/) Production hosting — PROPOSED
 - [0022](./0022/) Delivery pipeline (CI/CD) — PROPOSED
+- [0023](./0023/) Idempotent link creation — PROPOSED
