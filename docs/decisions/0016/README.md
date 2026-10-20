@@ -21,9 +21,9 @@ Each application will have a multi-stage `Dockerfile` in its own directory,
 built from that directory alone. Runtime images will be Debian-based, contain no
 build tools or test code, and run as a non-root user.
 
-`compose.yaml`, at the repository root, runs the database, the API, and the web
-client. A database health check orders startup, and a named volume persists the
-data.
+`compose.yaml`, at the repository root, runs the database, the API service, and
+the web client. A database health check orders startup, and a named volume
+persists the data.
 
 ## Consequences
 
@@ -39,9 +39,9 @@ data.
 
 ## Alternatives
 
-- **Jib, to build the API image without a `Dockerfile`.** Neat, but it makes the
-  image build depend on Gradle on the host, and it's less transparent than a
-  `Dockerfile`.
+- **Jib, to build the API service image without a `Dockerfile`.** Neat, but it
+  makes the image build depend on Gradle on the host, and it's less transparent
+  than a `Dockerfile`.
 
 ## Deferred decisions
 

@@ -11,8 +11,8 @@ ACCEPTED
 
 ## Context
 
-The API must reject a destination URL that is missing or isn't a valid absolute
-URL.
+The API service must reject a destination URL that is missing or isn't a valid
+absolute URL.
 
 Validation is also a security concern. The destination URL is sent back as the
 `Location` header on every redirect, and it is rendered as a link in the web
@@ -29,7 +29,8 @@ host, has no user-info, and doesn't point at the shortener's own host.
 URLs are parsed with `java.net.URI`, not a regular expression. Otherwise, the
 URL is stored as given.
 
-The API never fetches it, and so never validates that the destination exists.
+The API service never fetches it, and so never validates that the destination
+exists.
 
 ## Consequences
 
@@ -37,7 +38,7 @@ The API never fetches it, and so never validates that the destination exists.
 
 - The web client escapes everything it renders.
 
-- The API makes no request to the URL, so there's no server-side request
+- The API service makes no request to the URL, so there's no server-side request
   forgery risk, and creating a link costs no network time.
 
 - Links to hosts that don't exist are accepted.

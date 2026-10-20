@@ -21,8 +21,8 @@ outcome handling that misses a case.
 The web client's server code will be written in TypeScript, in `strict` mode,
 compiled with `tsc` for production.
 
-The API's request and response types will be written by hand, mirroring the
-contract, not generated from it.
+The API service's request and response types will be written by hand, mirroring
+the contract, not generated from it.
 
 ## Consequences
 
@@ -49,5 +49,5 @@ contract, not generated from it.
 - **Node.js native type stripping.** Drop the build step once the feature is
   more common.
 
-- **Types generated from the contract.** Generate the API's types from a
+- **Types generated from the contract.** Generate the API service's types from a
   contract that is itself generated from code, to remove drift.

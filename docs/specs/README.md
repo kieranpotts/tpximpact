@@ -5,14 +5,14 @@ rules, and the constraints within which the system must operate.
 
 ## Context
 
-The system turns long URLs into short ones. A user submits a destination URL,
+The system turns long URLs into short ones. A link creator submits a destination URL,
 and optionally a custom alias of their choosing, and gets back a short URL that
 redirects to the original.
 
-The system has two components: a RESTful API, written in Kotlin, and a
+The system has two components: an API service, written in Kotlin, and a
 decoupled web client, served by Express.
 
-The system depends on a persistent data store, which holds the mapping from
+The system depends on a persistent database, which holds the mapping from
 each alias to its destination URL. It has no other external dependencies.
 
 The actors on this system are:
@@ -20,7 +20,7 @@ The actors on this system are:
 - **Link creators**, who shorten, list, and delete URLs through the web
   client.
 
-- **API clients**, such as `curl` or other services, which call the API
+- **API clients**, such as `curl` or other services, which call the API service
   directly.
 
 - **Link visitors**, who follow a short URL and are redirected to the
@@ -32,7 +32,7 @@ The actors on this system are:
 
 A `POST /shorten` request whose body holds a valid `destinationUrl` and no
 `customAlias` returns `201 Created`, with a JSON body whose `shortUrl` is the
-system's public base URL followed by a randomly generated alias.
+system's public base URL followed by a random alias.
 
 ### B2 — Shorten a URL with a custom alias
 
@@ -71,8 +71,8 @@ A `GET /urls` request returns `200 OK`, with a JSON array holding one
 
 ### B8 — Persist across restarts
 
-Every alias that exists when the API stops still exists, with the same
-destination URL, when the API starts again.
+Every alias that exists when the API service stops still exists, with the same
+destination URL, when the API service starts again.
 
 ### B9 — Shorten a URL from the web client
 
@@ -83,12 +83,12 @@ URL.
 ### B10 — List and delete short URLs from the web client
 
 The web client lists every stored short URL, with its alias and destination
-URL, and lets the user delete any of them.
+URL, and lets the link creator delete any of them.
 
 ### B11 — Show API errors in the web client
 
-When the API rejects a request, or cannot be reached, the web client shows the
-user a message that says what went wrong, and keeps what they entered in the
+When the API service rejects a request, or cannot be reached, the web client shows the
+link creator a message that says what went wrong, and keeps what they entered in the
 form.
 
 ### B12 — Reject an unsupported content type
@@ -107,7 +107,7 @@ This is an extension to the original API contract supplied by TPXimpact.
 
 ### B14 — Publish the API contract
 
-A `GET /openapi.yaml` request to the API returns `200 OK`, and returns the
+A `GET /openapi.yaml` request to the API service returns `200 OK`, and returns the
 static OpenAPI specification file.
 
 This is an extension to the original API contract supplied by TPXimpact.
@@ -127,7 +127,7 @@ rule applies to custom and random aliases, which share one namespace.
 
 These words can't be used as aliases, whatever their case: `shorten`, `urls`,
 `api`, `docs`, `health`, `metrics`, `static`, and `assets`. The first two are
-API routes. The rest are held back for routes the API may need later.
+API routes. The rest are held back for routes the API service may need later.
 
 ### R3 — Aliases are case-sensitive
 
@@ -136,7 +136,7 @@ its alias is typed with the same letter case it was created with.
 
 ### R4 — Random aliases
 
-A randomly generated alias is 7 characters long, drawn from letters and digits
+A random alias is 7 characters long, drawn from letters and digits
 only. It's unpredictable. Knowing one alias reveals nothing about any other
 alias, or about how many exist. It's never a reserved alias.
 
@@ -190,30 +190,30 @@ moment are ordered by alias.
 
 ### Q1 — Conforms to the API contract
 
-Every API path, method, status code, and response body shape matches the
+Every API service path, method, status code, and response body shape matches the
 OpenAPI contract.
 
 ### Q2 — Fails gracefully
 
-No client input, however malformed, causes the API to return a `5xx` response.
+No client input, however malformed, causes the API service to return a `5xx` response.
 
 ### Q3 — Decoupled web client
 
 The web client is a separately built and deployed component. It interacts with
-stored URLs only through the API's public HTTP interface, and it reads the API's
-base URL from configuration.
+stored URLs only through the API service's public HTTP interface, and it reads the API service's
+public base URL from configuration.
 
 ### Q4 — Containerised
 
-The API and the web client each build to a container image. The whole system
+The API service and the web client each build to a container image. The whole system
 starts locally with the commands documented in the README.
 
 ### Q5 — Tested
 
-Automated tests cover the behaviors of both the API and the web client. They run
+Automated tests cover the behaviors of both the API service and the web client. They run
 with a single documented command, and they pass.
 
 ### Q6 — Technology stack
 
-The API is written in Kotlin. The web client is served by Express on Node.js.
+The API service is written in Kotlin. The web client is served by Express on Node.js.
 These are fixed requirements for programming evaluation.

@@ -15,10 +15,10 @@ for everything that proves it works, and `docs/` for everything that explains it
 │   ├── api-service/          # Kotlin API service (self-contained Gradle build).
 │   │   └── contract/         # The API contract, owned and served by the API service.
 │   │       └── openapi.yaml
-│   └── web-client/           # Express front-end (self-contained npm package).
+│   └── web-client/           # Express web client (self-contained npm package).
 ├── tests/
 │   ├── api-service/          # API service tests, compiled and run by its Gradle build.
-│   ├── web-client/           # Front-end tests (npm package).
+│   ├── web-client/           # Web client tests (npm package).
 │   └── acceptance/           # End-to-end acceptance tests of the whole system (npm package).
 │
 ├── .devcontainer/
@@ -33,9 +33,9 @@ self-contained, with its own build, `Dockerfile`, and `.dockerignore`.
 
 - `api-service/` is the Kotlin API service, built with Gradle. It also owns the
   API contract, statically maintained at `contract/openapi.yaml`, which is the
-  source of truth for the API's behavior.
+  source of truth for the API service's behavior.
 
-- `web-client/` is the Express front-end, an npm package. It's a client of the
+- `web-client/` is the Express web client, an npm package. It's a client of the
   API service.
 
 ## Tests

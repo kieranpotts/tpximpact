@@ -14,9 +14,9 @@ ACCEPTED
 Both applications need settings that differ by environment, and the same image
 must run unchanged in every environment.
 
-There are two API URLs, and they're easy to confuse. The public base URL is the
-prefix of every shortened, aliased URL that users see. The internal base URL is
-how the web client reaches the API.
+There are two base URLs, and they're easy to confuse. The public base URL is the
+prefix of every short URL that link visitors see. The API base URL is
+how the web client reaches the API service.
 
 ## Decision
 
@@ -25,8 +25,8 @@ at startup, into a typed, immutable object. It validates every value, and exits
 with a clear message if any is missing or invalid. Nothing else reads the
 environment.
 
-The two API URLs are separate settings: `PUBLIC_BASE_URL` on the API, and
-`API_BASE_URL` on the web client.
+The two base URLs are separate settings: `PUBLIC_BASE_URL` on the API service,
+and `API_BASE_URL` on the web client.
 
 Compose sets working values for every variable. In production, the platform
 injects secrets at runtime. They're never baked into images.

@@ -42,9 +42,9 @@ Thus, to revisit a past decision, write a new record. Do not edit an old one.
 ## Index
 
 - [0001](./0001/) Monorepo — ACCEPTED
-- [0002](./0002/) Ktor for the API — ACCEPTED
+- [0002](./0002/) Ktor for the API service — ACCEPTED
 - [0003](./0003/) PostgreSQL for persistence — ACCEPTED
-- [0004](./0004/) Flyway for schema migrations, run at API startup — ACCEPTED
+- [0004](./0004/) Flyway for schema migrations, run at API service startup — ACCEPTED
 - [0005](./0005/) Plain JDBC with HikariCP for data access — ACCEPTED
 - [0006](./0006/) Server-rendered web client with Express and Nunjucks — ACCEPTED
 - [0007](./0007/) TypeScript for the web client — ACCEPTED
@@ -53,7 +53,7 @@ Thus, to revisit a past decision, write a new record. Do not edit an old one.
 - [0010](./0010/) Random alias generation — ACCEPTED
 - [0011](./0011/) URL validation rules — ACCEPTED
 - [0012](./0012/) No caching of redirects — ACCEPTED
-- [0013](./0013/) The API serves its contract at `/openapi.yaml` — ACCEPTED
+- [0013](./0013/) The API service serves its contract at `/openapi.yaml` — ACCEPTED
 - [0014](./0014/) RFC 9457 for API errors — ACCEPTED
 - [0015](./0015/) `415` and `413` for malformed requests — ACCEPTED
 - [0016](./0016/) Containers — ACCEPTED

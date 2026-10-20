@@ -11,14 +11,14 @@ ACCEPTED
 
 ## Context
 
-When a request to shorten a URL has no custom alias, the API must generate
-one automatically.
+When a request to shorten a URL has no custom alias, the API service must
+generate one automatically.
 
-Generated aliases must be short, safe in a URL path, unique among all stored
-aliases (including custom ones), and never be a reserved word.
+Random aliases must be short, safe in a URL path, unique among all stored
+aliases (including custom ones), and never be a reserved alias.
 
 Generates aliases must be highly random. They must not be predictable from the
-previous alias, so a user can't traverse the links created after theirs.
+previous alias, so a link creator can't traverse the links created after theirs.
 
 ## Decision
 
@@ -26,14 +26,14 @@ Each random alias will be generated as 7 characters drawn uniformly from the
 62-character Base62 alphabet, using a cryptographically secure random source.
 That gives 62<sup>7</sup> =  3.5 trillion possible aliases.
 
-Reserved words will be discarded before insertion.
+Reserved aliases will be discarded before insertion.
 
 A collision on insert should trigger a retry with a fresh alias. After five
 failed attempts the request should fail with `500`.
 
 ## Consequences
 
-- Every generated alias is also a valid custom alias, so both kinds share one
+- Every random alias is also a valid custom alias, so both kinds share one
   namespace and one set of rules.
 
 - Aliases reveal nothing about creation order or volume.

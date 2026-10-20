@@ -19,9 +19,9 @@ constraints that bound the options.
 
 ## Decision
 
-The decision, stated plainly, without first-person pronouns: "The API will be
-built with …". Only what a reader needs to recognize the choice, not how it's
-implemented.
+The decision, stated plainly, without first-person pronouns: "The API service
+will be built with …". Only what a reader needs to recognize the choice, not
+how it's implemented.
 
 ## Consequences
 

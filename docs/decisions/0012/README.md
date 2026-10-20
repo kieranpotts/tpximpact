@@ -19,17 +19,17 @@ reason, the contract specifies `302` (temporary redirect), not `301` (permanent
 redirect, which can be cached).
 
 A redirect is a single primary-key lookup. A modest PostgreSQL instance serves
-thousands of those a second, and the API scales horizontally.
+thousands of those a second, and the API service scales horizontally.
 
 ## Decision
 
 Redirects will not be cached anywhere, for now. Redirect responses carry
-`Cache-Control: no-store`, and the API has no application-level cache.
+`Cache-Control: no-store`, and the API service has no application-level cache.
 
-When load justifies it, the scaling path is to scale out the API and scale up
-the database, then add a shared cache that's invalidated on delete. Only after
-that, and only if the specification is relaxed, would a CDN be deployed to cache
-redirects.
+When load justifies it, the scaling path is to scale out the API service and
+scale up the database, then add a shared cache that's invalidated on delete.
+Only after that, and only if the specification is relaxed, would a CDN be
+deployed to cache redirects.
 
 ## Consequences
 
@@ -42,7 +42,7 @@ redirects.
 
 ## Alternatives
 
-- **An in-process cache in each API replica.** The cheapest to add, but a delete
+- **An in-process cache in each API service replica.** The cheapest to add, but a delete
   on one replica can't invalidate the others' caches without a pub/sub channel.
 
 - **CDN caching from day one.** The biggest performance win, but it breaks the

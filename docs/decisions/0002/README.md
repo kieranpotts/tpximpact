@@ -1,4 +1,4 @@
-# Ktor for the API
+# Ktor for the API service
 
 - Authors: Kieran Potts [@kieranpotts]
 - Created: 2026-10-19
@@ -11,15 +11,15 @@ ACCEPTED
 
 ## Context
 
-The API must be written in Kotlin. It's a small service, with a handful of
+The API service must be written in Kotlin. It's a small service, with a handful of
 routes, backed by a single relational database. In a codebase this small, the
 behavior can be written out explicitly in the application code, instead of being
 left to framework conventions, annotations, and auto-configuration.
 
 ## Decision
 
-The API will be built with Ktor 3, on the Netty engine, running on Java 25 (the
-current LTS release).
+The API service will be built with Ktor 3, on the Netty engine, running on
+Java 25 (the current LTS release).
 
 Objects are wired by hand in one composition root, with no dependency
 injection container. The build is Gradle, with the Kotlin DSL and a version

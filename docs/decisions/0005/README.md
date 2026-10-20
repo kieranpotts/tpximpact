@@ -11,8 +11,8 @@ ACCEPTED
 
 ## Context
 
-The API will issues a small number of SQL statements, against one simple lookup
-table. The insert will rely on PostgreSQL's `ON CONFLICT` clause.
+The API service will issues a small number of SQL statements, against one simple
+lookup table. The insert will rely on PostgreSQL's `ON CONFLICT` clause.
 
 ## Decision
 

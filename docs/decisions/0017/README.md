@@ -12,20 +12,20 @@ ACCEPTED
 ## Context
 
 Automated tests must cover both applications, and run with one documented
-command. The API must conform to its contract, and never return a `5xx` for bad
+command. The API service must conform to its contract, and never return a `5xx` for bad
 input. Persistence across restarts can only be proved against a real database.
 
 ## Decision
 
 Testing will happen at three levels.
 
-1. **API tests.** Fast, in-process unit, service, and HTTP tests, using an
+1. **API service tests.** Fast, in-process unit, service, and HTTP tests, using an
    in-memory repository, plus integration tests against real PostgreSQL in
    Testcontainers. Every HTTP test validates its response against the OpenAPI
    contract.
 
-2. **Web client tests.** Route tests against a fake API, and API client tests
-   against a local stub server, rather than mocked HTTP.
+2. **Web client tests.** Route tests against a fake API service, and API client
+   tests against a local stub server, rather than mocked HTTP.
 
 3. **Acceptance tests.** Black-box Playwright tests of the whole system under
    Compose, with accessibility scans.
@@ -43,7 +43,7 @@ Testing will happen at three levels.
 - The acceptance tests catch faults no component test can, such as wiring
   mistakes and image contents. They're slower, so they're a separate command.
 
-- Only the web client tests cover the API being unreachable.
+- Only the web client tests cover the API service being unreachable.
 
 ## Alternatives
 

@@ -49,7 +49,7 @@ paths:
                   maxLength: 64
                   pattern: '^[A-Za-z0-9_-]{3,64}$'
                   description: |
-                    Case-sensitive. Must not be a reserved word, compared
+                    Case-sensitive. Must not be a reserved alias, compared
                     case-insensitively.
                   example: my-custom-alias
       responses:
@@ -147,13 +147,13 @@ paths:
 
   /urls:
     get:
-      summary: List all shortened URLs
+      summary: List all short URLs
       description: Newest first. URLs created at the same instant are ordered by alias.
       parameters:
         - $ref: '#/components/parameters/RequestId'
       responses:
         '200':
-          description: A list of shortened URLs
+          description: A list of short URLs
           headers:
             X-Request-Id:
               $ref: '#/components/headers/RequestId'
@@ -188,7 +188,7 @@ paths:
         - $ref: '#/components/parameters/RequestId'
       responses:
         '302':
-          description: Redirect to the original URL
+          description: Redirect to the destination URL
           headers:
             Cache-Control:
               description: Always `no-store`, so a deleted alias stops resolving at once.
@@ -208,7 +208,7 @@ paths:
           $ref: '#/components/responses/InternalError'
 
     delete:
-      summary: Delete a shortened URL
+      summary: Delete a short URL
       parameters:
         - $ref: '#/components/parameters/Alias'
         - $ref: '#/components/parameters/RequestId'
@@ -248,8 +248,8 @@ components:
       in: header
       required: false
       description: |
-        Correlates log lines across the web client and the API. Generated
-        by the API if absent, and always echoed in the response.
+        Correlates log lines across the web client and the API service. Generated
+        by the API service if absent, and always echoed in the response.
       schema:
         type: string
 
@@ -324,7 +324,7 @@ components:
             - url-unsupported-scheme
         message:
           type: string
-          description: Written for end users, and shown verbatim by the web client.
+          description: Written for link creators, and shown verbatim by the web client.
 
     InternalErrorProblem:
       description: |
