@@ -12,6 +12,9 @@ that touches it.
 - **[Domain model](./domain-model.md)** \
   Aliases, destination URLs, short URLs, and how they relate.
 
+- **[Persistence](./persistence.md)** \
+  The schema, the guarantees the database provides, and migrations.
+
 - **[Error handling](./error-handling.md)** \
   The API service's problem-details format, and how the web client presents errors.
 
