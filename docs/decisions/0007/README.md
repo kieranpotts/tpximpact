@@ -43,3 +43,11 @@ It may be worth revisiting later, once it's more common.
 
 **Types generated from the contract.** No drift, but added complexity of
 generating the API contract from code. To be revisited in a later ADR.
+
+## Deferred decisions
+
+- **Node.js native type stripping.** Drop the build step once the feature is
+  more common.
+
+- **Types generated from the contract.** Generate the API's types from a
+  contract that is itself generated from code, to remove drift.

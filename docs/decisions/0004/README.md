@@ -44,3 +44,10 @@ fail, it exits with a non-zero status.
 least-privilege API user, and migrations decoupled from rollout. But it adds a
 Compose service and a deployment step, which a one-table schema doesn't yet
 justify. To be revisited in a future technical decision.
+
+## Deferred decisions
+
+- **Separate migration task.** Run migrations as a separate task, with a
+  separate privileged user, once the schema justifies the extra Compose service
+  and deployment step. That would let the API run with a least-privilege
+  database user.

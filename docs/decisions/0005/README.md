@@ -43,3 +43,8 @@ bound how long any request can wait on the database.
 adds a DSL, table definitions, and its own transaction model.
 
 **jOOQ.** Type-safe, but its code generation needs a database at build time.
+
+## Deferred decisions
+
+- **Data access library.** Replace plain JDBC if the schema grows to many
+  tables with joins.
