@@ -8,6 +8,12 @@
 
 ## 📓 Developer documentation
 
+> [!IMPORTANT]
+> The capitalized words REQUIRED, MUST, MUST NOT, RECOMMENDED, SHOULD,
+> SHOULD NOT, OPTIONAL, and MAY throughout all docs, code, tests, and all
+> other artifacts in this repository are to be interpreted as described in
+> [IETF RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
+
 - [**🛠️ Development tools and methods**](./docs/development/) \
   Local development requirements and the day-to-day workflow.
 
