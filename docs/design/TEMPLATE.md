@@ -1,9 +1,5 @@
 # View name, eg. "Logical view"
 
-- Last updated: YYYY-MM-DD
-
-## Purpose
-
 One or two sentences covering which question this view answers, and for whom.
 If it overlaps another view, say where the boundary lies.
 
