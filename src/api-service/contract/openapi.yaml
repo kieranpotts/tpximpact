@@ -124,6 +124,7 @@ paths:
             X-Request-Id:
               $ref: '#/components/headers/RequestId'
         '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalError'
 
@@ -139,6 +140,7 @@ paths:
             X-Request-Id:
               $ref: '#/components/headers/RequestId'
         '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalError'
 
@@ -204,6 +206,19 @@ components:
         example: 6f1c0f8e-2c1d-4a53-9e55-1d3c1b7a9c10
 
   responses:
+    NotFound:
+      description: Alias not found
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/NotFoundProblem'
+          example:
+            type: urn:problem:url-shortener:not-found
+            title: The alias was not found
+            status: 404
     InternalError:
       description: |
         Unexpected fault. The body exposes no internal detail, only the
@@ -243,6 +258,20 @@ components:
         detail:
           type: string
           description: An explanation specific to this occurrence.
+
+
+    NotFoundProblem:
+      description: The alias doesn't exist, or can't exist.
+      allOf:
+        - $ref: '#/components/schemas/Problem'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [urn:problem:url-shortener:not-found]
+            status:
+              type: integer
+              enum: [404]
 
     PayloadTooLargeProblem:
       description: The request body is larger than 16 KiB.
