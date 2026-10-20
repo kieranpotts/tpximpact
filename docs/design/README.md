@@ -38,8 +38,8 @@ at whatever altitude answers their question.
   Key end-to-end flows, cutting through the other views.
 
 - **[`concepts/`](./concepts/)** \
-  Crosscutting concerns — domain model, security, persistence, error handling,
-  observability — applied system-wide.
+  Cross-cutting concerns — domain model, security, persistence, error handling —
+  applied system-wide.
 
 The [`glossary`](./glossary.md) defines the architecture- and domain-specific
 terms used across the views.
