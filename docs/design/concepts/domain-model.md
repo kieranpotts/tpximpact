@@ -6,7 +6,7 @@ web client has no knowledge of the domain model (only of the OpenAPI contract).
 ```mermaid
 classDiagram
   class ShortUrl {
-    +Alias alias (key)
+    +Alias alias
     +DestinationUrl destinationUrl
     +Instant createdAt
   }
@@ -49,4 +49,5 @@ Within a class box, `+` marks a public member, and `<<interface>>` marks a type
 with no implementation of its own. `PK` marks the field that forms the entity's
 key (here, `ShortUrl` is identified by its `alias`).
 
-The rules that make these types valid are in [Business rules](./business-rules.md).
+The domain objects capture all the logic for implementing the business rules.
+The rules themselves are defined in the [specification](../../specs/).
