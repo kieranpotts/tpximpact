@@ -52,3 +52,4 @@ Thus, to revisit a past decision, write a new record. Do not edit an old one.
 - [0012](./0012/) No caching of redirects — PROPOSED
 - [0013](./0013/) The API serves its contract at `/openapi.yaml` — PROPOSED
 - [0014](./0014/) RFC 9457 for API errors — PROPOSED
+- [0015](./0015/) `415` and `413` for malformed requests — PROPOSED
