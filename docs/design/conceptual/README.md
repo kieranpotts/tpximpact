@@ -12,3 +12,6 @@ This architectural view captures the whole system at a glance.
 
 - **[Components](./components.md)** \
   The main components that compose the system.
+
+- **[Context diagram](./context-diagram.md)** \
+  The system and its surroundings, as flowchart and C4 diagrams.
