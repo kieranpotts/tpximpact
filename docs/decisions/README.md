@@ -39,17 +39,17 @@ Thus, to revisit a past decision, write a new record. Do not edit an old one.
 ## Index
 
 - [0001](./0001/) Monorepo — ACCEPTED
-- [0002](./0002/) Ktor for the API — PROPOSED
-- [0003](./0003/) PostgreSQL for persistence — PROPOSED
-- [0004](./0004/) Flyway for schema migrations, run at API startup — PROPOSED
-- [0005](./0005/) Plain JDBC with HikariCP for data access — PROPOSED
-- [0006](./0006/) Server-rendered web client with Express and Nunjucks — PROPOSED
-- [0007](./0007/) TypeScript for the web client — PROPOSED
-- [0008](./0008/) GOV.UK Frontend for the user interface — PROPOSED
-- [0009](./0009/) Custom alias validation rules — PROPOSED
-- [0010](./0010/) Random alias generation — PROPOSED
-- [0011](./0011/) URL validation rules — PROPOSED
-- [0012](./0012/) No caching of redirects — PROPOSED
-- [0013](./0013/) The API serves its contract at `/openapi.yaml` — PROPOSED
-- [0014](./0014/) RFC 9457 for API errors — PROPOSED
-- [0015](./0015/) `415` and `413` for malformed requests — PROPOSED
+- [0002](./0002/) Ktor for the API — ACCEPTED
+- [0003](./0003/) PostgreSQL for persistence — ACCEPTED
+- [0004](./0004/) Flyway for schema migrations, run at API startup — ACCEPTED
+- [0005](./0005/) Plain JDBC with HikariCP for data access — ACCEPTED
+- [0006](./0006/) Server-rendered web client with Express and Nunjucks — ACCEPTED
+- [0007](./0007/) TypeScript for the web client — ACCEPTED
+- [0008](./0008/) GOV.UK Frontend for the user interface — ACCEPTED
+- [0009](./0009/) Custom alias validation rules — ACCEPTED
+- [0010](./0010/) Random alias generation — ACCEPTED
+- [0011](./0011/) URL validation rules — ACCEPTED
+- [0012](./0012/) No caching of redirects — ACCEPTED
+- [0013](./0013/) The API serves its contract at `/openapi.yaml` — ACCEPTED
+- [0014](./0014/) RFC 9457 for API errors — ACCEPTED
+- [0015](./0015/) `415` and `413` for malformed requests — ACCEPTED

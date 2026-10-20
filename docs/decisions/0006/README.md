@@ -2,12 +2,12 @@
 
 - Authors: Kieran Potts [@kieranpotts]
 - Created: 2026-10-19
-- Decision date: —
+- Decision date: 2026-10-20
 - PR: —
 
 ## Status
 
-PROPOSED
+ACCEPTED
 
 ## Context
 
