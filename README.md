@@ -1,6 +1,6 @@
-# TPXimpact programming project
+# TPXimpact take-home programming project
 
-**A simple URL shortener in Kotlin and Express.**
+**A URL shortener MVP in Kotlin and Express.**
 
 <!-- TODO: Add debfiefing notes, eg. AI-assisted workflow. -->
 
