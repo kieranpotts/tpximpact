@@ -9,7 +9,7 @@ for everything that proves it works, and `docs/` for everything that explains it
 
 ```
 .
-├── docs/                     # Specs, design, decisions, plans, and development docs.
+├── docs/                     # Specs, designs, decisions, plans, and development docs.
 ├── run/                      # Development lifecycle scripts, wrapped by the Makefile.
 ├── src/
 │   ├── api-service/          # Kotlin API service (self-contained Gradle build).
@@ -26,5 +26,32 @@ for everything that proves it works, and `docs/` for everything that explains it
 └── README.md
 ```
 
-Each application under `src/` is its own Docker build context, with its own
-`Dockerfile` and `.dockerignore`. No image contains anything from `tests/`.
+## Source
+
+`src/` has one subdirectory per independently deployable application. Each is
+self-contained, with its own build, `Dockerfile`, and `.dockerignore`.
+
+- `api-service/` is the Kotlin API service, built with Gradle. It also owns the
+  API contract, statically maintained at `contract/openapi.yaml`, which is the
+  source of truth for the API's behavior.
+
+- `web-client/` is the Express front-end, an npm package. It's a client of the
+  API service.
+
+## Tests
+
+`tests/` mirrors `src/`, plus an `acceptance/` suite for the whole system. Test
+code is kept out of `src/`, so it never ends up in a Docker image.
+
+- `api-service/` has source directories only (`unit/` and `integration/`). The
+  API service's Gradle build points its test suites at them.
+
+- `web-client/` is an npm package of its own, holding the test tooling. Run
+  `run/install` to install dependencies in both it and `src/web-client/`. It
+  mustn't install its own copy of any package that the application imports.
+
+- `acceptance/` is an npm package holding the Playwright suite. It imports
+  nothing from `src/` and tests the running system through its public URLs.
+
+The OpenAPI contract has no tests of its own. The API service's HTTP tests
+validate every response against it.
