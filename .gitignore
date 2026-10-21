@@ -25,3 +25,5 @@ node_modules/
 /tests/acceptance/playwright-report/
 /tests/acceptance/test-results/
 
+# Local environment overrides.
+.env
