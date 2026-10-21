@@ -103,6 +103,15 @@ testing {
     }
 }
 
+// Gradle prints nothing for passing tests by default. Show each one, so the
+// output of `make test` proves what ran.
+tasks.withType<Test>().configureEach {
+    testLogging {
+        events("passed", "skipped", "failed")
+        showStandardStreams = false
+    }
+}
+
 // ktlint runs from its CLI, not a plugin, because the plugins only format
 // files inside this build's directory, and the tests are outside it. Style
 // rules are configured in the root `.editorconfig`.
