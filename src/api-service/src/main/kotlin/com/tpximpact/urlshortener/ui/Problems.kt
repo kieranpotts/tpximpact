@@ -1,13 +1,17 @@
 package com.tpximpact.urlshortener.ui
 
 import com.tpximpact.urlshortener.app.AliasTakenException
+import com.tpximpact.urlshortener.domain.StorageUnavailableException
 import io.ktor.http.ContentType
+import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.install
 import io.ktor.server.plugins.callid.callId
 import io.ktor.server.plugins.statuspages.StatusPages
+import io.ktor.server.request.acceptItems
+import io.ktor.server.request.httpMethod
 import io.ktor.server.response.header
 import io.ktor.server.response.respondText
 import kotlinx.serialization.Serializable
@@ -30,6 +34,11 @@ enum class ProblemType(
     MALFORMED_REQUEST("malformed-request", HttpStatusCode.BadRequest, "The request body is not valid JSON"),
     NOT_FOUND("not-found", HttpStatusCode.NotFound, "The alias was not found"),
     PAYLOAD_TOO_LARGE("payload-too-large", HttpStatusCode.PayloadTooLarge, "The request body is too large"),
+    SERVICE_UNAVAILABLE(
+        "service-unavailable",
+        HttpStatusCode.ServiceUnavailable,
+        "The service is temporarily unavailable",
+    ),
     UNSUPPORTED_MEDIA_TYPE(
         "unsupported-media-type",
         HttpStatusCode.UnsupportedMediaType,
@@ -80,6 +89,37 @@ suspend fun ApplicationCall.respondProblem(
     respondText(Json.encodeToString(problem), ContentType.Application.ProblemJson, type.status)
 }
 
+/** What a browser shows when it follows a short URL that doesn't exist. */
+private val linkNotFoundPage =
+    """
+    <!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <title>Link not found - URL shortener</title>
+      </head>
+      <body>
+        <h1>Link not found</h1>
+        <p>Check the link is correct. It may have been deleted.</p>
+      </body>
+    </html>
+    """.trimIndent() + "\n"
+
+/**
+ * Answers a request for something that doesn't exist. A browser following a
+ * short URL gets an HTML page, and everything else a problem.
+ */
+private suspend fun ApplicationCall.respondNotFound() {
+    if (request.httpMethod == HttpMethod.Get && acceptsHtml()) {
+        respondText(linkNotFoundPage, ContentType.Text.Html, HttpStatusCode.NotFound)
+    } else {
+        respondProblem(ProblemType.NOT_FOUND)
+    }
+}
+
+/** Whether the `Accept` header names HTML, as every browser's does for a page. */
+private fun ApplicationCall.acceptsHtml() = request.acceptItems().any { it.value == ContentType.Text.Html.toString() && it.quality > 0.0 }
+
 /** Tells a client that sent the wrong content type which one to send. */
 private const val ACCEPT_POST = "Accept-Post"
 
@@ -95,18 +135,38 @@ fun Application.installProblems() {
         // This isn't a `status(NotFound)` handler, because that would replace
         // the body of every `404`, including those that routes send.
         unhandled { call ->
-            call.respondProblem(ProblemType.NOT_FOUND)
+            call.respondNotFound()
         }
 
         exception<ProblemException> { call, cause ->
-            if (cause.type == ProblemType.UNSUPPORTED_MEDIA_TYPE) {
-                call.response.header(ACCEPT_POST, ContentType.Application.Json.toString())
+            when (cause.type) {
+                ProblemType.NOT_FOUND -> {
+                    call.respondNotFound()
+                }
+
+                ProblemType.UNSUPPORTED_MEDIA_TYPE -> {
+                    call.response.header(ACCEPT_POST, ContentType.Application.Json.toString())
+                    call.respondProblem(cause.type, cause.detail, cause.errors)
+                }
+
+                else -> {
+                    call.respondProblem(cause.type, cause.detail, cause.errors)
+                }
             }
-            call.respondProblem(cause.type, cause.detail, cause.errors)
         }
 
         exception<AliasTakenException> { call, _ ->
             call.respondProblem(ProblemType.ALIAS_TAKEN)
+        }
+
+        // The database is down, or too slow. It's expected to recover, so this
+        // isn't a fault in the service.
+        exception<StorageUnavailableException> { call, cause ->
+            log.error("The database is unavailable", cause)
+            call.respondProblem(
+                ProblemType.SERVICE_UNAVAILABLE,
+                "Try again later. Quote request ID ${call.callId} when reporting this.",
+            )
         }
 
         // Anything unexpected. The body never carries the exception's detail,

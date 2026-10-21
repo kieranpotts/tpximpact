@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: URL Shortener API
-  version: 1.4.0
+  version: 1.5.0
   description: |
     Simple RESTful API for shortening URLs.
 
@@ -153,6 +153,8 @@ paths:
                 status: 415
         '500':
           $ref: '#/components/responses/InternalError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /urls:
     get:
@@ -184,6 +186,8 @@ paths:
                       example: http://localhost:8080/my-custom-alias
         '500':
           $ref: '#/components/responses/InternalError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /{alias}:
     get:
@@ -212,9 +216,25 @@ paths:
             X-Request-Id:
               $ref: '#/components/headers/RequestId'
         '404':
-          $ref: '#/components/responses/NotFound'
+          description: Alias not found
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/RequestId'
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundProblem'
+              example:
+                type: urn:problem:url-shortener:not-found
+                title: The alias was not found
+                status: 404
+            text/html:
+              schema:
+                type: string
         '500':
           $ref: '#/components/responses/InternalError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
 
     delete:
       summary: Delete a short URL
@@ -231,6 +251,8 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
 
 components:
   headers:
@@ -290,6 +312,20 @@ components:
             type: urn:problem:url-shortener:not-found
             title: The alias was not found
             status: 404
+    ServiceUnavailable:
+      description: The database is unavailable. Try again later.
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/RequestId'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ServiceUnavailableProblem'
+          example:
+            type: urn:problem:url-shortener:service-unavailable
+            title: The service is temporarily unavailable
+            status: 503
+            detail: Try again later. Quote request ID 6f1c0f8e-2c1d-4a53-9e55-1d3c1b7a9c10 when reporting this.
 
   schemas:
     AliasTakenProblem:
@@ -409,6 +445,21 @@ components:
         detail:
           type: string
           description: An explanation specific to this occurrence.
+
+    ServiceUnavailableProblem:
+      description: |
+        The database can't be reached, or didn't answer in time. `detail`
+        carries only the request ID, never internal detail.
+      allOf:
+        - $ref: '#/components/schemas/Problem'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum: [urn:problem:url-shortener:service-unavailable]
+            status:
+              type: integer
+              enum: [503]
 
     UnsupportedMediaTypeProblem:
       description: The request `Content-Type` is not `application/json`.

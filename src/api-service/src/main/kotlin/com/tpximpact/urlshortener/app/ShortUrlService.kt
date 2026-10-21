@@ -40,6 +40,9 @@ class ShortUrlService(
         error("Every one of $MAX_RANDOM_ALIAS_ATTEMPTS random aliases was already taken.")
     }
 
+    /** Returns the destination URL of [alias], or null if it doesn't exist. */
+    suspend fun resolve(alias: Alias): DestinationUrl? = repository.find(alias)
+
     companion object {
         const val MAX_RANDOM_ALIAS_ATTEMPTS = 5
     }

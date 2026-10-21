@@ -4,6 +4,7 @@ import com.tpximpact.urlshortener.domain.Alias
 import com.tpximpact.urlshortener.domain.DestinationUrl
 import com.tpximpact.urlshortener.domain.Parsed
 import com.tpximpact.urlshortener.domain.PublicBaseUrl
+import com.tpximpact.urlshortener.domain.StorageUnavailableException
 import com.tpximpact.urlshortener.infra.config.DatabaseConfig
 import com.zaxxer.hikari.HikariDataSource
 import kotlinx.coroutines.Dispatchers
@@ -13,14 +14,18 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.postgresql.PostgreSQLContainer
 import java.net.URI
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.measureTime
 
 @Testcontainers
 class JdbcShortUrlRepositoryTest {
@@ -121,4 +126,65 @@ class JdbcShortUrlRepositoryTest {
             assertEquals(1, results.count { it })
             assertEquals(1, rows().size)
         }
+
+    // Requirement: B5
+    @Test
+    fun `Finds the destination URL of a stored alias`() =
+        runBlocking {
+            repository.insert(alias("my-alias"), url("https://example.com/"))
+
+            assertEquals(url("https://example.com/"), repository.find(alias("my-alias")))
+        }
+
+    // Requirement: B5
+    @Test
+    fun `Finds nothing for an alias that isn't stored`() =
+        runBlocking {
+            assertNull(repository.find(alias("my-alias")))
+        }
+
+    // Requirement: R3
+    @Test
+    fun `Finds an alias only in the case it was stored in`() =
+        runBlocking {
+            repository.insert(alias("MyLink"), url("https://example.com/"))
+
+            assertNull(repository.find(alias("mylink")))
+        }
+
+    // Requirement: R7
+    @Test
+    fun `Finds the destination URL exactly as stored`() =
+        runBlocking {
+            repository.insert(alias("odd"), url("HTTPS://Example.COM:443/a/../b?x=%7E&y=1#Top"))
+
+            assertEquals("HTTPS://Example.COM:443/a/../b?x=%7E&y=1#Top", repository.find(alias("odd"))?.value)
+        }
+
+    @Test
+    fun `Reports the database unavailable, promptly, once it stops`() {
+        // A database of its own, so that stopping it doesn't affect other tests.
+        PostgreSQLContainer("postgres:18").use { doomed ->
+            doomed.start()
+            val config = DatabaseConfig(doomed.jdbcUrl, doomed.username, doomed.password)
+            migrate(config)
+            createDataSource(config).use { pool ->
+                val repository = JdbcShortUrlRepository(pool)
+                runBlocking { repository.insert(alias("my-alias"), url("https://example.com/")) }
+
+                doomed.stop()
+
+                val elapsed =
+                    measureTime {
+                        assertThrows<StorageUnavailableException> { runBlocking { repository.find(alias("my-alias")) } }
+                        assertThrows<StorageUnavailableException> {
+                            runBlocking { repository.insert(alias("other"), url("https://example.com/")) }
+                        }
+                    }
+                // Each call waits at most the pool's timeout for a connection, and
+                // a little to give up.
+                assertTrue(elapsed < (2 * DATABASE_TIMEOUT_MILLIS + 1_000).milliseconds, "Took $elapsed")
+            }
+        }
+    }
 }

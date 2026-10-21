@@ -65,6 +65,20 @@ class HostileInputTest {
                 "NaN",
                 "\u0000",
             )
+
+        @JvmStatic
+        fun aliasPaths() =
+            listOf(
+                "/" + "a".repeat(10_000),
+                "/%00%00%00",
+                "/abc%0d%0aSet-Cookie:%20x=y",
+                "/%F0%9F%98%80%F0%9F%98%80",
+                "/%C3%28%C3%28",
+                "/%2e%2e%2fetc%2fpasswd",
+                "/abc%2Fdef",
+                "/abc;def",
+                "/'%20OR%201=1--",
+            )
     }
 
     private val repository = InMemoryShortUrlRepository()
@@ -113,6 +127,16 @@ class HostileInputTest {
 
             assertEquals(HttpStatusCode.PayloadTooLarge, response.status)
             assertEquals(0, repository.stored.size)
+        }
+
+    @ParameterizedTest
+    @MethodSource("aliasPaths")
+    fun `A hostile alias never gets a server error, nor a lookup`(path: String) =
+        apiTest(repository) { client ->
+            val response = client.get(path)
+
+            assertEquals(HttpStatusCode.NotFound, response.status)
+            assertEquals(0, repository.lookups.get())
         }
 
     @Test

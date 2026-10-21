@@ -10,6 +10,7 @@ import com.tpximpact.urlshortener.domain.valid
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.net.URI
@@ -81,6 +82,22 @@ class ShortUrlServiceTest {
 
             assertNotEquals(first, second)
             assertEquals(mapOf(first to destination, second to destination), repository.stored)
+        }
+
+    // Requirement: B5
+    @Test
+    fun `Resolves an alias to its destination URL`() =
+        runBlocking {
+            service().shorten(destination, alias("my-alias"))
+
+            assertEquals(destination, service().resolve(alias("my-alias")))
+        }
+
+    // Requirement: B5
+    @Test
+    fun `Resolves an alias that doesn't exist to nothing`() =
+        runBlocking {
+            assertNull(service().resolve(alias("my-alias")))
         }
 
     @Test

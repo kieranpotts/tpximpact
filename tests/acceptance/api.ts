@@ -10,6 +10,11 @@ export async function shorten (
   return request.post(`${publicBaseUrl}/shorten`, { data: body })
 }
 
+/** Calls `GET /{alias}` on the API service, without following the redirect. */
+export async function follow (request: APIRequestContext, alias: string) {
+  return request.get(`${publicBaseUrl}/${alias}`, { maxRedirects: 0 })
+}
+
 /**
  * An alias that no other test uses, so that tests don't depend on each other,
  * or on what's already stored.

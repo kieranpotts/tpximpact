@@ -11,6 +11,7 @@ import com.tpximpact.urlshortener.infra.persistence.migrate
 import com.tpximpact.urlshortener.ui.contractRoute
 import com.tpximpact.urlshortener.ui.installProblems
 import com.tpximpact.urlshortener.ui.installRequestIds
+import com.tpximpact.urlshortener.ui.redirectRoute
 import com.tpximpact.urlshortener.ui.shortenRoute
 import com.tpximpact.urlshortener.ui.welcomeRoute
 import io.ktor.server.application.Application
@@ -74,5 +75,6 @@ fun Application.module(
         welcomeRoute()
         contractRoute()
         shortenRoute(shortUrls, publicBaseUrl)
+        redirectRoute(shortUrls)
     }
 }

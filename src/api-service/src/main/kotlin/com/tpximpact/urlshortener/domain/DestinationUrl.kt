@@ -56,6 +56,13 @@ value class DestinationUrl private constructor(
             }
         }
 
+        /**
+         * Restores a destination URL that was valid when it was stored. It's
+         * not checked again, so that a stored URL still redirects after a
+         * rule, or the public base URL, changes.
+         */
+        fun fromStorage(value: String) = DestinationUrl(value)
+
         /** Host names are case-insensitive, and may end with the root's `.`. */
         private fun sameHost(
             a: String,

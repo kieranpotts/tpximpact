@@ -84,7 +84,7 @@ val publicBaseUrl = PublicBaseUrl(URI("http://localhost:8080"))
 
 /**
  * Runs [block] against the API service, in memory. Every response its client
- * gets is validated against the contract.
+ * gets is validated against the contract, and redirects aren't followed.
  *
  * Short URLs are kept in [repository], which a test can inspect, and random
  * aliases come from [aliasGenerator].
@@ -102,5 +102,12 @@ fun apiTest(
         module(ShortUrlService(repository, aliasGenerator), publicBaseUrl)
         routing(routes)
     }
-    block(createClient { install(ContractValidation) })
+    block(
+        createClient {
+            // A test sees each redirect, rather than following it out of the
+            // service.
+            followRedirects = false
+            install(ContractValidation)
+        },
+    )
 }
