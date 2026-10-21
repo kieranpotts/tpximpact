@@ -11,32 +11,39 @@ My approach to this project involved the following stages.
 
 2. **Plan the design.** Use [architecture decision records](./docs/decisions/)
    to drive design choices. Establish the project's ubiquitous language, the
-   domain model, and the high-level design through multiple
-   [architectural views](./docs/design/).
+   domain model, and the [high-level design](./docs/design/) — described
+   through multiple architectural viewpoints.
 
-3. **Plan the implementation.** [Plan MVP delivery](./docs/plans/), broken down
-   into independently shippable increments.
+3. **Plan the implementation.** [Plan the MVP delivery](./docs/plans/), broken
+   down into independently shippable, stable increments.
 
 4. **Prepare the development environment.** Configure a reproducible devcontainer,
    plus code editor and developer tooling configuration. Use `make` as a wrapper
    for all dev workflow commands (except Git). Prepare frameworks for unit tests
-   on the client and server side, and end-to-end acceptance tests.
+   on the client and server sides, plus for end-to-end acceptance tests.
 
-5. **Build a walking skeleton.** Develop a thin end-to-end slice through the API
+5. **The walking skeleton.** Develop a thin end-to-end slice through the API
    service and the web client. No behavioral requirements implemented yet.
 
-Features are then built incrementally against the delivery plan. <!-- TODO: Total steps? -->
+Features are then built incrementally into the walking skeleton against the
+[MVP delivery plan](./docs/plans/mvp/README.md). A total of nine tasks (T01-T09)
+take the system to the requirements specified in the project brief.
 
 <!-- TODO: AI-assisted development workflow. Loose TDD approach to construction phase. -->
+
 <!-- TODO: Answer other questions from brief. -->
 
 Commits are small and atomic. Each one is prefixed by a type, which is loosely
 based on Conventional Commits. This important commit types are `behavior` for
-changes to runtime behavior, `quality` for cross-cutting concerns and
+changes to runtime functional, `quality` for cross-cutting concerns and
 non-functional requirements, `step` for an incremental step toward either of
 those outcomes, `fix` for bugs in the production system, and `maintenance`
-for docs and tooling. The commit types `chore` and `style` capture tidy-ups
-and routine housekeeping.
+for major documentation updates and tooling reconfiguration. The commit types
+`chore` and `style` capture tidy-ups and routine housekeeping.
+
+The changelog is maintained manually, though an interactive script
+(`make version`) is used to tag stable release points and capture the bundled
+changes in the changelog.
 
 **Development time:** ~2 working days so far.
 
