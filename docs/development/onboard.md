@@ -12,10 +12,17 @@ need **GNU Make** and **Bash** (4.4 or later), plus:
 
 - **A JDK**, version 17 or later, to run Gradle. The API service builds with
   JDK 25. Gradle downloads it if it's not already installed.
+
 - **Node.js 24** or later, with npm.
+
 - **Git**, for `make version`.
+
 - **Chromium's system libraries**, for `make acceptance`. Install them with
   `npx playwright install-deps chromium`, from `tests/acceptance/`.
+
+- **[pre-commit](https://pre-commit.com)**, to commit from the host. The Git hook
+  runs `make lint` and `make test` before every commit. See
+  [Pre-commit hook](./pre-commit.md).
 
 ## 📦 Installation
 

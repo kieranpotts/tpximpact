@@ -22,3 +22,7 @@ workflow.
 - [**Committing**](./committing.md) \
   The revision types, commit message format, and committing practices this
   repository expects.
+
+- [**Pre-commit hook**](./pre-commit.md) \
+  The Git hook that runs `make lint` and `make test` before every commit, and
+  how to install it.

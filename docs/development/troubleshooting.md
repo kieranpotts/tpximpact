@@ -160,6 +160,19 @@ provides. On the host, Gradle's toolchain must find a JDK 25, and
 `engines` in each `package.json` requires Node 24+. The application containers
 use the same versions.
 
+### A commit fails with a lint or test failure
+
+The pre-commit hook runs `make lint`, then `make test`, and aborts the commit if
+either fails. Fix the failure and commit again. `make format` fixes most lint
+failures. If the integration tests can't start, check that Docker is running.
+See [Pre-commit hook](./pre-commit.md).
+
+### Committing from the host fails with "`pre-commit` not found"
+
+The hook is shared between the host and the devcontainer, but the
+pre-commit framework isn't. To commit from the host, install it there with
+`pipx install pre-commit`. Or commit from inside the devcontainer.
+
 ### `make version` refuses to run
 
 `make version` needs a clean working tree, and at least one entry under

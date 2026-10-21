@@ -28,6 +28,18 @@ RUN apt-get update \
     && npx --yes "playwright@${PLAYWRIGHT_VERSION}" install-deps chromium \
     && rm -rf /var/lib/apt/lists/* /root/.npm
 
+# Install the pre-commit framework, for the Git hook declared in
+# `.pre-commit-config.yaml`. It's installed under `/opt`, not the user's home
+# directory, because `pre-commit install` writes the path of its Python
+# interpreter into the hook script, and the hook is shared with the host via the
+# bind-mounted `.git` directory. A path that doesn't exist on the host makes
+# the hook fall back to whichever `pre-commit` is on the host's `PATH`.
+ARG PRE_COMMIT_VERSION=4.6.0
+RUN apt-get update \
+    && apt-get install --yes --no-install-recommends pipx \
+    && PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install "pre-commit==${PRE_COMMIT_VERSION}" \
+    && rm -rf /var/lib/apt/lists/* /root/.cache
+
 # Drop back to the non-root user, which the base image provides. Everything
 # above needs root to install into system paths; everything from here on,
 # including the running container, MUST NOT. Bind-mounted project files are

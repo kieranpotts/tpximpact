@@ -1,0 +1,43 @@
+#
+# Pre-commit hooks configuration.
+#
+# See https://pre-commit.com for more information.
+#
+# Install the framework:
+#   pipx install pre-commit
+#
+# Install the git hook scripts (the devcontainer does this automatically):
+#   pre-commit install
+#
+# Run the hooks without committing:
+#   pre-commit run --all-files
+#
+# See: docs > development > pre-commit.
+#
+
+default_install_hook_types: [pre-commit]
+
+# Stop at the first failing hook, like `make check` does.
+fail_fast: true
+
+repos:
+  - repo: local
+    # The linters, then the automated test suite, against the staged changes.
+    # pre-commit stashes unstaged changes while they run. The acceptance tests
+    # are left to `make check`, before pushing.
+    hooks:
+      - id: make-lint
+        name: Run the linters (make lint)
+        entry: make lint
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]
+
+      - id: make-test
+        name: Run the automated test suite (make test)
+        entry: make test
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]

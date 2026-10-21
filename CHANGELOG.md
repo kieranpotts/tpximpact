@@ -9,11 +9,13 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
-**Refactoring and tidying.**
+**Code refactoring and workflow refinement.**
 
 - Refacture API service application code into traditional DDD layers.
 - Requirements and their acceptance tests cross-reference each other.
 - `run check` now runs all static and dynamic checks sequentially.
+- A pre-commit hook runs `make lint` and `make test` before every commit.
+- The devcontainer installs the pre-commit hook at bootup.
 
 ## [0.2.0] - 2026-10-21
 

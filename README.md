@@ -61,8 +61,8 @@ a development (non-production ready) trunk — no feature branches.
 
 <!-- TODO: Link to relevant ADRs that answer other questions from the brief. -->
 
-**Development time:** ~2.5 working days to MVP. I would expect delivery time to
-be at least 2x this for production-grade work.
+**Development time:** ~2.5 working days so far. I would expect delivery time to
+be at least 2x this for production-grade work. <!-- TODO: Update final delivery time. -->
 
 ## 📓 Developer documentation
 

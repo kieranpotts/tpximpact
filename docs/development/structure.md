@@ -26,6 +26,7 @@ for everything that proves it works, and `docs/` for everything that explains it
 │   └── acceptance/           # End-to-end acceptance tests of the whole system (npm package).
 │
 ├── .devcontainer/
+├── .pre-commit-config.yaml   # Git hook that runs `make lint` and `make test` before every commit.
 ├── CHANGELOG.md
 ├── compose.yaml              # Runs the whole system locally.
 ├── Makefile
