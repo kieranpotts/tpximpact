@@ -129,6 +129,10 @@ These words can't be used as aliases, whatever their case: `shorten`, `urls`,
 `api`, `docs`, `health`, `metrics`, `static`, and `assets`. The first two are
 API routes. The rest are held back for routes the API service may need later.
 
+Nor can `v` be followed by one or more digits, such as `v1` or `v10`, whatever
+its case. These are held back for versioned API paths, such as
+`/v1/openapi.yaml`.
+
 ### R3 — Aliases are case-sensitive
 
 `MyLink` and `mylink` are different aliases. A short URL only resolves when
@@ -145,13 +149,17 @@ alias, or about how many exist. It's never a reserved alias.
 After surrounding whitespace is trimmed, a destination URL is valid when:
 
 - it is at most 2,048 characters long;
+- it uses only printable ASCII characters, with no spaces;
 - it is an absolute URL with the scheme `http` or `https`;
 - it has a host name;
 - it has no embedded user name or password (`https://user:pass@host/`);
 - and its host is not the system's own public host, so a short URL can't
   redirect to itself or to another short URL.
 
-Internationalised domain names must be given in their ASCII form.
+Anything else must be percent-encoded, and internationalised domain names
+must be given in their ASCII form. A browser's address bar copies URLs in
+this form. The rule keeps every destination URL safe to send, unchanged, in
+the `Location` header of a redirect.
 
 The system does not check that the URL exists or is reachable.
 
