@@ -18,7 +18,7 @@ sealed interface Parsed<out T> {
  * Every way that input can break a business rule. Each names one rule from
  * the specification.
  *
- * See: docs > specs, R1 to R6.
+ * See: docs > specs > R1 to R6.
  */
 enum class Violation {
     ALIAS_INVALID_LENGTH,

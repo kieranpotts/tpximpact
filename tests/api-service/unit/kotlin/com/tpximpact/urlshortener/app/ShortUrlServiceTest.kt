@@ -9,8 +9,10 @@ import com.tpximpact.urlshortener.domain.RandomAliasGenerator
 import com.tpximpact.urlshortener.domain.valid
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.net.URI
@@ -98,6 +100,46 @@ class ShortUrlServiceTest {
     fun `Resolves an alias that doesn't exist to nothing`() =
         runBlocking {
             assertNull(service().resolve(alias("my-alias")))
+        }
+
+    // Requirement: B6
+    @Test
+    fun `Deletes a short URL, which then resolves to nothing`() =
+        runBlocking {
+            service().shorten(destination, alias("my-alias"))
+
+            assertTrue(service().delete(alias("my-alias")))
+            assertNull(service().resolve(alias("my-alias")))
+        }
+
+    // Requirement: B6
+    @Test
+    fun `Deletes nothing for an alias that doesn't exist`() =
+        runBlocking {
+            assertFalse(service().delete(alias("my-alias")))
+        }
+
+    // Requirement: R10
+    @Test
+    fun `Lets a deleted alias be used again, straight away`() =
+        runBlocking {
+            val other = DestinationUrl.parse("https://other.example/", PublicBaseUrl(URI("http://sho.rt"))).valid()
+            service().shorten(destination, alias("reused"))
+            service().delete(alias("reused"))
+
+            service().shorten(other, alias("reused"))
+
+            assertEquals(other, service().resolve(alias("reused")))
+        }
+
+    // Requirements: B7, R11
+    @Test
+    fun `Lists every short URL, newest first`() =
+        runBlocking {
+            service().shorten(destination, alias("first"))
+            service().shorten(destination, alias("second"))
+
+            assertEquals(listOf(alias("second"), alias("first")), service().list().map { it.alias })
         }
 
     @Test

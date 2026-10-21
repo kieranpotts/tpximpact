@@ -4,7 +4,7 @@ package com.tpximpact.urlshortener.domain
  * The path segment that identifies a short URL. Custom and random aliases
  * share one namespace, and one set of rules. Aliases are case-sensitive.
  *
- * See: docs > specs, R1 to R3.
+ * See: docs > specs > R1 to R3.
  * See: docs > decisions > 0009.
  */
 @JvmInline
@@ -36,5 +36,12 @@ value class Alias private constructor(
                 versionSegment.matches(value) -> Parsed.Invalid(Violation.ALIAS_RESERVED)
                 else -> Parsed.Valid(Alias(value))
             }
+
+        /**
+         * Restores an alias that was valid when it was stored. It's not
+         * checked again, so that a stored alias can still be listed and
+         * deleted after a rule changes.
+         */
+        fun fromStorage(value: String) = Alias(value)
     }
 }

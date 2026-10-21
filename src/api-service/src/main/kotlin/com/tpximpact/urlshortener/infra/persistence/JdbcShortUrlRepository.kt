@@ -2,6 +2,7 @@ package com.tpximpact.urlshortener.infra.persistence
 
 import com.tpximpact.urlshortener.domain.Alias
 import com.tpximpact.urlshortener.domain.DestinationUrl
+import com.tpximpact.urlshortener.domain.ShortUrl
 import com.tpximpact.urlshortener.domain.ShortUrlRepository
 import com.tpximpact.urlshortener.domain.StorageUnavailableException
 import kotlinx.coroutines.Dispatchers
@@ -11,6 +12,7 @@ import java.sql.SQLException
 import java.sql.SQLNonTransientConnectionException
 import java.sql.SQLRecoverableException
 import java.sql.SQLTransientException
+import java.time.OffsetDateTime
 import javax.sql.DataSource
 
 /**
@@ -50,6 +52,33 @@ class JdbcShortUrlRepository(
             }
         }
 
+    override suspend fun list(): List<ShortUrl> =
+        withConnection { connection ->
+            connection.prepareStatement(SELECT_ALL).use { statement ->
+                statement.executeQuery().use { rs ->
+                    buildList {
+                        while (rs.next()) {
+                            add(
+                                ShortUrl(
+                                    Alias.fromStorage(rs.getString(1)),
+                                    DestinationUrl.fromStorage(rs.getString(2)),
+                                    rs.getObject(3, OffsetDateTime::class.java).toInstant(),
+                                ),
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+    override suspend fun delete(alias: Alias): Boolean =
+        withConnection { connection ->
+            connection.prepareStatement(DELETE_BY_ALIAS).use { statement ->
+                statement.setString(1, alias.value)
+                statement.executeUpdate() == 1
+            }
+        }
+
     /**
      * Runs [block] with a pooled connection, on the I/O dispatcher. Throws
      * [StorageUnavailableException] if the database can't be reached, or
@@ -69,6 +98,12 @@ class JdbcShortUrlRepository(
     private companion object {
         const val INSERT = "INSERT INTO short_url (alias, full_url) VALUES (?, ?) ON CONFLICT (alias) DO NOTHING"
         const val SELECT_BY_ALIAS = "SELECT full_url FROM short_url WHERE alias = ?"
+        const val DELETE_BY_ALIAS = "DELETE FROM short_url WHERE alias = ?"
+
+        // The "C" collation compares aliases character by character, as
+        // `ShortUrl.listOrder` does, whatever the database's locale.
+        const val SELECT_ALL =
+            "SELECT alias, full_url, created_at FROM short_url ORDER BY created_at DESC, alias COLLATE \"C\""
 
         /**
          * SQLSTATE classes that mean the database is down, overloaded, or

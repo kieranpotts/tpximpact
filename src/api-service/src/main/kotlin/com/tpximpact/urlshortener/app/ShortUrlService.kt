@@ -3,6 +3,7 @@ package com.tpximpact.urlshortener.app
 import com.tpximpact.urlshortener.domain.Alias
 import com.tpximpact.urlshortener.domain.AliasGenerator
 import com.tpximpact.urlshortener.domain.DestinationUrl
+import com.tpximpact.urlshortener.domain.ShortUrl
 import com.tpximpact.urlshortener.domain.ShortUrlRepository
 
 /**
@@ -42,6 +43,15 @@ class ShortUrlService(
 
     /** Returns the destination URL of [alias], or null if it doesn't exist. */
     suspend fun resolve(alias: Alias): DestinationUrl? = repository.find(alias)
+
+    /** Returns every short URL, newest first. */
+    suspend fun list(): List<ShortUrl> = repository.list()
+
+    /**
+     * Deletes the short URL with [alias], so the alias is free to use again
+     * at once. Returns false if it doesn't exist.
+     */
+    suspend fun delete(alias: Alias): Boolean = repository.delete(alias)
 
     companion object {
         const val MAX_RANDOM_ALIAS_ATTEMPTS = 5

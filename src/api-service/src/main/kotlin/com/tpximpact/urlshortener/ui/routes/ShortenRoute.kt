@@ -30,7 +30,7 @@ private data class ShortenResponse(
 /**
  * `POST /shorten` creates a short URL, with a custom alias or a random one.
  *
- * See: docs > specs, B1 to B4, B12, and B13.
+ * See: docs > specs > B1 to B4, B12, and B13.
  */
 fun Route.shortenRoute(
     shortUrls: ShortUrlService,
@@ -68,7 +68,7 @@ private fun parseShortenRequest(
         }.valueOrNull { errors += fieldError("destinationUrl", it) }
 
     // Only an absent or null alias asks for a random one. An empty one is
-    // invalid. See: docs > specs, R6.
+    // invalid. See: docs > specs > R6.
     val customAlias =
         when (val value = body["customAlias"]) {
             null, JsonNull -> null

@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto'
-import type { APIRequestContext } from '@playwright/test'
+import { expect, type APIRequestContext } from '@playwright/test'
 import { publicBaseUrl } from './urls.js'
 
 /** Calls `POST /shorten` on the API service, with a JSON body. */
@@ -13,6 +13,28 @@ export async function shorten (
 /** Calls `GET /{alias}` on the API service, without following the redirect. */
 export async function follow (request: APIRequestContext, alias: string) {
   return request.get(`${publicBaseUrl}/${alias}`, { maxRedirects: 0 })
+}
+
+/** One item of the list that `GET /urls` returns. */
+export interface ListedShortUrl {
+  alias: string
+  destinationUrl: string
+  shortUrl: string
+}
+
+/** Calls `GET /urls` on the API service, and returns the list. */
+export async function listShortUrls (request: APIRequestContext) {
+  const response = await request.get(`${publicBaseUrl}/urls`)
+  expect(response.status()).toBe(200)
+  return (await response.json()) as ListedShortUrl[]
+}
+
+/** Calls `DELETE /{alias}` on the API service. */
+export async function deleteShortUrl (
+  request: APIRequestContext,
+  alias: string
+) {
+  return request.delete(`${publicBaseUrl}/${alias}`)
 }
 
 /**

@@ -12,7 +12,7 @@ fun interface AliasGenerator {
  * letters and digits, with a cryptographically secure random source. An
  * alias that breaks a rule, by being reserved, is never returned.
  *
- * See: docs > specs, R4.
+ * See: docs > specs > R4.
  * See: docs > decisions > 0010.
  */
 class RandomAliasGenerator(

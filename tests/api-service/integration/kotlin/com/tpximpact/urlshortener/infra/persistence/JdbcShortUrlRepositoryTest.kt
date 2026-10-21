@@ -4,6 +4,7 @@ import com.tpximpact.urlshortener.domain.Alias
 import com.tpximpact.urlshortener.domain.DestinationUrl
 import com.tpximpact.urlshortener.domain.Parsed
 import com.tpximpact.urlshortener.domain.PublicBaseUrl
+import com.tpximpact.urlshortener.domain.ShortUrl
 import com.tpximpact.urlshortener.domain.StorageUnavailableException
 import com.tpximpact.urlshortener.infra.config.DatabaseConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -24,6 +25,7 @@ import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.postgresql.PostgreSQLContainer
 import java.net.URI
+import java.time.Instant
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.measureTime
 
@@ -161,6 +163,104 @@ class JdbcShortUrlRepositoryTest {
             assertEquals("HTTPS://Example.COM:443/a/../b?x=%7E&y=1#Top", repository.find(alias("odd"))?.value)
         }
 
+    // Requirement: B6
+    @Test
+    fun `Deletes a stored short URL`() =
+        runBlocking {
+            repository.insert(alias("my-alias"), url("https://example.com/"))
+            repository.insert(alias("other"), url("https://example.com/"))
+
+            assertTrue(repository.delete(alias("my-alias")))
+            assertNull(repository.find(alias("my-alias")))
+            assertEquals(setOf("other"), rows().keys)
+        }
+
+    // Requirement: B6
+    @Test
+    fun `Deletes nothing for an alias that isn't stored`() =
+        runBlocking {
+            assertFalse(repository.delete(alias("my-alias")))
+        }
+
+    // Requirement: R3
+    @Test
+    fun `Deletes an alias only in the case it was stored in`() =
+        runBlocking {
+            repository.insert(alias("MyLink"), url("https://example.com/"))
+
+            assertFalse(repository.delete(alias("mylink")))
+            assertEquals(setOf("MyLink"), rows().keys)
+        }
+
+    // Requirement: R10
+    @Test
+    fun `Stores a deleted alias again, straight away`() =
+        runBlocking {
+            repository.insert(alias("reused"), url("https://first.example/"))
+            repository.delete(alias("reused"))
+
+            assertTrue(repository.insert(alias("reused"), url("https://second.example/")))
+            assertEquals(url("https://second.example/"), repository.find(alias("reused")))
+        }
+
+    // Requirement: B7
+    @Test
+    fun `Lists every stored short URL`() =
+        runBlocking {
+            val before = Instant.now().minusSeconds(60)
+            repository.insert(alias("my-alias"), url("HTTPS://Example.COM/a/../b"))
+
+            val listed = repository.list().single()
+
+            assertEquals(alias("my-alias"), listed.alias)
+            assertEquals("HTTPS://Example.COM/a/../b", listed.destinationUrl.value)
+            assertTrue(listed.createdAt.isAfter(before), "Created at ${listed.createdAt}")
+        }
+
+    // Requirement: B7
+    @Test
+    fun `Lists nothing when nothing is stored`() =
+        runBlocking {
+            assertEquals(emptyList<ShortUrl>(), repository.list())
+        }
+
+    // Requirement: R11
+    @Test
+    fun `Lists the newest first`() =
+        runBlocking {
+            repository.insert(alias("first"), url("https://example.com/"))
+            repository.insert(alias("second"), url("https://example.com/"))
+            repository.insert(alias("third"), url("https://example.com/"))
+
+            assertEquals(listOf("third", "second", "first"), repository.list().map { it.alias.value })
+        }
+
+    // Requirement: R11
+    @Test
+    fun `Lists those created at the same moment by alias, character by character`() =
+        runBlocking {
+            // Inserted together, so that they share a moment. A locale's
+            // collation would put `Tie-c` among the others, or ignore the
+            // hyphens.
+            dataSource.connection.use { connection ->
+                connection.createStatement().use {
+                    it.execute(
+                        "INSERT INTO short_url (alias, full_url, created_at) VALUES " +
+                            "('tie_b', 'https://example.com/', '2026-01-01T00:00:00Z'), " +
+                            "('Tie-c', 'https://example.com/', '2026-01-01T00:00:00Z'), " +
+                            "('tie-a', 'https://example.com/', '2026-01-01T00:00:00Z'), " +
+                            "('tiea', 'https://example.com/', '2026-01-01T00:00:00Z'), " +
+                            "('older', 'https://example.com/', '2025-01-01T00:00:00Z')",
+                    )
+                }
+            }
+
+            val listed = repository.list()
+
+            assertEquals(listOf("Tie-c", "tie-a", "tie_b", "tiea", "older"), listed.map { it.alias.value })
+            assertEquals(listed.sortedWith(ShortUrl.listOrder), listed)
+        }
+
     @Test
     fun `Reports the database unavailable, promptly, once it stops`() {
         // A database of its own, so that stopping it doesn't affect other tests.
@@ -180,10 +280,12 @@ class JdbcShortUrlRepositoryTest {
                         assertThrows<StorageUnavailableException> {
                             runBlocking { repository.insert(alias("other"), url("https://example.com/")) }
                         }
+                        assertThrows<StorageUnavailableException> { runBlocking { repository.list() } }
+                        assertThrows<StorageUnavailableException> { runBlocking { repository.delete(alias("my-alias")) } }
                     }
                 // Each call waits at most the pool's timeout for a connection, and
                 // a little to give up.
-                assertTrue(elapsed < (2 * DATABASE_TIMEOUT_MILLIS + 1_000).milliseconds, "Took $elapsed")
+                assertTrue(elapsed < (4 * DATABASE_TIMEOUT_MILLIS + 1_000).milliseconds, "Took $elapsed")
             }
         }
     }

@@ -14,7 +14,7 @@ import io.ktor.server.routing.get
 /**
  * `GET /{alias}` redirects to the alias's destination URL, exactly as stored.
  *
- * See: docs > specs, B5 and R7.
+ * See: docs > specs > B5 and R7.
  * See: docs > design > scenarios > follow-short-url.
  */
 fun Route.redirectRoute(shortUrls: ShortUrlService) {

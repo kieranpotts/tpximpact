@@ -1,5 +1,11 @@
 import { expect, test } from '@playwright/test'
-import { destinationUrl, follow, shorten, uniqueAlias } from './api.js'
+import {
+  deleteShortUrl,
+  destinationUrl,
+  follow,
+  shorten,
+  uniqueAlias,
+} from './api.js'
 import { compose, startAndWait } from './compose.js'
 import { publicBaseUrl } from './urls.js'
 
@@ -38,6 +44,12 @@ test.describe('Survives a database outage', () => {
 
     const shortened = await shorten(request, { destinationUrl })
     expect(shortened.status()).toBe(503)
+
+    const listed = await request.get(`${publicBaseUrl}/urls`)
+    expect(listed.status()).toBe(503)
+
+    const deleted = await deleteShortUrl(request, customAlias)
+    expect(deleted.status()).toBe(503)
 
     const contract = await request.get(`${publicBaseUrl}/openapi.yaml`)
     expect(contract.status()).toBe(200)

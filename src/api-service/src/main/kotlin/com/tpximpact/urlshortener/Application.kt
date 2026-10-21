@@ -11,6 +11,8 @@ import com.tpximpact.urlshortener.infra.persistence.migrate
 import com.tpximpact.urlshortener.ui.installProblems
 import com.tpximpact.urlshortener.ui.installRequestIds
 import com.tpximpact.urlshortener.ui.routes.contractRoute
+import com.tpximpact.urlshortener.ui.routes.deleteRoute
+import com.tpximpact.urlshortener.ui.routes.listRoute
 import com.tpximpact.urlshortener.ui.routes.redirectRoute
 import com.tpximpact.urlshortener.ui.routes.shortenRoute
 import com.tpximpact.urlshortener.ui.routes.welcomeRoute
@@ -75,6 +77,8 @@ fun Application.module(
         welcomeRoute()
         contractRoute()
         shortenRoute(shortUrls, publicBaseUrl)
+        listRoute(shortUrls, publicBaseUrl)
         redirectRoute(shortUrls)
+        deleteRoute(shortUrls)
     }
 }

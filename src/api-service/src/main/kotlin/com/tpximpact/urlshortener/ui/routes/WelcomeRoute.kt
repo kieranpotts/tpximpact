@@ -23,7 +23,7 @@ private val welcomePage =
  * `GET /` greets anyone who visits the bare public base URL. No alias can be
  * empty, so the root path never shadows a short URL.
  *
- * See: docs > specs, B15.
+ * See: docs > specs > B15.
  */
 fun Route.welcomeRoute() {
     get("/") {

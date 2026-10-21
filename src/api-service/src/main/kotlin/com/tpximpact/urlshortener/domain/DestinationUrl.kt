@@ -7,7 +7,7 @@ import java.net.URISyntaxException
  * Where a short URL redirects to. It's stored and redirected to exactly as
  * given, once trimmed.
  *
- * See: docs > specs, R5 and R7.
+ * See: docs > specs > R5 and R7.
  * See: docs > decisions > 0011.
  */
 @JvmInline

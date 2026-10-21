@@ -21,6 +21,15 @@ interface ShortUrlRepository {
 
     /** Returns the destination URL stored under [alias], or null if there's none. */
     suspend fun find(alias: Alias): DestinationUrl?
+
+    /** Returns every stored short URL, in [ShortUrl.listOrder]. */
+    suspend fun list(): List<ShortUrl>
+
+    /**
+     * Removes the short URL stored under [alias], and returns true once it's
+     * removed. Returns false if there's none.
+     */
+    suspend fun delete(alias: Alias): Boolean
 }
 
 /**

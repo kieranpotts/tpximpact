@@ -2,6 +2,7 @@ package com.tpximpact.urlshortener.ui
 
 import com.tpximpact.urlshortener.domain.InMemoryShortUrlRepository
 import com.tpximpact.urlshortener.ui.routes.shorten
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -135,6 +136,16 @@ class HostileInputTest {
     fun `A hostile alias never gets a server error, nor a lookup`(path: String) =
         apiTest(repository) { client ->
             val response = client.get(path)
+
+            assertEquals(HttpStatusCode.NotFound, response.status)
+            assertEquals(0, repository.lookups.get())
+        }
+
+    @ParameterizedTest
+    @MethodSource("aliasPaths")
+    fun `A hostile alias to delete never gets a server error, nor a lookup`(path: String) =
+        apiTest(repository) { client ->
+            val response = client.delete(path)
 
             assertEquals(HttpStatusCode.NotFound, response.status)
             assertEquals(0, repository.lookups.get())
