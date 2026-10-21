@@ -50,10 +50,6 @@ curl http://localhost:8080/
 # URL shortener API service
 ```
 
-> [!NOTE]
-> The devcontainer shares the host's network, so the ports that Docker
-> Compose and Testcontainers publish are reachable on `localhost`.
-
 To run the system in the background, and wait until every container is
 healthy:
 
@@ -75,6 +71,8 @@ WEB_PORT=3001 make acceptance
 To set them permanently, copy `.env.example` to `.env` and set them there.
 Docker Compose reads `.env` automatically, and variables set in the shell take
 precedence over it.
+
+See [Troubleshooting](./troubleshooting.md#-ports) if you hit a port conflict.
 
 ### Stopping
 

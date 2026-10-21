@@ -12,6 +12,9 @@ workflow.
 - [**Repository filesystem structure**](./structure.md) \
   How the repository is organized on disk.
 
+- [**Troubleshooting**](./troubleshooting.md) \
+  Port conflicts, Docker, tooling, and devcontainer problems, and their fixes.
+
 - [**Committing**](./committing.md) \
   The revision types, commit message format, and committing practices this
   repository expects.
