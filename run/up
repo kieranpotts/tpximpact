@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+#
+# Builds and starts the whole system under Docker Compose, in the background,
+# and waits until every container is healthy. Running it again rebuilds and
+# recreates only what has changed.
+#
+# Arguments are passed on to `docker compose up`, eg. `./run/up api` starts
+# only the API service and what it depends on.
+#
+
+# Exit immediately on error (-e), treat unset variables as errors (-u), and
+# propagate failures through pipelines (-o pipefail).
+set -euo pipefail
+
+# Resolve the project root (parent of the run/ directory) and change into it.
+# This ensures the script behaves the same regardless of where it's invoked
+# from.
+cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+
+if ! docker compose up --build --detach --wait "$@"; then
+  docker compose logs
+  exit 1
+fi
+
+# Ask Compose which host ports it published, so that `WEB_PORT` and `API_PORT`
+# are honored whether they're set in the shell or in `.env`.
+web_port="$(docker compose port web 3000 2>/dev/null || true)"
+api_port="$(docker compose port api 8080 2>/dev/null || true)"
+
+echo
+[[ -n "${web_port}" ]] && echo "Web client:  http://localhost:${web_port##*:}"
+[[ -n "${api_port}" ]] && echo "API service: http://localhost:${api_port##*:}"
+echo "Stop the system with \`make down\`."

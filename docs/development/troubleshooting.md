@@ -17,11 +17,11 @@ Find what's using the port:
 ss -ltnp | grep -E ':(3000|8080)\b'
 ```
 
-If it's another copy of this system, stop it with `docker compose down`.
-Otherwise publish on different ports, with `WEB_PORT` and `API_PORT`:
+If it's another copy of this system, stop it with `make down`. Otherwise
+publish on different ports, with `WEB_PORT` and `API_PORT`:
 
 ```sh
-WEB_PORT=3001 API_PORT=8081 docker compose up --build
+WEB_PORT=3001 API_PORT=8081 make up
 ```
 
 To set them permanently, copy `.env.example` to `.env` and set them there. A
@@ -33,9 +33,9 @@ the same addresses, regardless.
 
 ### `make acceptance` fails to start the system
 
-`make acceptance` publishes the same ports as `docker compose up`. If a copy
-of the system is already running, the acceptance run collides with it. Stop the
-other copy first, or set `WEB_PORT` and `API_PORT` for the acceptance run. The
+`make acceptance` publishes the same ports as `make up`. If a copy of the
+system is already running, the acceptance run collides with it. Stop the other
+copy first, with `make down`, or set `WEB_PORT` and `API_PORT` for the acceptance run. The
 script reads the ports back from Compose, so the tests follow wherever they
 were published.
 
@@ -67,12 +67,16 @@ them on `localhost`, which works because the devcontainer shares the host's
 network (`--network=host`, with `TESTCONTAINERS_HOST_OVERRIDE=localhost`). If
 you edit `.devcontainer/devcontainer.json`, keep those two settings.
 
-### `docker compose up --wait` fails, or a container is "unhealthy"
+### `make up` fails, or a container is "unhealthy"
 
-Look at the logs of the container that Compose names:
+`make up` prints every container's logs when the system fails to become
+healthy. Check which container is unhealthy, and follow its logs:
 
 ```sh
-docker compose logs api
+make status
+
+# Or:
+./run/logs api
 ```
 
 The API service has no health endpoint, at this time. It counts as healthy once
@@ -84,10 +88,10 @@ The `db` container must be healthy before `api` starts.
 ### Old data is still there, or the database won't start after a change
 
 The database stores its data on the `db-data` volume, which survives
-`docker compose down`. To start from an empty database, delete the volume too:
+`make down`. To start from an empty database, delete the volume too:
 
 ```sh
-docker compose down --volumes
+make reset
 ```
 
 The volume is mounted at `/var/lib/postgresql`, not `/var/lib/postgresql/data`,
@@ -104,8 +108,10 @@ fail, which is deliberate.
 ### A previous acceptance run left containers behind
 
 `make acceptance` removes its containers and volume when it exits, pass or fail.
-If the run was killed hard, eg. with `kill -9`, clean up by hand. It uses its
-own Compose project:
+If the run was killed hard, eg. with `kill -9`, `make reset` cleans up after it.
+Note that this also deletes the stored data of a system started with `make up`.
+To remove only the acceptance run's leftovers, which use their own Compose
+project:
 
 ```sh
 COMPOSE_PROJECT_NAME=url-shortener-acceptance docker compose down --volumes --remove-orphans

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+#
+# Stops the system and removes its containers. The database's data is kept on
+# the `db-data` volume. To delete it too, see `run/reset`.
+#
+# Arguments are passed on to `docker compose down`.
+#
+
+# Exit immediately on error (-e), treat unset variables as errors (-u), and
+# propagate failures through pipelines (-o pipefail).
+set -euo pipefail
+
+# Resolve the project root (parent of the run/ directory) and change into it.
+# This ensures the script behaves the same regardless of where it's invoked
+# from.
+cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+
+docker compose down --remove-orphans "$@"

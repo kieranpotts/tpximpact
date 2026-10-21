@@ -4,7 +4,7 @@
 # Runs the acceptance tests against the whole system, under Docker Compose.
 #
 # The system runs as its own Compose project, with its own database volume, so
-# it doesn't touch the data of a system started with `docker compose up`. It's
+# it doesn't touch the data of a system started with `run/up`. It's
 # removed afterwards, pass or fail. Its ports are the same, though, so stop
 # any other running copy of the system first.
 #

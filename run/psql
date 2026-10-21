@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+#
+# Opens a `psql` session on the running system's database. The database isn't
+# published on the host, so this runs `psql` inside the `db` container.
+#
+# Arguments are passed on to `psql`, eg. `./run/psql -c '\dt'`.
+#
+
+# Exit immediately on error (-e), treat unset variables as errors (-u), and
+# propagate failures through pipelines (-o pipefail).
+set -euo pipefail
+
+# Resolve the project root (parent of the run/ directory) and change into it.
+# This ensures the script behaves the same regardless of where it's invoked
+# from.
+cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+
+docker compose exec db psql --username=url_shortener --dbname=url_shortener "$@"

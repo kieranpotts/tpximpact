@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+#
+# Stops the system and deletes its stored data, so the next `run/up` starts
+# from an empty database. Also removes anything a killed acceptance run left
+# behind.
+#
+# Asks for confirmation first. Pass `--yes` to skip it.
+#
+
+# Exit immediately on error (-e), treat unset variables as errors (-u), and
+# propagate failures through pipelines (-o pipefail).
+set -euo pipefail
+
+# Resolve the project root (parent of the run/ directory) and change into it.
+# This ensures the script behaves the same regardless of where it's invoked
+# from.
+cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+
+if [[ "${1:-}" != "--yes" ]]; then
+  read -rp "This deletes the system's stored data. Continue? [y/N] " confirm
+  if [[ ! "${confirm}" =~ ^[Yy]$ ]]; then
+    echo "Aborted." >&2
+    exit 1
+  fi
+fi
+
+docker compose down --volumes --remove-orphans
+
+# The acceptance tests run as their own Compose project. See `run/acceptance`.
+COMPOSE_PROJECT_NAME="url-shortener-acceptance" \
+  docker compose down --volumes --remove-orphans

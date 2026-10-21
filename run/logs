@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+#
+# Follows the logs of the running system. Press Ctrl+C to stop following.
+#
+# Arguments are passed on to `docker compose logs`, eg. `./run/logs api` shows
+# only the API service's logs.
+#
+
+# Exit immediately on error (-e), treat unset variables as errors (-u), and
+# propagate failures through pipelines (-o pipefail).
+set -euo pipefail
+
+# Resolve the project root (parent of the run/ directory) and change into it.
+# This ensures the script behaves the same regardless of where it's invoked
+# from.
+cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+
+docker compose logs --follow --tail=100 "$@"
