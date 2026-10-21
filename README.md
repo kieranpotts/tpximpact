@@ -29,9 +29,17 @@ Features are then built incrementally into the walking skeleton against the
 [MVP delivery plan](./docs/plans/mvp/README.md). A total of nine tasks (T01-T09)
 take the system to the requirements specified in the project brief.
 
-<!-- TODO: AI-assisted development workflow. Loose TDD approach to construction phase. -->
+Development is AI-assisted. I coordinated coding agents to produce first drafts
+of most of the code and other artifacts. I always review, correct, and refine
+the output manually before committing — though for this task, due to time
+constraints, I have been less rigorous in manual quality controls than I would
+normally be. I match the LLM to the task: Opus for design and deep reasoning,
+Sonnet for general implementation, and alternating between Kimi and GLM for
+documentation drafts and other routine, well-bounded work.
 
-<!-- TODO: Answer other questions from brief. -->
+Testing follows a loose TDD approach. The [requirements specification](./docs/specs/)
+determines the tests, and each behavior is committed together with the tests that
+verify it — though the tests are not necessarily written first.
 
 Commits are small and atomic. Each one is prefixed by a type, which is loosely
 based on Conventional Commits. This important commit types are `behavior` for
@@ -45,7 +53,15 @@ The changelog is maintained manually, though an interactive script
 (`make version`) is used to tag stable release points and capture the bundled
 changes in the changelog.
 
-**Development time:** ~2 working days so far.
+This workflow is indicative of my current working methodology for my personal
+coding projects: specification and design up front, agent-drafted first versions,
+and small, tested, atomic increments that I review before committing directly to
+a development (non-production ready) trunk — no feature branches.
+
+<!-- TODO: Link to relevant ADRs that answer other questions from the brief. -->
+
+**Development time:** ~2.5 working days to MVP. I would expect delivery time to
+be at least 2x this, for production-grade work.
 
 ## 📓 Developer documentation
 
