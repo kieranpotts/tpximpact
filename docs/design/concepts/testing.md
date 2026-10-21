@@ -12,6 +12,11 @@ suite proves the assembled system works.
 
 Run the first three with `make test`, and acceptance with `make acceptance`.
 
+A few acceptance tests stop and start the system's containers, to show that
+data survives restarts and that the API service recovers from a database
+outage. They form Playwright's `disruptive` project, which runs one test at a
+time, after every other test has finished.
+
 The API service's HTTP tests run through `apiTest`, which starts the service
 in memory. Its client validates every response against the contract, and fails
 the test on an undocumented path, method, or status code, or on a body of the

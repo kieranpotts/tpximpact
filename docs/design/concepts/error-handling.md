@@ -20,16 +20,21 @@ response.
 | `payload-too-large`      | 413    | Body over 16 KiB.                                          |
 | `unsupported-media-type` | 415    | `Content-Type` isn't `application/json`.                   |
 | `internal-error`         | 500    | Unexpected fault. `detail` gives only the request ID.      |
+| `service-unavailable`    | 503    | The database is down, or too slow. `detail` as for `500`.  |
 
 Rules:
 
 - No client input produces a `5xx`.
-- `500` responses never include exception messages or stack traces. These are
+- `5xx` responses never include exception messages or stack traces. These are
   logged at `ERROR` with the request ID.
+- The JDBC repository turns an error that means the database is unavailable
+  (a pool timeout, a lost connection, or a cancelled statement) into a
+  `StorageUnavailableException`, which becomes a `503`. Any other database
+  error is a fault, and becomes a `500`.
 - Every response carries an `X-Request-Id` header, accepted from the caller or
   generated.
-- A browser following a dead short URL (`Accept: text/html`) gets a small HTML
-  "link not found" page instead of JSON.
+- A browser following a dead short URL (a `GET` with `text/html` in its
+  `Accept` header) gets a small HTML "link not found" page instead of JSON.
 
 The `message` texts follow GOV.UK error message style, because the web client
 shows them verbatim.

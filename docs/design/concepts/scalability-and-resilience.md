@@ -17,8 +17,10 @@ small, so storage and throughput are not a concern at MVP volumes.
   replaced.
 
 - **Graceful degradation.** If the database is down, the API service returns
-  `500` and the web client shows "service unavailable" with input kept. If the
-  API service is down, the web client stays up and explains the problem.
+  a `503` problem within about 2 seconds, and recovers by itself once the
+  database is back, with no restart. The web client shows "service
+  unavailable" with input kept. If the API service is down, the web client
+  stays up and explains the problem.
 
 - **Timeouts and no retries on non-idempotent calls.** Web client to API 3s,
   API to database 2s, so slow dependencies fail fast.

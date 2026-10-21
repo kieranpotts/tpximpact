@@ -20,3 +20,7 @@ If the path segment isn't a valid alias, the API service returns `404` without
 querying the database. If no row matches, it returns `404`, as an HTML page
 for browsers and problem details for everything else
 ([ADR 0014](../../decisions/0014/)).
+
+If the database can't be reached, or doesn't answer within 2 seconds, it
+returns a `503` problem. Redirects resume once the database is back, without
+restarting the API service.
