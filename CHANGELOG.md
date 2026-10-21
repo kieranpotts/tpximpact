@@ -10,6 +10,7 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 ## [Unreleased]
 
 - `GET /` (with no path) on the API service now returns a "Welcome to the URL shortener" HTML page.
+- Tighten descriptions of endpoint response types in OpenAPI spec - prettier in Postman.
 
 ## [0.3.0] - 2026-10-21
 

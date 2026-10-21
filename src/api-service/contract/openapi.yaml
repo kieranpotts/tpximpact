@@ -11,7 +11,7 @@ paths:
       summary: Get the welcome page
       responses:
         '200':
-          description: A small HTML page that welcomes visitors
+          description: Welcome page
           content:
             text/html:
               schema:
@@ -22,7 +22,7 @@ paths:
       summary: Get this API contract
       responses:
         '200':
-          description: This OpenAPI document
+          description: API contract
           content:
             application/yaml:
               schema:
@@ -66,7 +66,7 @@ paths:
                   example: my-custom-alias
       responses:
         '201':
-          description: URL successfully shortened
+          description: Short URL created
           headers:
             X-Request-Id:
               $ref: '#/components/headers/RequestId'
@@ -79,10 +79,7 @@ paths:
                     type: string
                     example: http://localhost:8080/my-custom-alias
         '400':
-          description: |
-            Malformed request, invalid input, or alias already taken. The
-            problem `type` is one of `malformed-request`,
-            `validation-failed`, or `alias-taken`.
+          description: Invalid request
           headers:
             X-Request-Id:
               $ref: '#/components/headers/RequestId'
@@ -124,7 +121,7 @@ paths:
                         code: alias-invalid-length
                         message: Alias must be between 3 and 64 characters
         '413':
-          description: Request body is larger than 16 KiB
+          description: Request body too large
           headers:
             X-Request-Id:
               $ref: '#/components/headers/RequestId'
@@ -137,7 +134,7 @@ paths:
                 title: The request body is too large
                 status: 413
         '415':
-          description: Request body is not application/json
+          description: Unsupported content type
           headers:
             Accept-Post:
               description: The media type the endpoint accepts.
@@ -165,7 +162,7 @@ paths:
         - $ref: '#/components/parameters/RequestId'
       responses:
         '200':
-          description: A list of short URLs
+          description: List of short URLs
           headers:
             X-Request-Id:
               $ref: '#/components/headers/RequestId'
@@ -226,7 +223,7 @@ paths:
         - $ref: '#/components/parameters/RequestId'
       responses:
         '204':
-          description: Successfully deleted
+          description: Short URL deleted
           headers:
             X-Request-Id:
               $ref: '#/components/headers/RequestId'
@@ -267,9 +264,7 @@ components:
 
   responses:
     InternalError:
-      description: |
-        Unexpected fault. The body exposes no internal detail, only the
-        request ID.
+      description: Internal error
       headers:
         X-Request-Id:
           $ref: '#/components/headers/RequestId'
