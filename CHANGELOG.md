@@ -9,6 +9,8 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-10-21
+
 - **API contract.** The API service serves its OpenAPI contract at `GET /openapi.yaml`.
 - API errors are RFC 9457 problem details.
 - Every API response carries an `X-Request-Id` header, which may be supplied or generated.
