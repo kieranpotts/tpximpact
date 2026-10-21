@@ -4,7 +4,7 @@ Automated tests. The structure mirrors [`src/`](../src/), with one extra
 directory for end-to-end acceptance tests.
 
 - [**`api-service/`**](./api-service/) \
-  Tests for `src/api-service`, in Kotlin with JUnit 5. `unit/` holds fast
+  Tests for `src/api-service`, in Kotlin with JUnit 6. `unit/` holds fast
   in-memory tests, including HTTP tests validated against the OpenAPI contract.
   `integration/` holds tests against PostgreSQL in Testcontainers. Both are
   compiled and run by the API service's Gradle build.
