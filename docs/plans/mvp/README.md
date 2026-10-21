@@ -2,12 +2,12 @@
 
 - Authors: Kieran Potts [@kieranpotts]
 - Created: 2026-10-20
-- Last updated: 2026-10-20
+- Last updated: 2026-10-21
 - Plan PR: —
 
 ## Status
 
-DRAFT
+IN PROGRESS
 
 ## References
 
@@ -54,19 +54,20 @@ increment that finds out corrects the docs in the same pull request.
 
 ## Task breakdown
 
-There are no tracker issues yet.
+This plan tracks the status of each increment. There is no separate issue
+tracker.
 
-| ID  | Increment                                      | Delivers                     | Tracker | Depends on |
-| --- | ---------------------------------------------- | ---------------------------- | ------- | ---------- |
-| T01 | Walking skeleton                               | Q4, Q5, Q6                   | —       | —          |
-| T02 | API service foundations, and the contract      | B14, Q1, Q2                  | —       | T01        |
-| T03 | Shorten URLs through the API                   | B1 to B4, B12, B13, R1 to R8 | —       | T02        |
-| T04 | Follow short URLs                              | B5, B8                       | —       | T03        |
-| T05 | Shorten URLs from the web client               | B9, B11, Q3                  | —       | T03        |
-| T06 | List and delete short URLs through the API     | B6, B7, R9 to R11            | —       | T04        |
-| T07 | List and delete short URLs from the web client | B10                          | —       | T05, T06   |
-| T08 | Accessibility and progressive enhancement      | —                            | —       | T07        |
-| T09 | Documentation and release                      | —                            | —       | T08        |
+| ID  | Increment                                      | Delivers                     | Status | Depends on |
+| --- | ---------------------------------------------- | ---------------------------- | ------ | ---------- |
+| T01 | Walking skeleton                               | Q4, Q5, Q6                   | DONE   | —          |
+| T02 | API service foundations, and the contract      | B14, Q1, Q2                  | TODO   | T01        |
+| T03 | Shorten URLs through the API                   | B1 to B4, B12, B13, R1 to R8 | TODO   | T02        |
+| T04 | Follow short URLs                              | B5, B8                       | TODO   | T03        |
+| T05 | Shorten URLs from the web client               | B9, B11, Q3                  | TODO   | T03        |
+| T06 | List and delete short URLs through the API     | B6, B7, R9 to R11            | TODO   | T04        |
+| T07 | List and delete short URLs from the web client | B10                          | TODO   | T05, T06   |
+| T08 | Accessibility and progressive enhancement      | —                            | TODO   | T07        |
+| T09 | Documentation and release                      | —                            | TODO   | T08        |
 
 ### Increments
 
@@ -137,6 +138,4 @@ graph LR
 
 ## Open questions
 
-- **Tracker issues.** Should each increment get a GitHub issue, so the
-  `Tracker` column can link to it, or is this plan enough tracking for a
-  one-person exercise?
+None.
