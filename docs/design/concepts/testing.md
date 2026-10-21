@@ -5,8 +5,8 @@ suite proves the assembled system works.
 
 | Suite                         | Tooling                    | Covers                                                                                           | Needs           |
 | ----------------------------- | -------------------------- | ------------------------------------------------------------------------------------------------ | --------------- |
-| API service `test`            | JUnit 5                    | Domain, service, and HTTP behavior. Responses validated against the OpenAPI contract. In-memory. | JDK             |
-| API service `integrationTest` | JUnit 5, Testcontainers    | The JDBC repository against real PostgreSQL.                                                     | JDK, Docker     |
+| API service `test`            | JUnit 6                    | Domain, service, and HTTP behavior. Responses validated against the OpenAPI contract. In-memory. | JDK             |
+| API service `integrationTest` | JUnit 6, Testcontainers    | The JDBC repository against real PostgreSQL.                                                     | JDK, Docker     |
 | Web client                    | Vitest, supertest, cheerio | Routes against a fake API service, and the API client against a local stub server.               | Node.js         |
 | Acceptance                    | Playwright                 | The whole system under Docker Compose, plus axe accessibility scans.                             | Docker, Node.js |
 
