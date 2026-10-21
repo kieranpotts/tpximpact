@@ -68,3 +68,4 @@ are out of scope, and remain proposals.
 - [0021](./0021/) Production hosting — PROPOSED
 - [0022](./0022/) Delivery pipeline (CI/CD) — PROPOSED
 - [0023](./0023/) Idempotent link creation — PROPOSED
+- [0024](./0024/) Contract tests against the running API service — PROPOSED
