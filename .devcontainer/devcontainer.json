@@ -68,7 +68,8 @@
     "TESTCONTAINERS_HOST_OVERRIDE": "localhost"
   },
 
-  "postCreateCommand": "make install",
+  // Install application dependencies.
+  // "postCreateCommand": "make install",
 
   // Configure tool-specific properties.
   "customizations": {
