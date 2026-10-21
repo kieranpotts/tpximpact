@@ -10,19 +10,19 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 USER root
 
-# JDK 25, for the API service's Gradle build.
+# Install JDK 25, for the API service's Gradle build.
 ENV JAVA_HOME=/opt/java/openjdk
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 COPY --from=eclipse-temurin:25-jdk /opt/java/openjdk /opt/java/openjdk
 
-# Node.js 24 and npm, for the web client and the test packages.
+# Install Node.js 24 and npm, for the web client and the test packages.
 COPY --from=node:24-bookworm-slim /usr/local/bin/node /usr/local/bin/node
 COPY --from=node:24-bookworm-slim /usr/local/lib/node_modules /usr/local/lib/node_modules
 RUN ln -s ../lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
     && ln -s ../lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
 
-# The system libraries that Playwright's Chromium needs, for the acceptance
-# tests. Keep the version in step with `tests/acceptance/package.json`.
+# Install the system libraries that Playwright's Chromium needs, for the
+# acceptance tests. Keep the version in step with `tests/acceptance/package.json`.
 ARG PLAYWRIGHT_VERSION=1.64.1
 RUN apt-get update \
     && npx --yes "playwright@${PLAYWRIGHT_VERSION}" install-deps chromium \
