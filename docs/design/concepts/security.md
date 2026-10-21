@@ -11,8 +11,8 @@ remain.
 | **Phishing disguise** via credentials in the URL.    | URLs with user-info are rejected.                                                                                            |
 | **Redirect loops** through the shortener's own host. | URLs on the public base URL's host are rejected.                                                                             |
 | **SQL injection.**                                   | Every query is a prepared statement. There is no dynamic SQL.                                                                |
-| **Malformed or oversized input.**                    | Bodies are capped at 16 KiB, non-JSON is refused before parsing, and field lengths are enforced in the domain and schema.    |
-| **Header splitting** via `Location`.                 | Destination URLs pass `java.net.URI` parsing, which rejects control characters.                                              |
+| **Malformed or oversized input.**                    | Bodies are capped at 16 KiB, non-JSON and deep nesting are refused before parsing, and field lengths are enforced.           |
+| **Header splitting** via `Location`.                 | Destination URLs must be printable ASCII, with no spaces or control characters, and must pass `java.net.URI` parsing.        |
 | **Information leakage.**                             | `500` bodies carry only a request ID.                                                                                        |
 | **Clickjacking** and other browser attacks.          | `helmet` sets `frame-ancestors 'none'`, `X-Content-Type-Options`, `Referrer-Policy`, and HSTS.                               |
 | **CSRF** on the web client's delete.                 | Form posts whose `Origin` doesn't match the web client's host are rejected.                                                  |

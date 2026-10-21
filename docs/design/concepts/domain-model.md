@@ -12,16 +12,16 @@ classDiagram
   }
   class Alias {
     +String value
-    +parse(String) Alias
+    +parse(String) Parsed~Alias~
   }
   class DestinationUrl {
     +String value
-    +parse(String, PublicBaseUrl) DestinationUrl
+    +parse(String, PublicBaseUrl) Parsed~DestinationUrl~
   }
   class PublicBaseUrl {
     +URI value
     +linkTo(Alias) String
-    +host() String
+    +String host
   }
   class AliasGenerator {
     <<interface>>

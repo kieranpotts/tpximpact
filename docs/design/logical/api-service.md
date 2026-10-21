@@ -48,8 +48,10 @@ The composition root, `Application.kt`, is the only place that knows about
 every layer. It reads configuration, constructs the components, and wires them
 together by hand.
 
-| Package  | Holds                                                                         |
-| -------- | ----------------------------------------------------------------------------- |
-| `http`   | The inbound adapter: routes, problem details, and request IDs.                |
-| `jdbc`   | The outbound adapter: the connection pool, migrations, and the repository.    |
-| `config` | Settings, read from the environment. See: concepts > configuration.           |
+| Package   | Holds                                                                      |
+| --------- | -------------------------------------------------------------------------- |
+| `domain`  | Value types, and the business rules. See: concepts > domain model.         |
+| `service` | The application layer: `ShortUrlService`, and its repository port.         |
+| `http`    | The inbound adapter: routes, problem details, and request IDs.             |
+| `jdbc`    | The outbound adapter: the connection pool, migrations, and the repository. |
+| `config`  | Settings, read from the environment. See: concepts > configuration.        |

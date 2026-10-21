@@ -11,15 +11,15 @@ framework ones for malformed requests, to an
 [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) `application/problem+json`
 response.
 
-| Problem type             | Status | When                                                  |
-| ------------------------ | ------ | ----------------------------------------------------- |
-| `malformed-request`      | 400    | Not valid JSON, or not a JSON object.                 |
-| `validation-failed`      | 400    | Field rules broken. `errors[]` lists every one.       |
-| `alias-taken`            | 400    | `customAlias` already exists.                         |
-| `not-found`              | 404    | The alias doesn't exist, or can't exist.              |
-| `payload-too-large`      | 413    | Body over 16 KiB.                                     |
-| `unsupported-media-type` | 415    | `Content-Type` isn't `application/json`.              |
-| `internal-error`         | 500    | Unexpected fault. `detail` gives only the request ID. |
+| Problem type             | Status | When                                                       |
+| ------------------------ | ------ | ---------------------------------------------------------- |
+| `malformed-request`      | 400    | Not valid UTF-8 JSON, nested too deeply, or not an object. |
+| `validation-failed`      | 400    | Field rules broken. `errors[]` lists every one.            |
+| `alias-taken`            | 400    | `customAlias` already exists.                              |
+| `not-found`              | 404    | The alias doesn't exist, or can't exist.                   |
+| `payload-too-large`      | 413    | Body over 16 KiB.                                          |
+| `unsupported-media-type` | 415    | `Content-Type` isn't `application/json`.                   |
+| `internal-error`         | 500    | Unexpected fault. `detail` gives only the request ID.      |
 
 Rules:
 
