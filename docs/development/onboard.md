@@ -19,7 +19,8 @@ docker compose up --build
 
 The first build takes a few minutes. Later builds reuse Docker's cache.
 
-> [!NOTE] You can run `docker compose` from the host or from inside the
+> [!NOTE]
+> You can run `docker compose` from the host or from inside the
 > devcontainer. The devcontainer talks to the host's Docker daemon, so Compose
 > starts the containers on the host, either way. The devcontainer also shares
 > the host's network, so the published ports are reachable on `localhost` from
@@ -29,7 +30,8 @@ Compose starts three containers: the database (`db`), the API service (`api`),
 and the web client (`web`). The API service starts once the database is
 healthy.
 
-> [!TIP] See [Tools](./tools.md) for full documentation on all available
+> [!TIP]
+> See [Tools](./tools.md) for full documentation on all available
 > dev lifecycle commands, or simply run `make` in the project root directory.
 
 ## 🧭 Usage
@@ -48,7 +50,8 @@ curl http://localhost:8080/
 # URL shortener API service
 ```
 
-> [!NOTE] The devcontainer shares the host's network, so the ports that Docker
+> [!NOTE]
+> The devcontainer shares the host's network, so the ports that Docker
 > Compose and Testcontainers publish are reachable on `localhost`.
 
 To run the system in the background, and wait until every container is

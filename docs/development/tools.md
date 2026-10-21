@@ -9,7 +9,8 @@ root-level `run/` directory. Logic lives in the run scripts, not the
 `Makefile`. The scripts may be run directly — eg. `./run/build` — when that's
 more convenient.
 
-> [!IMPORTANT] The `run/` scripts MUST be executable. Git records them as
+> [!IMPORTANT]
+> The `run/` scripts MUST be executable. Git records them as
 > executable, but a checkout can lose that, eg. on a filesystem without Unix
 > permissions, or with `core.fileMode` set to `false`. If `make` reports
 > `Permission denied`, run `chmod +x run/*` from the project root.
@@ -36,5 +37,6 @@ database volume, so it doesn't touch the data of a system started with
 `docker compose up`. It publishes the same ports, though, so stop any other
 running copy of the system first.
 
-> [!TIP] Arguments for Playwright can be passed by running the script directly,
+> [!TIP]
+> Arguments for Playwright can be passed by running the script directly,
 > eg. `./run/acceptance --headed`.
