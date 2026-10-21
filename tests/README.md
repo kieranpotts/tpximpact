@@ -15,8 +15,9 @@ directory for end-to-end acceptance tests.
 
 - [**`acceptance/`**](./acceptance/) \
   End-to-end tests of the whole system, running under Docker Compose. The tests
-  are written in TypeScript with Playwright, and named after the requirement IDs
-  in the [specification](../docs/specs/README.md).
+  are written in TypeScript with Playwright. Each is marked with a
+  `// Requirement: <ID>` comment, referencing the requirement in the
+  [specification](../docs/specs/README.md).
 
 `make test` runs `api-service/` and `web-client/`. `make acceptance` runs
 `acceptance/`.

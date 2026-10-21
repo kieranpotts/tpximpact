@@ -32,6 +32,13 @@ services:
     build: ./src/api-service
     ports:
       - "${API_PORT:-8080}:8080"
+    environment:
+      # Short URLs must reach the API service from the host, so their prefix
+      # follows the published port.
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://localhost:${API_PORT:-8080}}
+      DATABASE_URL: jdbc:postgresql://db:5432/url_shortener
+      DATABASE_USER: url_shortener
+      DATABASE_PASSWORD: url_shortener
     depends_on:
       db:
         condition: service_healthy

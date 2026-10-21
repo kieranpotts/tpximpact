@@ -1,6 +1,7 @@
 plugins {
     application
     alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 group = "com.tpximpact.urlshortener"
@@ -24,12 +25,28 @@ application {
     mainClass = "com.tpximpact.urlshortener.ApplicationKt"
 }
 
+// The contract is bundled into the service, and served at `GET /openapi.yaml`.
+// See: docs > decisions > 0013.
+val contract = layout.projectDirectory.file("contract/openapi.yaml")
+
+tasks.processResources {
+    from(contract) { into("contract") }
+}
+
 val ktlint = configurations.create("ktlint")
 
 dependencies {
+    implementation(libs.flyway.core)
+    implementation(libs.hikaricp)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.ktor.server.call.id)
+    implementation(libs.ktor.server.call.logging)
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)
+    implementation(libs.ktor.server.status.pages)
+    runtimeOnly(libs.flyway.database.postgresql)
     runtimeOnly(libs.logback.classic)
+    runtimeOnly(libs.postgresql)
 
     ktlint(libs.ktlint.cli) {
         attributes {
@@ -50,6 +67,14 @@ testing {
             }
             dependencies {
                 implementation(libs.ktor.server.test.host)
+                implementation(libs.openapi.validator)
+            }
+            targets.all {
+                testTask.configure {
+                    // HTTP tests validate responses against the source file,
+                    // not the copy bundled into the service.
+                    systemProperty("contract.path", contract.asFile.absolutePath)
+                }
             }
         }
 
@@ -62,9 +87,10 @@ testing {
             }
             dependencies {
                 implementation(project())
+                implementation(libs.flyway.core)
+                implementation(libs.hikaricp)
                 implementation(libs.testcontainers.junit.jupiter)
                 implementation(libs.testcontainers.postgresql)
-                runtimeOnly(libs.postgresql)
             }
             targets.all {
                 testTask.configure {

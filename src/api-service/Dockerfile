@@ -18,6 +18,7 @@ COPY gradle ./gradle
 RUN --mount=type=cache,target=/root/.gradle \
     ./gradlew --no-daemon --quiet dependencies --configuration runtimeClasspath > /dev/null
 
+COPY contract ./contract
 COPY src ./src
 RUN --mount=type=cache,target=/root/.gradle \
     ./gradlew --no-daemon installDist
