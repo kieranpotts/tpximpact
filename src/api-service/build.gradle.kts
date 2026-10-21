@@ -38,6 +38,7 @@ val ktlint = configurations.create("ktlint")
 dependencies {
     implementation(libs.flyway.core)
     implementation(libs.hikaricp)
+    implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.ktor.server.call.id)
     implementation(libs.ktor.server.call.logging)
@@ -89,6 +90,7 @@ testing {
                 implementation(project())
                 implementation(libs.flyway.core)
                 implementation(libs.hikaricp)
+                implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.testcontainers.junit.jupiter)
                 implementation(libs.testcontainers.postgresql)
             }

@@ -5,7 +5,13 @@ import com.atlassian.oai.validator.model.Request
 import com.atlassian.oai.validator.model.SimpleResponse
 import com.atlassian.oai.validator.report.LevelResolver
 import com.atlassian.oai.validator.report.ValidationReport
+import com.tpximpact.urlshortener.domain.AliasGenerator
+import com.tpximpact.urlshortener.domain.PublicBaseUrl
+import com.tpximpact.urlshortener.domain.RandomAliasGenerator
 import com.tpximpact.urlshortener.module
+import com.tpximpact.urlshortener.service.InMemoryShortUrlRepository
+import com.tpximpact.urlshortener.service.ShortUrlRepository
+import com.tpximpact.urlshortener.service.ShortUrlService
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.api.createClientPlugin
 import io.ktor.client.statement.bodyAsBytes
@@ -14,6 +20,7 @@ import io.ktor.http.contentType
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.routing
 import io.ktor.server.testing.testApplication
+import java.net.URI
 import java.nio.file.Path
 
 /**
@@ -72,19 +79,27 @@ private val ContractValidation =
         }
     }
 
+/** The public base URL of the API service under test. */
+val publicBaseUrl = PublicBaseUrl(URI("http://localhost:8080"))
+
 /**
  * Runs [block] against the API service, in memory. Every response its client
  * gets is validated against the contract.
+ *
+ * Short URLs are kept in [repository], which a test can inspect, and random
+ * aliases come from [aliasGenerator].
  *
  * [routes] are added to the service's own, so a test can provoke what no real
  * route does, such as an unexpected fault.
  */
 fun apiTest(
+    repository: ShortUrlRepository = InMemoryShortUrlRepository(),
+    aliasGenerator: AliasGenerator = RandomAliasGenerator(),
     routes: Route.() -> Unit = {},
     block: suspend (client: HttpClient) -> Unit,
 ) = testApplication {
     application {
-        module()
+        module(ShortUrlService(repository, aliasGenerator), publicBaseUrl)
         routing(routes)
     }
     block(createClient { install(ContractValidation) })

@@ -1,5 +1,6 @@
 package com.tpximpact.urlshortener.http
 
+import com.tpximpact.urlshortener.service.AliasTakenException
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
@@ -7,6 +8,7 @@ import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.install
 import io.ktor.server.plugins.callid.callId
 import io.ktor.server.plugins.statuspages.StatusPages
+import io.ktor.server.response.header
 import io.ktor.server.response.respondText
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -23,8 +25,17 @@ enum class ProblemType(
     val status: HttpStatusCode,
     val title: String,
 ) {
+    ALIAS_TAKEN("alias-taken", HttpStatusCode.BadRequest, "The alias is already taken"),
     INTERNAL_ERROR("internal-error", HttpStatusCode.InternalServerError, "Something went wrong"),
+    MALFORMED_REQUEST("malformed-request", HttpStatusCode.BadRequest, "The request body is not valid JSON"),
     NOT_FOUND("not-found", HttpStatusCode.NotFound, "The alias was not found"),
+    PAYLOAD_TOO_LARGE("payload-too-large", HttpStatusCode.PayloadTooLarge, "The request body is too large"),
+    UNSUPPORTED_MEDIA_TYPE(
+        "unsupported-media-type",
+        HttpStatusCode.UnsupportedMediaType,
+        "The content type is not supported",
+    ),
+    VALIDATION_FAILED("validation-failed", HttpStatusCode.BadRequest, "The request is not valid"),
     ;
 
     val uri = "urn:problem:url-shortener:$slug"
@@ -37,15 +48,40 @@ data class Problem(
     val title: String,
     val status: Int,
     val detail: String? = null,
+    /** Only in a `validation-failed` problem. */
+    val errors: List<FieldError>? = null,
 )
+
+/** One broken rule, in a `validation-failed` problem. */
+@Serializable
+data class FieldError(
+    val field: String,
+    val code: String,
+    /** Written for link editors, because the web client shows it verbatim. */
+    val message: String,
+)
+
+/**
+ * Thrown wherever a request turns out to be bad, so that it's answered with a
+ * problem details response.
+ */
+class ProblemException(
+    val type: ProblemType,
+    val detail: String? = null,
+    val errors: List<FieldError>? = null,
+) : Exception(type.title)
 
 suspend fun ApplicationCall.respondProblem(
     type: ProblemType,
     detail: String? = null,
+    errors: List<FieldError>? = null,
 ) {
-    val problem = Problem(type.uri, type.title, type.status.value, detail)
+    val problem = Problem(type.uri, type.title, type.status.value, detail, errors)
     respondText(Json.encodeToString(problem), ContentType.Application.ProblemJson, type.status)
 }
+
+/** Tells a client that sent the wrong content type which one to send. */
+private const val ACCEPT_POST = "Accept-Post"
 
 private val log = LoggerFactory.getLogger("com.tpximpact.urlshortener.http.Problems")
 
@@ -60,6 +96,17 @@ fun Application.installProblems() {
         // the body of every `404`, including those that routes send.
         unhandled { call ->
             call.respondProblem(ProblemType.NOT_FOUND)
+        }
+
+        exception<ProblemException> { call, cause ->
+            if (cause.type == ProblemType.UNSUPPORTED_MEDIA_TYPE) {
+                call.response.header(ACCEPT_POST, ContentType.Application.Json.toString())
+            }
+            call.respondProblem(cause.type, cause.detail, cause.errors)
+        }
+
+        exception<AliasTakenException> { call, _ ->
+            call.respondProblem(ProblemType.ALIAS_TAKEN)
         }
 
         // Anything unexpected. The body never carries the exception's detail,
