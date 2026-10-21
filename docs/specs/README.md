@@ -74,6 +74,8 @@ A `GET /{alias}` request for an existing alias returns `302 Found`, with a
 `Location` header holding the alias's destination URL. For an alias that does
 not exist, it returns `404 Not Found`.
 
+Verified by: [`redirect-short-url.spec.ts`](../../tests/acceptance/redirect-short-url.spec.ts).
+
 ### B6 — Delete a short URL
 
 A `DELETE /{alias}` request for an existing alias returns `204 No Content` and
@@ -89,6 +91,8 @@ A `GET /urls` request returns `200 OK`, with a JSON array holding one
 
 Every alias that exists when the API service stops still exists, with the same
 destination URL, when the API service starts again.
+
+Verified by: [`persist-across-restarts.spec.ts`](../../tests/acceptance/persist-across-restarts.spec.ts).
 
 ### B9 — Shorten a URL from the web client
 
@@ -274,3 +278,13 @@ with a single documented command, and they pass.
 
 The API service is written in Kotlin. The web client is served by Express on Node.js.
 These are fixed requirements for programming evaluation.
+
+### Q7 — Survives a database outage
+
+While the database is unavailable, every API service request that needs it
+returns `503 Service Unavailable` within 5 seconds, with a problem details
+body that reveals no internal detail. Requests that don't need the database
+are unaffected. Once the database is available again, the API service serves
+requests as normal, without being restarted.
+
+Verified by: [`database-outage.spec.ts`](../../tests/acceptance/database-outage.spec.ts).
