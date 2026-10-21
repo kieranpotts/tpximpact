@@ -13,6 +13,7 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 - Refacture API service application code into traditional DDD layers.
 - Requirements and their acceptance tests cross-reference each other.
+- `run check` now runs all static and dynamic checks sequentially.
 
 ## [0.2.0] - 2026-10-21
 

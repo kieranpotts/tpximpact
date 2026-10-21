@@ -17,7 +17,7 @@ help:
 	@echo "  status      - Show the system's containers and their health."
 	@echo "  psql        - Open a psql session on the system's database. Type "exit" to leave. "
 	@echo "  reset       - Stop the system and delete its stored data."
-	@echo "  check       - Run the linters, then the automated test suite."
+	@echo "  check       - Run all static and dynamic checks sequentially, from linters to acceptance tests."
 	@echo "  test        - Run the automated test suite."
 	@echo "  acceptance  - Run the acceptance tests against the whole system."
 	@echo "  lint        - Run the linters."

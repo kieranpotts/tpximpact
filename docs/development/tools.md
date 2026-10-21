@@ -31,7 +31,7 @@ libraries). On the host, you must install them yourself.
 | `make status`     | Shows the system's containers, their health, and their published ports.                                          |
 | `make psql`       | Opens a `psql` session on the running system's database.                                                         |
 | `make reset`      | Stops the system and deletes its stored data, after asking for confirmation.                                     |
-| `make check`      | Runs `make lint`, then `make test`. Run it before pushing.                                                       |
+| `make check`      | Runs `make lint`, `make test`, then `make acceptance`, stopping at the first failure. Run it before pushing.     |
 | `make test`       | Runs the API service's unit and integration tests, and the web client's tests.                                   |
 | `make acceptance` | Starts the whole system under Docker Compose, runs the acceptance tests against it, then removes it.             |
 | `make lint`       | Checks code style (ktlint, ESLint with StandardJS rules) and types (`tsc`), over source and test code.                   |

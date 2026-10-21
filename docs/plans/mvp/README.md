@@ -45,7 +45,7 @@ exist, so its acceptance tests run against the real system.
 
 **Every increment is shippable.** Each lands as one pull request. At the end
 of every increment, `docker compose up --build` runs the system, and
-`make lint`, `make test`, and `make acceptance` pass. No increment relies on
+`make check` passes. No increment relies on
 work scheduled after it.
 
 **Every increment updates the changelog.** Before an increment is marked
