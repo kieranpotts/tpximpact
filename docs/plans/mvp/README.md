@@ -12,7 +12,7 @@ IN PROGRESS
 ## References
 
 - Implements: [requirements specification](../../specs/), B1 to B14, R1 to
-  R11, and Q1 to Q6.
+  R11, and Q1 to Q7.
 
 - Informed by: the accepted architectural decisions,
   [ADR 0001](../../decisions/0001/) to [ADR 0018](../../decisions/0018/).
@@ -66,7 +66,7 @@ tracker.
 | T01 | Walking skeleton                               | Q4, Q5, Q6                   | DONE   | —          |
 | T02 | API service foundations, and the contract      | B14, Q1, Q2                  | DONE   | T01        |
 | T03 | Shorten URLs through the API                   | B1 to B4, B12, B13, R1 to R8 | DONE   | T02        |
-| T04 | Follow short URLs                              | B5, B8                       | TODO   | T03        |
+| T04 | Follow short URLs                              | B5, B8, Q7                   | DONE   | T03        |
 | T05 | Shorten URLs from the web client               | B9, B11, Q3                  | TODO   | T03        |
 | T06 | List and delete short URLs through the API     | B6, B7, R9 to R11            | TODO   | T04        |
 | T07 | List and delete short URLs from the web client | B10                          | TODO   | T05, T06   |
