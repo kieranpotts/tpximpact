@@ -9,6 +9,8 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-21
+
 **Shorten URLs.**
 
 - `POST /shorten` creates a short URL, with a custom alias or a random 7-character one.
