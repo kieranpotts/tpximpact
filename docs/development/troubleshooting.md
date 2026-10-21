@@ -146,7 +146,7 @@ use its installed packages. Run `make install`, which installs both
 ### `make lint` fails on code that compiles
 
 `make lint` covers test code as well as source, and runs type checks (`tsc`) on
-top of ESLint and Prettier. Run `make format` first, which fixes most style
+top of ESLint (StandardJS rules). Run `make format` first, which fixes most style
 problems.
 
 ### Tests or lint fail with the wrong Java or Node version

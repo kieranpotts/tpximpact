@@ -1,10 +1,12 @@
 // @ts-check
-import eslint from "@eslint/js";
-import { defineConfig } from "eslint/config";
-import tseslint from "typescript-eslint";
+import eslint from '@eslint/js'
+import { defineConfig } from 'eslint/config'
+import neostandard from 'neostandard'
+import tseslint from 'typescript-eslint'
 
 export default defineConfig(
-  { ignores: ["dist/"] },
+  { ignores: ['dist/'] },
+  ...neostandard({ ts: true }),
   eslint.configs.recommended,
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
@@ -17,7 +19,7 @@ export default defineConfig(
     },
   },
   {
-    files: ["**/*.js"],
+    files: ['**/*.js'],
     extends: [tseslint.configs.disableTypeChecked],
-  },
-);
+  }
+)

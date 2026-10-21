@@ -12,9 +12,6 @@
     /* EditorConfig — .editorconfig file support. */
     "editorconfig.editorconfig",
 
-    /* Prettier — Code formatter. */
-    "esbenp.prettier-vscode",
-
     /* Kotlin Language — Community plugin.*/
     "mathiasfrohlich.kotlin",
 

@@ -34,7 +34,7 @@ libraries). On the host, you must install them yourself.
 | `make check`      | Runs `make lint`, then `make test`. Run it before pushing.                                                       |
 | `make test`       | Runs the API service's unit and integration tests, and the web client's tests.                                   |
 | `make acceptance` | Starts the whole system under Docker Compose, runs the acceptance tests against it, then removes it.             |
-| `make lint`       | Checks code style (ktlint, ESLint, and Prettier) and types (`tsc`), over source and test code.                   |
+| `make lint`       | Checks code style (ktlint, ESLint with StandardJS rules) and types (`tsc`), over source and test code.                   |
 | `make format`     | Fixes what `make lint` can fix.                                                                                  |
 | `make version`    | Tags a release point, from the `[Unreleased]` entries in `CHANGELOG.md`.                                         |
 | `make clean`      | Removes build output and caches. Installed dependencies are kept.                                                |
