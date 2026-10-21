@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# Removes build output and caches.
-#
-# This is a placeholder. Replace the body of this script with the real
-# clean command for this project, e.g. `rm -rf dist/ .cache/`.
+# Removes build output and caches. Installed dependencies are kept.
 #
 
 # Exit immediately on error (-e), treat unset variables as errors (-u), and
@@ -16,5 +13,10 @@ set -euo pipefail
 # from.
 cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 
-echo "run/clean: not yet implemented" >&2
-exit 1
+rm -rf \
+  src/api-service/.gradle \
+  src/api-service/.kotlin \
+  src/api-service/build \
+  src/web-client/dist \
+  tests/acceptance/playwright-report \
+  tests/acceptance/test-results

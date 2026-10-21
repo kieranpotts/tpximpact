@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 
 #
-# Builds production-grade artifacts.
-#
-# This is a placeholder. Replace the body of this script with the real
-# build command for this project's toolchain, e.g. `npm run build`,
-# `docker build .`, or `go build ./...`.
+# Builds production-grade artifacts: the API service's and the web client's
+# container images.
 #
 
 # Exit immediately on error (-e), treat unset variables as errors (-u), and
@@ -17,5 +14,4 @@ set -euo pipefail
 # from.
 cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 
-echo "run/build: not yet implemented" >&2
-exit 1
+docker compose build

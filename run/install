@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
 #
-# Installs project dependencies.
+# Installs project dependencies: Gradle and the API service's dependencies,
+# the three npm packages, and the browser the acceptance tests drive.
 #
-# This is a placeholder. Replace the body of this script with the real
-# install command for this project's toolchain, e.g. `npm install`,
-# `pip install -r requirements.txt`, or `go mod download`.
+# Playwright's browser needs some system libraries. The devcontainer has them.
+# In other environments, install them with `npx playwright install-deps chromium`
+# from `tests/acceptance/`.
 #
 
 # Exit immediately on error (-e), treat unset variables as errors (-u), and
@@ -17,5 +18,13 @@ set -euo pipefail
 # from.
 cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 
-echo "run/install: not yet implemented" >&2
-exit 1
+echo "==> src/api-service"
+(cd src/api-service && ./gradlew --quiet dependencies > /dev/null)
+
+for package in src/web-client tests/web-client tests/acceptance; do
+  echo "==> ${package}"
+  (cd "${package}" && npm ci --no-audit --no-fund)
+done
+
+echo "==> Playwright browser"
+(cd tests/acceptance && npx playwright install chromium)

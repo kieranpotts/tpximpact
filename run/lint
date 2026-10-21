@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 
 #
-# Runs the linter.
-#
-# This is a placeholder. Replace the body of this script with the real
-# lint command for this project's toolchain, e.g. `eslint .`, `ruff check`,
-# or `golangci-lint run`.
+# Runs the linters, formatting checks, and type checks, over the source and
+# test code of both applications. `run/format` fixes what it can.
 #
 
 # Exit immediately on error (-e), treat unset variables as errors (-u), and
@@ -17,5 +14,10 @@ set -euo pipefail
 # from.
 cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 
-echo "run/lint: not yet implemented" >&2
-exit 1
+echo "==> src/api-service, tests/api-service"
+(cd src/api-service && ./gradlew --quiet ktlintCheck)
+
+for package in src/web-client tests/web-client tests/acceptance; do
+  echo "==> ${package}"
+  (cd "${package}" && npm run --silent lint)
+done

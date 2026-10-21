@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+#
+# Runs the formatters, and the linters' automatic fixes, over the source and
+# test code of both applications.
+#
+
+# Exit immediately on error (-e), treat unset variables as errors (-u), and
+# propagate failures through pipelines (-o pipefail).
+set -euo pipefail
+
+# Resolve the project root (parent of the run/ directory) and change into it.
+# This ensures the script behaves the same regardless of where it's invoked
+# from.
+cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+
+echo "==> src/api-service, tests/api-service"
+(cd src/api-service && ./gradlew --quiet ktlintFormat)
+
+for package in src/web-client tests/web-client tests/acceptance; do
+  echo "==> ${package}"
+  (cd "${package}" && npm run --silent format)
+done

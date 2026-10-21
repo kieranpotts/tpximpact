@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+#
+# Runs the acceptance tests against the whole system, under Docker Compose.
+#
+# The system runs as its own Compose project, with its own database volume, so
+# it doesn't touch the data of a system started with `docker compose up`. It's
+# removed afterwards, pass or fail. Its ports are the same, though, so stop
+# any other running copy of the system first.
+#
+# Arguments are passed on to Playwright, eg. `./run/acceptance --headed`.
+#
+
+# Exit immediately on error (-e), treat unset variables as errors (-u), and
+# propagate failures through pipelines (-o pipefail).
+set -euo pipefail
+
+# Resolve the project root (parent of the run/ directory) and change into it.
+# This ensures the script behaves the same regardless of where it's invoked
+# from.
+cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+
+export COMPOSE_PROJECT_NAME="url-shortener-acceptance"
+
+cleanup() { docker compose down --volumes --remove-orphans; }
+trap cleanup EXIT
+
+if ! docker compose up --build --detach --wait; then
+  docker compose logs
+  exit 1
+fi
+
+# Ask Compose which host ports it published, so that `WEB_PORT` and `API_PORT`
+# are honored whether they're set in the shell or in `.env`.
+web_port="$(docker compose port web 3000)"
+api_port="$(docker compose port api 8080)"
+export WEB_CLIENT_URL="http://localhost:${web_port##*:}"
+export PUBLIC_BASE_URL="http://localhost:${api_port##*:}"
+
+(cd tests/acceptance && npx playwright test "$@")
