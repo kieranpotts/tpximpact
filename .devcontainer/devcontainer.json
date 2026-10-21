@@ -84,7 +84,7 @@
   },
 
   // Install application dependencies.
-  // "postCreateCommand": "make install",
+  "postCreateCommand": "make install",
 
   // Install the Git hook declared in `.pre-commit-config.yaml`, which runs
   // `make lint` and `make test` before every commit. It runs on every start.
