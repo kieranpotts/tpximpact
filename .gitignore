@@ -21,3 +21,7 @@ node_modules/
 .gradle/
 .kotlin/
 
+# Test reports.
+/tests/acceptance/playwright-report/
+/tests/acceptance/test-results/
+
