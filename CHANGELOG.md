@@ -9,6 +9,8 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-21
+
 **Code refactoring and workflow refinement.**
 
 - Refacture API service application code into traditional DDD layers.
