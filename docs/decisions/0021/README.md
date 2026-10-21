@@ -108,7 +108,10 @@ Sizing, network CIDRs, and IAM policies belong in the infrastructure repository
 
 ## Consequences
 
-- The team operates no servers, clusters, or databases directly.
+- The team operates no servers, clusters, or databases directly. Managed
+  services (Fargate, RDS, ALB, CloudFront, WAF) are preferred throughout,
+  because the operating team is small and undifferentiated infrastructure work
+  is better bought than built.
 
 - The system survives the loss of one Availability Zone without manual action.
 
@@ -129,9 +132,26 @@ Sizing, network CIDRs, and IAM policies belong in the infrastructure repository
 - **AWS Lambda.** Free when idle, but JVM cold starts add latency to redirects,
   and Express needs an adapter.
 
+- **AWS App Runner, or Elastic Beanstalk.** Higher-level PaaS options that hide
+  the load balancer and the task definitions. App Runner is the simplest, but it
+  offers less control over networking: private subnets, Service Connect, and a
+  management port reachable only inside the VPC are awkward or unsupported.
+  It also couples the services to App Runner's scaling model. Elastic Beanstalk
+  is older and less aligned with container-first workflows. Fargate keeps the
+  same "no servers to manage" benefit with finer control, and the same
+  containers could move to App Runner later if that control proves unnecessary.
+
 - **Google Cloud Run, or Azure Container Apps.** Both are good fits, and
-  arguably simpler, and the containers would move unchanged. AWS is the most
-  widely used.
+  arguably simpler, and the containers would move unchanged. They are not
+  chosen because the rest of the stack (networking, IAM, managed PostgreSQL,
+  WAF and CDN) would be built on one provider anyway, and AWS is the most
+  widely used, so it is the easiest to hire for and to find support for.
+
+- **Aurora PostgreSQL, instead of RDS for PostgreSQL.** Aurora offers faster
+  failover and easier read-replica scaling, at a higher price and with some
+  lock-in. Standard RDS Multi-AZ meets the availability goal at MVP volumes,
+  and keeps the database portable. Aurora can be adopted later, when read
+  replicas become necessary (see "Database scaling" below).
 
 ## Deferred decisions
 

@@ -38,8 +38,8 @@ Sonnet for general implementation, and alternating between Kimi and GLM for
 documentation drafts and other routine, well-bounded work.
 
 Testing follows a loose TDD approach. The [requirements specification](./docs/specs/)
-determines the tests, and each behavior is committed together with the tests that
-verify it — though the tests are not necessarily written first.
+determines the acceptance tests, and each behavior is committed together with
+the tests that verify it — though the tests are not necessarily written first.
 
 Commits are small and atomic. Each one is prefixed by a type, which is loosely
 based on Conventional Commits. This important commit types are `behavior` for
@@ -60,7 +60,10 @@ decisions; agent-drafted first versions; and small, tested, atomic increments
 that I review before committing directly to a development (non-production ready)
 trunk — no feature branches.
 
-<!-- TODO: Link to relevant ADRs that answer other questions from the brief. -->
+The proposed production setup is described in
+[ADR 0021: Production hosting](./docs/decisions/0021/).
+Observability is partly covered by
+[ADR 0020: Structured JSON logs with request-ID propagation](./docs/decisions/0020/).
 
 **Development time:** ~2.5 working days so far. I would expect delivery time to
 be at least 2x this for production-grade work. <!-- TODO: Update final delivery time. -->
