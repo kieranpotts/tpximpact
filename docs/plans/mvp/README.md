@@ -65,7 +65,7 @@ tracker.
 | --- | ---------------------------------------------- | ---------------------------- | ------ | ---------- |
 | T01 | Walking skeleton                               | Q4, Q5, Q6                   | DONE   | —          |
 | T02 | API service foundations, and the contract      | B14, Q1, Q2                  | DONE   | T01        |
-| T03 | Shorten URLs through the API                   | B1 to B4, B12, B13, R1 to R8 | TODO   | T02        |
+| T03 | Shorten URLs through the API                   | B1 to B4, B12, B13, R1 to R8 | DONE   | T02        |
 | T04 | Follow short URLs                              | B5, B8                       | TODO   | T03        |
 | T05 | Shorten URLs from the web client               | B9, B11, Q3                  | TODO   | T03        |
 | T06 | List and delete short URLs through the API     | B6, B7, R9 to R11            | TODO   | T04        |
@@ -102,7 +102,10 @@ tracker.
 
 - **T04 — Follow short URLs.** `GET /{alias}` redirects, and `404`s for
   unknown and invalid aliases. Tests that restart the API service and its
-  database, and show that every alias survives.
+  database, and show that every alias survives. Fill in the R7 acceptance
+  test, `tests/acceptance/stored-as-given.spec.ts`, which T03 left as a
+  `test.fixme` placeholder because nothing could observe a stored destination
+  URL before redirects existed.
 
 - **T05 — Shorten URLs from the web client.** The web client's
   configuration, security headers, GOV.UK Frontend layout, and its client for
@@ -126,7 +129,8 @@ tracker.
   to run and test the system, example requests, notes and assumptions, links
   to the docs, and time spent. Fill in the developer docs that are still
   templates. Correct any design doc the implementation has drifted from.
-  Verify everything from a clean clone, tag a versioned release, and submit.
+  Review the whole codebase for `TODO` comments and either resolve each one
+  or turn it into a documented follow-up. Verify everything from a clean clone, tag a versioned release, and submit.
 
 ## Dependency graph
 
