@@ -45,7 +45,8 @@ Commits are small and atomic. Each one is prefixed by a type, which is loosely
 based on Conventional Commits. This important commit types are `behavior` for
 changes to runtime functional, `quality` for cross-cutting concerns and
 non-functional requirements, `step` for an incremental step toward either of
-those outcomes, `fix` for bugs in the production system, and `maintenance`
+those outcomes, `fix` for bugs in the production system, `refactor` for
+non-trivial structural changes to any production assets, and `maintenance`
 for major documentation updates and tooling reconfiguration. The commit types
 `chore` and `style` capture tidy-ups and routine housekeeping.
 
@@ -61,7 +62,7 @@ a development (non-production ready) trunk — no feature branches.
 <!-- TODO: Link to relevant ADRs that answer other questions from the brief. -->
 
 **Development time:** ~2.5 working days to MVP. I would expect delivery time to
-be at least 2x this, for production-grade work.
+be at least 2x this for production-grade work.
 
 ## 📓 Developer documentation
 

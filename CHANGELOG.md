@@ -11,6 +11,7 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 **Refactoring and tidying.**
 
+- Refacture API service application code into traditional DDD layers.
 - Requirements and their acceptance tests cross-reference each other.
 
 ## [0.2.0] - 2026-10-21

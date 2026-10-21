@@ -1,9 +1,10 @@
 # API service components
 
 The API service is a Kotlin application built on Ktor. Its code is arranged in
-layers, with dependencies pointing inward, toward the domain. The layers are
-packages in one Gradle module, and the dependency rule is enforced by
-convention and code review.
+the four layers of domain-driven design (UI, application, domain, and
+infrastructure), with dependencies pointing inward, toward the domain. The
+layers are packages in one Gradle module, and the dependency rule is enforced
+by convention and code review.
 
 ```mermaid
 C4Component
@@ -12,15 +13,15 @@ C4Component
   Container_Ext(clients, "Clients", "Web client, curl, scripts", "Call the API service")
 
   Container_Boundary(apic, "API service") {
-    Boundary(l1, "Inbound", "layer") {
-      Component(http, "Inbound adapter", "Ktor", "HTTP routes and DTOs")
+    Boundary(l1, "UI", "layer") {
+      Component(ui, "HTTP adapter", "Ktor", "HTTP routes and DTOs")
     }
     Boundary(l2, "Application", "layer") {
-      Component(app, "Application", "Kotlin", "Use cases and the repository port")
+      Component(app, "Application", "Kotlin", "Use cases")
     }
-    Boundary(l3, "Core and outbound", "layers") {
-      Component(domain, "Domain", "Kotlin", "Value types and validation rules")
-      Component(jdbc, "Outbound adapter", "JDBC", "Implements the application's repository port")
+    Boundary(l3, "Domain and infrastructure", "layers") {
+      Component(domain, "Domain", "Kotlin", "Value types, validation rules, and the repository interface")
+      Component(infra, "Persistence adapter", "JDBC", "Implements the domain's repository interface")
     }
   }
 
@@ -28,11 +29,11 @@ C4Component
     ContainerDb_Ext(db, "Database", "PostgreSQL")
   }
 
-  Rel(clients, http, "Calls")
-  Rel(http, app, "Calls")
+  Rel(clients, ui, "Calls")
+  Rel(ui, app, "Calls")
   Rel(app, domain, "Uses")
-  Rel(jdbc, app, "Implements port of")
-  Rel(jdbc, db, "Uses")
+  Rel(infra, domain, "Implements interface of")
+  Rel(infra, db, "Uses")
 
   UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="1")
 ```
@@ -48,10 +49,10 @@ The composition root, `Application.kt`, is the only place that knows about
 every layer. It reads configuration, constructs the components, and wires them
 together by hand.
 
-| Package   | Holds                                                                      |
-| --------- | -------------------------------------------------------------------------- |
-| `domain`  | Value types, and the business rules. See: concepts > domain model.         |
-| `service` | The application layer: `ShortUrlService`, and its repository port.         |
-| `http`    | The inbound adapter: routes, problem details, and request IDs.             |
-| `jdbc`    | The outbound adapter: the connection pool, migrations, and the repository. |
-| `config`  | Settings, read from the environment. See: concepts > configuration.        |
+| Package             | Layer          | Holds                                                                                    |
+| ------------------- | -------------- | ---------------------------------------------------------------------------------------- |
+| `ui`                | UI             | The HTTP adapter: routes, problem details, and request IDs.                              |
+| `app`               | Application    | `ShortUrlService`, which implements the use cases.                                       |
+| `domain`            | Domain         | Value types, business rules, and the repository interface. See: concepts > domain model. |
+| `infra.config`      | Infrastructure | Settings, read from the environment. See: concepts > configuration.                      |
+| `infra.persistence` | Infrastructure | The connection pool, migrations, and the JDBC repository.                                |

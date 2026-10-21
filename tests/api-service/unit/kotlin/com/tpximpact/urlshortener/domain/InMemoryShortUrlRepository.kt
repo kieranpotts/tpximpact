@@ -1,7 +1,5 @@
-package com.tpximpact.urlshortener.service
+package com.tpximpact.urlshortener.domain
 
-import com.tpximpact.urlshortener.domain.Alias
-import com.tpximpact.urlshortener.domain.DestinationUrl
 import java.util.concurrent.ConcurrentHashMap
 
 /** Stands in for the database, in tests that don't need a real one. */

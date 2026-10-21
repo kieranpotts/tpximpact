@@ -1,6 +1,6 @@
-package com.tpximpact.urlshortener.http
+package com.tpximpact.urlshortener.ui
 
-import com.tpximpact.urlshortener.service.AliasTakenException
+import com.tpximpact.urlshortener.app.AliasTakenException
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
@@ -83,7 +83,7 @@ suspend fun ApplicationCall.respondProblem(
 /** Tells a client that sent the wrong content type which one to send. */
 private const val ACCEPT_POST = "Accept-Post"
 
-private val log = LoggerFactory.getLogger("com.tpximpact.urlshortener.http.Problems")
+private val log = LoggerFactory.getLogger("com.tpximpact.urlshortener.ui.Problems")
 
 /**
  * Maps every error to a problem details response, in one place, so route

@@ -1,10 +1,10 @@
-package com.tpximpact.urlshortener.jdbc
+package com.tpximpact.urlshortener.infra.persistence
 
-import com.tpximpact.urlshortener.config.DatabaseConfig
 import com.tpximpact.urlshortener.domain.Alias
 import com.tpximpact.urlshortener.domain.DestinationUrl
 import com.tpximpact.urlshortener.domain.Parsed
 import com.tpximpact.urlshortener.domain.PublicBaseUrl
+import com.tpximpact.urlshortener.infra.config.DatabaseConfig
 import com.zaxxer.hikari.HikariDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async

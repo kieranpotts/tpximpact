@@ -1,8 +1,9 @@
-package com.tpximpact.urlshortener.service
+package com.tpximpact.urlshortener.app
 
 import com.tpximpact.urlshortener.domain.Alias
 import com.tpximpact.urlshortener.domain.AliasGenerator
 import com.tpximpact.urlshortener.domain.DestinationUrl
+import com.tpximpact.urlshortener.domain.ShortUrlRepository
 
 /**
  * The API service's use cases.

@@ -1,17 +1,17 @@
 package com.tpximpact.urlshortener
 
-import com.tpximpact.urlshortener.config.Config
-import com.tpximpact.urlshortener.config.ConfigException
+import com.tpximpact.urlshortener.app.ShortUrlService
 import com.tpximpact.urlshortener.domain.PublicBaseUrl
 import com.tpximpact.urlshortener.domain.RandomAliasGenerator
-import com.tpximpact.urlshortener.http.contractRoute
-import com.tpximpact.urlshortener.http.installProblems
-import com.tpximpact.urlshortener.http.installRequestIds
-import com.tpximpact.urlshortener.http.shortenRoute
-import com.tpximpact.urlshortener.jdbc.JdbcShortUrlRepository
-import com.tpximpact.urlshortener.jdbc.createDataSource
-import com.tpximpact.urlshortener.jdbc.migrate
-import com.tpximpact.urlshortener.service.ShortUrlService
+import com.tpximpact.urlshortener.infra.config.Config
+import com.tpximpact.urlshortener.infra.config.ConfigException
+import com.tpximpact.urlshortener.infra.persistence.JdbcShortUrlRepository
+import com.tpximpact.urlshortener.infra.persistence.createDataSource
+import com.tpximpact.urlshortener.infra.persistence.migrate
+import com.tpximpact.urlshortener.ui.contractRoute
+import com.tpximpact.urlshortener.ui.installProblems
+import com.tpximpact.urlshortener.ui.installRequestIds
+import com.tpximpact.urlshortener.ui.shortenRoute
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationStopped
 import io.ktor.server.engine.connector

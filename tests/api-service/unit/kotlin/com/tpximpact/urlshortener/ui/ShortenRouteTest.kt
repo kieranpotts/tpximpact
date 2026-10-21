@@ -1,8 +1,8 @@
-package com.tpximpact.urlshortener.http
+package com.tpximpact.urlshortener.ui
 
 import com.tpximpact.urlshortener.domain.Alias
+import com.tpximpact.urlshortener.domain.InMemoryShortUrlRepository
 import com.tpximpact.urlshortener.domain.valid
-import com.tpximpact.urlshortener.service.InMemoryShortUrlRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody

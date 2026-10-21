@@ -1,17 +1,17 @@
-package com.tpximpact.urlshortener.http
+package com.tpximpact.urlshortener.ui
 
 import com.atlassian.oai.validator.OpenApiInteractionValidator
 import com.atlassian.oai.validator.model.Request
 import com.atlassian.oai.validator.model.SimpleResponse
 import com.atlassian.oai.validator.report.LevelResolver
 import com.atlassian.oai.validator.report.ValidationReport
+import com.tpximpact.urlshortener.app.ShortUrlService
 import com.tpximpact.urlshortener.domain.AliasGenerator
+import com.tpximpact.urlshortener.domain.InMemoryShortUrlRepository
 import com.tpximpact.urlshortener.domain.PublicBaseUrl
 import com.tpximpact.urlshortener.domain.RandomAliasGenerator
+import com.tpximpact.urlshortener.domain.ShortUrlRepository
 import com.tpximpact.urlshortener.module
-import com.tpximpact.urlshortener.service.InMemoryShortUrlRepository
-import com.tpximpact.urlshortener.service.ShortUrlRepository
-import com.tpximpact.urlshortener.service.ShortUrlService
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.api.createClientPlugin
 import io.ktor.client.statement.bodyAsBytes

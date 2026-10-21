@@ -1,4 +1,4 @@
-package com.tpximpact.urlshortener.config
+package com.tpximpact.urlshortener.infra.config
 
 import java.net.URI
 import java.net.URISyntaxException

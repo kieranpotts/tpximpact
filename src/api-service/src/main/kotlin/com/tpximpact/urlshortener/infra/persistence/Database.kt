@@ -1,6 +1,6 @@
-package com.tpximpact.urlshortener.jdbc
+package com.tpximpact.urlshortener.infra.persistence
 
-import com.tpximpact.urlshortener.config.DatabaseConfig
+import com.tpximpact.urlshortener.infra.config.DatabaseConfig
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.flywaydb.core.Flyway

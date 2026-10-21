@@ -1,6 +1,6 @@
-package com.tpximpact.urlshortener.jdbc
+package com.tpximpact.urlshortener.infra.persistence
 
-import com.tpximpact.urlshortener.config.DatabaseConfig
+import com.tpximpact.urlshortener.infra.config.DatabaseConfig
 import org.flywaydb.core.api.FlywayException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue

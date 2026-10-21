@@ -1,4 +1,4 @@
-package com.tpximpact.urlshortener.config
+package com.tpximpact.urlshortener.infra.config
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse

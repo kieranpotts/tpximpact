@@ -19,9 +19,10 @@ lookup table. The insert will rely on PostgreSQL's `ON CONFLICT` clause.
 The database will be accessed through plain JDBC, with the PostgreSQL driver and
 a HikariCP connection pool.
 
-All SQL lives in one repository class, behind a port defined at the
-application layer. Blocking calls run on an I/O dispatcher, and short timeouts
-bound how long any request can wait on the database.
+All SQL lives in one repository class, in the infrastructure layer. It
+implements a repository interface defined in the domain layer. Blocking calls
+run on an I/O dispatcher, and short timeouts bound how long any request can
+wait on the database.
 
 ## Consequences
 
@@ -30,8 +31,11 @@ bound how long any request can wait on the database.
 - The insert's update count answers the application's question: "was the alias
   free?"
 
-- The port keeps SQL out of the domain layer, and lets tests use an in-memory
-  repository.
+- The interface keeps SQL out of the domain and application layers, and lets
+  tests use an in-memory repository.
+
+- The infrastructure layer depends only on the domain layer, not on the
+  application layer.
 
 - Row mapping is hand-written, which is a few lines for one table.
 

@@ -1,11 +1,11 @@
-package com.tpximpact.urlshortener.http
+package com.tpximpact.urlshortener.ui
 
+import com.tpximpact.urlshortener.app.ShortUrlService
 import com.tpximpact.urlshortener.domain.Alias
 import com.tpximpact.urlshortener.domain.DestinationUrl
 import com.tpximpact.urlshortener.domain.Parsed
 import com.tpximpact.urlshortener.domain.PublicBaseUrl
 import com.tpximpact.urlshortener.domain.Violation
-import com.tpximpact.urlshortener.service.ShortUrlService
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.response.respondText

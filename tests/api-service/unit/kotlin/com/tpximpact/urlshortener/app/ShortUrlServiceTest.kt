@@ -1,8 +1,9 @@
-package com.tpximpact.urlshortener.service
+package com.tpximpact.urlshortener.app
 
 import com.tpximpact.urlshortener.domain.Alias
 import com.tpximpact.urlshortener.domain.AliasGenerator
 import com.tpximpact.urlshortener.domain.DestinationUrl
+import com.tpximpact.urlshortener.domain.InMemoryShortUrlRepository
 import com.tpximpact.urlshortener.domain.PublicBaseUrl
 import com.tpximpact.urlshortener.domain.RandomAliasGenerator
 import com.tpximpact.urlshortener.domain.valid

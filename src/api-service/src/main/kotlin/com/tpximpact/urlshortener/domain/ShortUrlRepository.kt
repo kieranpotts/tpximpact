@@ -1,11 +1,8 @@
-package com.tpximpact.urlshortener.service
-
-import com.tpximpact.urlshortener.domain.Alias
-import com.tpximpact.urlshortener.domain.DestinationUrl
+package com.tpximpact.urlshortener.domain
 
 /**
- * Where short URLs are stored. This is the application's port, which an
- * outbound adapter implements.
+ * Where short URLs are stored. The domain defines it, and the infrastructure
+ * layer implements it.
  *
  * See: docs > design > concepts > persistence.
  */
