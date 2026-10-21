@@ -9,9 +9,22 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
+**Shorten URLs.**
+
+- `POST /shorten` creates a short URL, with a custom alias or a random 7-character one.
+- Short URLs are stored in PostgreSQL. The schema is created by the first Flyway migration.
+- Validation and constraints, including reserved words, on aliases.
+- Constraints on allowed destination URLs.
+- Invalid input gets a `400` response.
+- A taken alias gets a `400` response.
+- Non-JSON bodies get a `415`, and bodies over 16 KiB get a `413`.
+- Hostile-input tests show that no request body causes a `5xx`.
+
 ## [0.1.0] - 2026-10-21
 
-- **API contract.** The API service serves its OpenAPI contract at `GET /openapi.yaml`.
+**API contract.**
+
+- The API service serves its OpenAPI contract at `GET /openapi.yaml`.
 - API errors are RFC 9457 problem details.
 - Every API response carries an `X-Request-Id` header, which may be supplied or generated.
 - Every log line carries the request ID.
@@ -22,7 +35,9 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [0.0.0] - 2026-10-21
 
-- **Walking skeleton.** Placeholder API service and web client.
+**Walking skeleton.**
+
+- Placeholder API service and web client.
 - Each application has its own container image.
 - Both applications plus the database run via Docker Compose.
 - Harnesses for unit, integration, and acceptance test suites.
