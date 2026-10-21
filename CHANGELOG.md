@@ -9,6 +9,8 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-10-21
+
 - `GET /` (with no path) on the API service now returns a "Welcome to the URL shortener" HTML page.
 - Tighten descriptions of endpoint response types in OpenAPI spec - prettier in Postman.
 - `GET /{alias}` redirects a short URL to its destination URL, with a `302` that's never cached.
