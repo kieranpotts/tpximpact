@@ -40,16 +40,22 @@
   "workspaceMount": "source=${localWorkspaceFolder}/..,target=${localWorkspaceFolder}/..,type=bind,consistency=cached",
 
   // Bind-mount the host's Git config into the container, live, so `user.name`,
-  // `user.email`, etc. always match the host.  `~/.gnupg` is mounted read-write
-  // because `gpg`/`gpg-agent` need to write lock files to actually sign commits.
-  // `~/.ssh` is mounted read-only — that's all that's need for `git push`/`pull`
-  // over SSH to authenticate.
+  // `user.email`, etc. always match the host. `~/.ssh` is mounted read-only —
+  // that's all that's need for `git push`/`pull` over SSH to authenticate.
+  //
+  // `~/.gnupg` is deliberately NOT mounted. The Dev Containers extension
+  // forwards the host's `gpg-agent` into the container itself (and copies the
+  // public keyring), so commits are signed by the host's agent, and passphrase
+  // prompts appear in the host's pinentry. Mounting `~/.gnupg` defeats that:
+  // `gpg` in the container then starts its own agent, whose curses pinentry
+  // has no TTY to prompt on ("gpg: signing failed: Inappropriate ioctl for
+  // device").
   "mounts": [
     "source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,readonly",
     "source=${localEnv:HOME}/local.gitconfig,target=/home/vscode/local.gitconfig,type=bind,readonly",
     "source=${localEnv:HOME}/local.gitmessage,target=/home/vscode/local.gitmessage,type=bind,readonly",
     "source=${localEnv:HOME}/local.gitignore,target=/home/vscode/local.gitignore,type=bind,readonly",
-    "source=${localEnv:HOME}/.gnupg,target=/home/vscode/.gnupg,type=bind",
+    // "source=${localEnv:HOME}/.gnupg,target=/home/vscode/.gnupg,type=bind",
     "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,readonly"
   ],
 
