@@ -1,9 +1,16 @@
+//
 // Dev container configuration.
 // https://aka.ms/devcontainer.json.
+//
 
 {
-  "name": "Template",
-  "runArgs": ["--name", "kieranpotts-template"],
+  "name": "TPXimpact",
+  "runArgs": [
+    "--name", "kieranpotts-tpximpact",
+    // Share the host's network, so the ports that Docker Compose and
+    // Testcontainers publish on the host are reachable on `localhost`.
+    "--network=host"
+  ],
   "build": {
     "dockerfile": "Dockerfile",
     "context": "..",
@@ -13,7 +20,15 @@
     }
   },
 
-  "remoteUser": "code",
+  // Run the editor's server, terminals, and tasks as the non-root user that the
+  // Dockerfile ends on, not as `root`. The project is bind-mounted from the
+  // host, so anything written to it as `root` (build output, `node_modules`,
+  // Git objects) would end up root-owned on the host and need `sudo` to clean
+  // up. SSH and GPG are also fussy about the ownership of the keys and config
+  // mounted below. The name `vscode` is the base image's built-in non-root user
+  // (with UID 1000, which normally matches the host user). The mount targets
+  // below, under `/home/vscode`, MUST be kept in step with this name.
+  "remoteUser": "vscode",
 
   // The workspace folder is a Git worktree, one of possibly several siblings
   // under the project root, alongside the bare repo. Worktree links are
@@ -30,24 +45,45 @@
   // `~/.ssh` is mounted read-only — that's all that's need for `git push`/`pull`
   // over SSH to authenticate.
   "mounts": [
-    "source=${localEnv:HOME}/.gitconfig,target=/home/code/.gitconfig,type=bind,readonly",
-    "source=${localEnv:HOME}/local.gitconfig,target=/home/code/local.gitconfig,type=bind,readonly",
-    "source=${localEnv:HOME}/local.gitmessage,target=/home/code/local.gitmessage,type=bind,readonly",
-    "source=${localEnv:HOME}/local.gitignore,target=/home/code/local.gitignore,type=bind,readonly",
-    "source=${localEnv:HOME}/.gnupg,target=/home/code/.gnupg,type=bind",
-    "source=${localEnv:HOME}/.ssh,target=/home/code/.ssh,type=bind,readonly"
+    "source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,readonly",
+    "source=${localEnv:HOME}/local.gitconfig,target=/home/vscode/local.gitconfig,type=bind,readonly",
+    "source=${localEnv:HOME}/local.gitmessage,target=/home/vscode/local.gitmessage,type=bind,readonly",
+    "source=${localEnv:HOME}/local.gitignore,target=/home/vscode/local.gitignore,type=bind,readonly",
+    "source=${localEnv:HOME}/.gnupg,target=/home/vscode/.gnupg,type=bind",
+    "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,readonly"
   ],
+
+  // The Docker CLI and Compose, talking to the host's Docker daemon. Docker
+  // Compose and Testcontainers start their containers there, as siblings of
+  // this one.
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "moby": false
+    }
+  },
+
+  "containerEnv": {
+    // Testcontainers' containers publish their ports on the host, which this
+    // container shares the network of.
+    "TESTCONTAINERS_HOST_OVERRIDE": "localhost"
+  },
+
+  "postCreateCommand": "make install",
 
   // Configure tool-specific properties.
   "customizations": {
     "vscode": {
       // Install these VS Code extensions in the container.
-      // NOTE: Keep the list of extensions synchronized with `../.vscode/extensions.json`.
+      // NOTE: Keep this list of extensions synchronized with `../.vscode/extensions.json`.
       "extensions": [
         "asciidoctor.asciidoctor-vscode",
-        "editorconfig.editorconfig"
+        "dbaeumer.vscode-eslint",
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "mathiasfrohlich.kotlin",
+        "ms-playwright.playwright",
+        "vscjava.vscode-gradle"
       ]
     }
   }
 }
-
