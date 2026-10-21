@@ -37,4 +37,5 @@ auto-commit mode.
 ## Migrations
 
 Schema changes are Flyway migrations (`V1__…sql`, `V2__…sql`, and so on),
-never edited once merged.
+never edited once merged. They live in the API service's
+`src/main/resources/db/migration/`, and the API service runs them at startup.

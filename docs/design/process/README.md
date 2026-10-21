@@ -97,8 +97,10 @@ traffic, whereas `web` doesn't depend on the API service being up.
 
 1. Read and validate configuration. Exit with status 1 if anything is
    missing or invalid.
-2. Create the HikariCP pool.
-3. Run Flyway migrations. Exit with status 1 on failure.
+2. Run Flyway migrations, over a connection of Flyway's own, so they aren't
+   bound by the pool's statement timeout. Exit with status 1 on failure.
+3. Create the HikariCP pool. Exit with status 1 if the database can't be
+   reached.
 4. Construct the service graph, and install the Ktor plugins and routes.
 5. Start the public connector.
 
@@ -122,7 +124,9 @@ the production design doesn't enforce any such ordering.
 Both processes handle `SIGTERM` gracefully:
 
 - **`api`:** Ktor's shutdown hook stops accepting connections, gives in-flight
-  requests up to 10 seconds to finish, then closes the connection pool.
+  requests up to 10 seconds to finish, then closes the connection pool. It
+  stops once there's been no activity for 2 seconds, the longest a request can
+  wait on the database, so an idle instance stops in about 2 seconds.
 
 - **`web`:** `server.close()` stops accepting connections, idle keep-alive
   connections are closed, and in-flight requests get up to 10 seconds to
