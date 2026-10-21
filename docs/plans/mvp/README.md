@@ -48,6 +48,10 @@ of every increment, `docker compose up --build` runs the system, and
 `make lint`, `make test`, and `make acceptance` pass. No increment relies on
 work scheduled after it.
 
+**Every increment updates the changelog.** Before an increment is marked
+done, its notable changes are added to the `[Unreleased]` section of the
+[changelog](../../../CHANGELOG.md), in the same pull request.
+
 **Details are settled in implementation.** The design docs and ADRs say what
 to build. Where implementation shows them to be wrong or incomplete, the
 increment that finds out corrects the docs in the same pull request.
@@ -60,7 +64,7 @@ tracker.
 | ID  | Increment                                      | Delivers                     | Status | Depends on |
 | --- | ---------------------------------------------- | ---------------------------- | ------ | ---------- |
 | T01 | Walking skeleton                               | Q4, Q5, Q6                   | DONE   | —          |
-| T02 | API service foundations, and the contract      | B14, Q1, Q2                  | TODO   | T01        |
+| T02 | API service foundations, and the contract      | B14, Q1, Q2                  | DONE   | T01        |
 | T03 | Shorten URLs through the API                   | B1 to B4, B12, B13, R1 to R8 | TODO   | T02        |
 | T04 | Follow short URLs                              | B5, B8                       | TODO   | T03        |
 | T05 | Shorten URLs from the web client               | B9, B11, Q3                  | TODO   | T03        |
