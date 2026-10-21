@@ -55,9 +55,10 @@ The changelog is maintained manually, though an interactive script
 changes in the changelog.
 
 This workflow is indicative of my current working methodology for my personal
-coding projects: specification and design up front, agent-drafted first versions,
-and small, tested, atomic increments that I review before committing directly to
-a development (non-production ready) trunk — no feature branches.
+coding projects: specification and design up front, driven by recorded design
+decisions; agent-drafted first versions; and small, tested, atomic increments
+that I review before committing directly to a development (non-production ready)
+trunk — no feature branches.
 
 <!-- TODO: Link to relevant ADRs that answer other questions from the brief. -->
 
