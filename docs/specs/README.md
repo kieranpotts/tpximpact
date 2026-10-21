@@ -26,6 +26,14 @@ The actors on this system are:
 - **Short URL visitors**, who follow a short URL and are redirected to the
   destination URL.
 
+## Traceability
+
+Requirements and acceptance tests reference each other. Each requirement that an
+[acceptance test](../../tests/acceptance/) verifies ends with a "Verified by"
+link to that test. In turn, each acceptance test carries a
+`// Requirement: <ID>` comment naming the requirement it verifies. When adding
+or renaming either, update both sides.
+
 ## Behaviors (functional requirements)
 
 ### B1 — Shorten a URL with a random alias
@@ -34,11 +42,15 @@ A `POST /shorten` request whose body holds a valid `destinationUrl` and no
 `customAlias` returns `201 Created`, with a JSON body whose `shortUrl` is the
 system's public base URL followed by a random alias.
 
+Verified by: [`shorten-random-alias.spec.ts`](../../tests/acceptance/shorten-random-alias.spec.ts).
+
 ### B2 — Shorten a URL with a custom alias
 
 A `POST /shorten` request whose body holds a valid `destinationUrl` and a valid,
 unused `customAlias` returns `201 Created`, with a JSON body whose `shortUrl` is
 the system's public base URL followed by that alias.
+
+Verified by: [`shorten-custom-alias.spec.ts`](../../tests/acceptance/shorten-custom-alias.spec.ts).
 
 ### B3 — Reject invalid input
 
@@ -47,10 +59,14 @@ when any part of the request body is not valid JSON or does not conform to
 the schema defined in the API contract. The response says which input fields
 are invalid, and why.
 
+Verified by: [`reject-invalid-input.spec.ts`](../../tests/acceptance/reject-invalid-input.spec.ts).
+
 ### B4 — Reject an alias that's already taken
 
 A `POST /shorten` request returns `400 Bad Request`, and leaves the existing
 mapping unchanged, when its `customAlias` is already in use.
+
+Verified by: [`reject-taken-alias.spec.ts`](../../tests/acceptance/reject-taken-alias.spec.ts).
 
 ### B5 — Redirect a short URL
 
@@ -98,6 +114,8 @@ returns `415 Unsupported Media Type`, and stores nothing.
 
 This is an extension to the original API contract supplied by TPXimpact.
 
+Verified by: [`reject-unsupported-content-type.spec.ts`](../../tests/acceptance/reject-unsupported-content-type.spec.ts).
+
 ### B13 — Reject an oversized request
 
 A `POST /shorten` request whose body is larger than 16 KiB returns
@@ -105,12 +123,16 @@ A `POST /shorten` request whose body is larger than 16 KiB returns
 
 This is an extension to the original API contract supplied by TPXimpact.
 
+Verified by: [`reject-oversized-request.spec.ts`](../../tests/acceptance/reject-oversized-request.spec.ts).
+
 ### B14 — Publish the API contract
 
 A `GET /openapi.yaml` request to the API service returns `200 OK`, and returns the
 static OpenAPI specification file.
 
 This is an extension to the original API contract supplied by TPXimpact.
+
+Verified by: [`publish-contract.spec.ts`](../../tests/acceptance/publish-contract.spec.ts).
 
 ## Business rules
 
@@ -123,6 +145,8 @@ An alias is 3 to 64 characters long, and uses only the letters `A–Z` and
 `a–z`, the digits `0–9`, the hyphen (`-`), and the underscore (`_`). The same
 rule applies to custom and random aliases, which share one namespace.
 
+Verified by: [`valid-aliases.spec.ts`](../../tests/acceptance/valid-aliases.spec.ts).
+
 ### R2 — Reserved aliases
 
 These words can't be used as aliases, whatever their case: `shorten`, `urls`,
@@ -133,16 +157,22 @@ Nor can `v` be followed by one or more digits, such as `v1` or `v10`, whatever
 its case. These are held back for versioned API paths, such as
 `/v1/openapi.yaml`.
 
+Verified by: [`reserved-aliases.spec.ts`](../../tests/acceptance/reserved-aliases.spec.ts).
+
 ### R3 — Aliases are case-sensitive
 
 `MyLink` and `mylink` are different aliases. A short URL only resolves when
 its alias is typed with the same letter case it was created with.
+
+Verified by: [`case-sensitive-aliases.spec.ts`](../../tests/acceptance/case-sensitive-aliases.spec.ts).
 
 ### R4 — Random aliases
 
 A random alias is 7 characters long, drawn from letters and digits
 only. It's unpredictable. Knowing one alias reveals nothing about any other
 alias, or about how many exist. It's never a reserved alias.
+
+Verified by: [`random-aliases.spec.ts`](../../tests/acceptance/random-aliases.spec.ts).
 
 ### R5 — Valid destination URLs
 
@@ -163,21 +193,29 @@ the `Location` header of a redirect.
 
 The system does not check that the URL exists or is reachable.
 
+Verified by: [`valid-destination-urls.spec.ts`](../../tests/acceptance/valid-destination-urls.spec.ts).
+
 ### R6 — An empty custom alias is invalid
 
 A `customAlias` that is present but empty is rejected as invalid, not treated
 as a request for a random alias. Only a missing or `null` `customAlias` asks
 for a random one.
 
+Verified by: [`empty-custom-alias.spec.ts`](../../tests/acceptance/empty-custom-alias.spec.ts).
+
 ### R7 — Destination URLs are stored as given
 
 The trimmed destination URL is stored and redirected to exactly as submitted,
 with no other normalisation.
 
+Verified by: [`stored-as-given.spec.ts`](../../tests/acceptance/stored-as-given.spec.ts).
+
 ### R8 — No deduplication
 
 Shortening the same destination URL more than once creates a separate alias each
 time. Each alias is independent, and can be deleted on its own.
+
+Verified by: [`no-deduplication.spec.ts`](../../tests/acceptance/no-deduplication.spec.ts).
 
 ### R9 — Short URLs can't be changed
 
@@ -215,6 +253,8 @@ public base URL from configuration.
 
 The API service and the web client each build to a container image. The whole system
 starts locally with the commands documented in the README.
+
+Verified by: [`containerised.spec.ts`](../../tests/acceptance/containerised.spec.ts).
 
 ### Q5 — Tested
 

@@ -9,6 +9,10 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
+**Refactoring and tidying.**
+
+- Requirements and their acceptance tests cross-reference each other.
+
 ## [0.2.0] - 2026-10-21
 
 **Shorten URLs.**
