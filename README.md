@@ -15,7 +15,7 @@
 > [IETF RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
 - [**🛠️ Development tools and methods**](./docs/development/) \
-  Local development requirements and the day-to-day workflow. [Start here.](./docs/onboard.md)
+  Local development requirements and the day-to-day workflow. 👉 [Start here.](./docs/development/onboard.md)
 
 - [**📋 Requirements specification**](./docs/specs/) \
   Defines the behaviors and qualities of the system.
