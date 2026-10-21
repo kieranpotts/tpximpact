@@ -98,14 +98,21 @@ tracker.
   destination URL rules. The schema and repository for short URLs.
   `POST /shorten`, with random and custom aliases, validation, alias
   conflicts, and the `415` and `413` checks. Hostile-input tests show that no
-  input causes a `5xx`.
+  input causes a `5xx`. Unit tests show that the random alias generator draws
+  from a cryptographically secure source, as [ADR 0010](../../decisions/0010/)
+  requires, so aliases can't be predicted from earlier ones. Tests with an
+  injected generator that returns a duplicate first show that a collision is
+  retried and succeeds, and that five consecutive collisions end in the
+  documented failure, not a hang.
 
 - **T04 — Follow short URLs.** `GET /{alias}` redirects, and `404`s for
   unknown and invalid aliases. Tests that restart the API service and its
   database, and show that every alias survives. Fill in the R7 acceptance
   test, `tests/acceptance/stored-as-given.spec.ts`, which T03 left as a
   `test.fixme` placeholder because nothing could observe a stored destination
-  URL before redirects existed.
+  URL before redirects existed. A test that stops the database and shows that
+  a redirect fails cleanly, with a problem details `503` and no stack trace or
+  hang, and that redirects resume when the database returns.
 
 - **T05 — Shorten URLs from the web client.** The web client's
   configuration, security headers, GOV.UK Frontend layout, and its client for
@@ -130,7 +137,13 @@ tracker.
   to the docs, and time spent. Fill in the developer docs that are still
   templates. Correct any design doc the implementation has drifted from.
   Review the whole codebase for `TODO` comments and either resolve each one
-  or turn it into a documented follow-up. Verify everything from a clean clone, tag a versioned release, and submit.
+  or turn it into a documented follow-up. In the README's notes and
+  assumptions, state the scale the MVP is designed for (a single PostgreSQL
+  instance, which is ample below about 100 million links), and list what it
+  deliberately omits: redirect caching, distributed ID generation, and a CDN.
+  Each omission names the metric that would justify adding it, and links to
+  [ADR 0021](../../decisions/0021/). Verify everything from a clean clone, tag
+  a versioned release, and submit.
 
 ## Dependency graph
 
