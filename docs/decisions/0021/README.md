@@ -132,3 +132,34 @@ Sizing, network CIDRs, and IAM policies belong in the infrastructure repository
 - **Google Cloud Run, or Azure Container Apps.** Both are good fits, and
   arguably simpler, and the containers would move unchanged. AWS is the most
   widely used.
+
+## Deferred decisions
+
+Each of these is a scaling measure that adds moving parts. None is justified
+until production metrics show a need. Start with random aliases
+([ADR 0010](../0010/)) on a single PostgreSQL primary, then measure.
+
+- **Redirect caching.** A cache-aside layer (eg. ElastiCache for Redis or
+  Valkey) in front of the database, since redirects are over 90% of traffic.
+  Revisit if redirect latency or database load breaches targets. It reverses
+  [ADR 0012](../0012/), and would need Redis failure handling: replication, a
+  circuit breaker, and a fallback to direct database reads, to avoid a
+  thundering herd on the database.
+
+- **Redirect status and browser caching.** Redirects are `302` so deletions
+  take effect immediately. A later change could serve `301`, or a `302` with
+  `Cache-Control`, for old links, trading control for lower load.
+
+- **Distributed ID generation.** Snowflake-style or batch-allocated IDs, encoded
+  as Base62, in place of random aliases. Revisit only if the collision rate or
+  insert retries become measurable. This would make aliases sequential or
+  time-sortable, which conflicts with the unpredictability requirement, so it
+  would also need a specification change.
+
+- **Global edge routing.** A CDN already fronts the system here, but
+  multi-region deployment with geo-routing is a further step, if latency for
+  distant users matters.
+
+- **Database scaling.** Read replicas first, then sharding by alias, or a
+  move to a horizontally scaled store such as DynamoDB. Sharding adds
+  client-side routing and complicates cross-shard queries, such as `GET /urls`.
