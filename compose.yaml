@@ -1,0 +1,67 @@
+#
+# Runs the whole system locally, with `docker compose up --build`.
+#
+# The web client is at http://localhost:3000, and the API service at
+# http://localhost:8080. Set `WEB_PORT` or `API_PORT` to publish either on a
+# different host port.
+#
+# See: docs > design > physical.
+#
+
+name: url-shortener
+
+services:
+  db:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: url_shortener
+      POSTGRES_USER: url_shortener
+      # A local-only credential. The database isn't published to the host.
+      POSTGRES_PASSWORD: url_shortener
+    volumes:
+      # PostgreSQL 18 images keep their data in a versioned subdirectory of
+      # this path, so the volume is mounted here, not on `data/`.
+      - db-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD", "pg_isready", "--username=url_shortener", "--dbname=url_shortener"]
+      interval: 2s
+      timeout: 5s
+      retries: 15
+
+  api:
+    build: ./src/api-service
+    ports:
+      - "${API_PORT:-8080}:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    read_only: true
+    tmpfs:
+      - /tmp
+    # Healthy once the port accepts connections. There's no health endpoint.
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8080"]
+      interval: 2s
+      timeout: 5s
+      retries: 15
+
+  web:
+    build: ./src/web-client
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    # The web client doesn't need the API service to start. This only spares
+    # the first page load an "unavailable" error.
+    depends_on:
+      api:
+        condition: service_started
+    read_only: true
+    tmpfs:
+      - /tmp
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/3000"]
+      interval: 2s
+      timeout: 5s
+      retries: 15
+
+volumes:
+  db-data:
