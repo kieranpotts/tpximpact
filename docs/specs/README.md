@@ -82,10 +82,14 @@ A `DELETE /{alias}` request for an existing alias returns `204 No Content` and
 removes the alias, after which `GET /{alias}` returns `404 Not Found`. For an
 alias that does not exist, it returns `404 Not Found`.
 
+Verified by: [`delete-short-url.spec.ts`](../../tests/acceptance/delete-short-url.spec.ts).
+
 ### B7 — List all short URLs
 
 A `GET /urls` request returns `200 OK`, with a JSON array holding one
 `{ alias, destinationUrl, shortUrl }` object for every alias currently stored.
+
+Verified by: [`list-short-urls.spec.ts`](../../tests/acceptance/list-short-urls.spec.ts).
 
 ### B8 — Persist across restarts
 
@@ -235,15 +239,21 @@ Verified by: [`no-deduplication.spec.ts`](../../tests/acceptance/no-deduplicatio
 An alias's destination URL never changes. To point an alias somewhere else,
 delete it and create it again.
 
+Verified by: [`unchangeable-short-urls.spec.ts`](../../tests/acceptance/unchangeable-short-urls.spec.ts).
+
 ### R10 — Deleted aliases are free to reuse
 
 Once an alias is deleted, anyone can create it again, straight away. Short URLs
 never expire. An alias exists until it's deleted.
 
+Verified by: [`reuse-deleted-aliases.spec.ts`](../../tests/acceptance/reuse-deleted-aliases.spec.ts).
+
 ### R11 — List order
 
 `GET /urls` lists short URLs newest first. Short URLs created at the same
 moment are ordered by alias.
+
+Verified by: [`list-order.spec.ts`](../../tests/acceptance/list-order.spec.ts).
 
 ## Qualities (non-functional requirements)
 
