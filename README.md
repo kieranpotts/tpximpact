@@ -15,7 +15,7 @@
 > [IETF RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
 - [**🛠️ Development tools and methods**](./docs/development/) \
-  Local development requirements and the day-to-day workflow.
+  Local development requirements and the day-to-day workflow. [Start here.](./docs/onboard.md)
 
 - [**📋 Requirements specification**](./docs/specs/) \
   Defines the behaviors and qualities of the system.
@@ -29,6 +29,6 @@
 - [**🗺️ Delivery plans**](./docs/plans/) \
   Decomposes delivery into independently shippable increments.
 
------
+---
 
 Copyright © 2026 Kieran Potts, all rights reserved.
