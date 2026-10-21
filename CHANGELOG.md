@@ -9,6 +9,8 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-10-21
+
 - `GET /urls` lists every short URL, newest first, with its alias, destination URL, and short URL.
 - `DELETE /{alias}` deletes a short URL. The deleted alias is free to reuse straight away.
 
