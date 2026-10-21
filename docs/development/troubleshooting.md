@@ -83,6 +83,10 @@ The API service has no health endpoint, at this time. It counts as healthy once
 its port accepts connections, so "unhealthy" means the process didn't start or
 didn't bind port `8080`.
 
+The API service exits at startup, with status 1, if a setting is missing or
+invalid, if it can't reach the database, or if a migration fails. Its last log
+line says which.
+
 The `db` container must be healthy before `api` starts.
 
 ### Old data is still there, or the database won't start after a change
