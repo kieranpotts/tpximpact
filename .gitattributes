@@ -21,6 +21,10 @@
 *.png binary
 *.tif binary
 *.tiff binary
+*.jar binary
+
+# Windows batch files, eg. the Gradle wrapper's, need Windows line endings.
+*.bat text eol=crlf
 
 # Exclude these files and directories from zipped
 # archives of the repository.
