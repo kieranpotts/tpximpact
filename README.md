@@ -25,7 +25,10 @@ My approach to this project involved the following stages.
 5. **Build a walking skeleton.** Develop a thin end-to-end slice through the API
    service and the web client. No behavioral requirements implemented yet.
 
-Features are then built incrementally against the delivery plan.
+Features are then built incrementally against the delivery plan. <!-- TODO: Total steps? -->
+
+<!-- TODO: AI-assisted development workflow. Loose TDD approach to construction phase. -->
+<!-- TODO: Answer other questions from brief. -->
 
 Commits are small and atomic. Each one is prefixed by a type, which is loosely
 based on Conventional Commits. This important commit types are `behavior` for
