@@ -18,6 +18,9 @@
     /* Kotlin Language — Community plugin.*/
     "mathiasfrohlich.kotlin",
 
+    /* Makefile Tools — Official Microsoft extension for Makefile support. */
+    "ms-vscode.makefile-tools",
+
     /* Playwright — Official Microsoft extension for running Playwright tests in VS Code. */
     "ms-playwright.playwright",
 
