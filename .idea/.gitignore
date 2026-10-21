@@ -1,0 +1,6 @@
+# Only the shared project settings are tracked. Everything else in `.idea/` is
+# per-developer state.
+/*
+!/.gitignore
+!/codeStyles/
+!/externalDependencies.xml

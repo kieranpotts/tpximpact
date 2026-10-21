@@ -1,0 +1,12 @@
+<component name="ProjectCodeStyleConfiguration">
+  <code_scheme name="Project" version="173">
+    <option name="RIGHT_MARGIN" value="120" />
+    <option name="SOFT_MARGINS" value="80,100,120,140,160" />
+    <option name="WRAP_ON_TYPING" value="0" />
+    <option name="ALLOW_TRAILING_SPACES_ON_CARET_LINE" value="false" />
+    <!-- Indentation, charset, and line endings come from `.editorconfig`. -->
+    <Markdown>
+      <option name="WRAP_TEXT_IF_LONG" value="false" />
+    </Markdown>
+  </code_scheme>
+</component>

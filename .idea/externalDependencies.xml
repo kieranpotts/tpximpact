@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalDependencies">
+    <!-- NOTE: Keep this list synchronized with `../.vscode/extensions.json`. -->
+    <plugin id="org.asciidoctor.intellij.asciidoctor" />
+    <plugin id="org.jetbrains.kotlin" />
+    <plugin id="NodeJS" />
+    <plugin id="com.intellij.gradle" />
+    <plugin id="Docker" />
+  </component>
+</project>
