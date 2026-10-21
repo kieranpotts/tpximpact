@@ -10,8 +10,12 @@
 # software stacks here: https://github.com/github/gitignore
 #
 
+# Dependencies.
+node_modules/
+
 # Build output.
 /src/api-service/build/
+/src/web-client/dist/
 
 # Caches.
 .gradle/
