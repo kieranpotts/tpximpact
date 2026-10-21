@@ -12,6 +12,7 @@ import com.tpximpact.urlshortener.ui.contractRoute
 import com.tpximpact.urlshortener.ui.installProblems
 import com.tpximpact.urlshortener.ui.installRequestIds
 import com.tpximpact.urlshortener.ui.shortenRoute
+import com.tpximpact.urlshortener.ui.welcomeRoute
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationStopped
 import io.ktor.server.engine.connector
@@ -70,6 +71,7 @@ fun Application.module(
     installRequestIds()
     installProblems()
     routing {
+        welcomeRoute()
         contractRoute()
         shortenRoute(shortUrls, publicBaseUrl)
     }

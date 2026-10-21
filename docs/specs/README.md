@@ -134,6 +134,15 @@ This is an extension to the original API contract supplied by TPXimpact.
 
 Verified by: [`publish-contract.spec.ts`](../../tests/acceptance/publish-contract.spec.ts).
 
+### B15 — Welcome visitors to the root path
+
+A `GET /` request to the API service returns `200 OK`, with an HTML page that
+says "Welcome to the URL shortener".
+
+This is an extension to the original API contract supplied by TPXimpact.
+
+Verified by: [`welcome-page.spec.ts`](../../tests/acceptance/welcome-page.spec.ts).
+
 ## Business rules
 
 The following business rules are extensions to the requirements specified
