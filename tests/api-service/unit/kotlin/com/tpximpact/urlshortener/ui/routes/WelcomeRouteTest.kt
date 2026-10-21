@@ -1,5 +1,6 @@
-package com.tpximpact.urlshortener.ui
+package com.tpximpact.urlshortener.ui.routes
 
+import com.tpximpact.urlshortener.ui.apiTest
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType

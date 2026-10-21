@@ -15,6 +15,7 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 - An unknown or invalid alias gets a `404`. Browsers see "link not found" HTML page.
 - While the database is unavailable, requests that need it get a `503`.
 - Acceptance tests show that short URLs survive restarts of the API service and its database.
+- Refactor UI layer of API service to better separate routes from other components.
 - Devtools fix: install application dependencies (`make install`) into devcontainer automatically.
 
 ## [0.3.0] - 2026-10-21

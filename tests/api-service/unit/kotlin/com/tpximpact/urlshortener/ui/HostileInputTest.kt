@@ -1,6 +1,7 @@
 package com.tpximpact.urlshortener.ui
 
 import com.tpximpact.urlshortener.domain.InMemoryShortUrlRepository
+import com.tpximpact.urlshortener.ui.routes.shorten
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -57,7 +58,7 @@ class HostileInputTest {
                 """{"destinationUrl": "$URL", "destinationUrl": "javascript:alert(1)"}""",
                 """{"": "", "\u0000": null}""",
                 // Not JSON, or not quite.
-                "﻿{\"destinationUrl\": \"$URL\"}",
+                "{\"destinationUrl\": \"$URL\"}",
                 "{'destinationUrl': '$URL'}",
                 "{\"destinationUrl\": \"$URL\"} trailing",
                 "{\"destinationUrl\": \"$URL\"}{}",

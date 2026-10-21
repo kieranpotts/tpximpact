@@ -1,8 +1,10 @@
-package com.tpximpact.urlshortener.ui
+package com.tpximpact.urlshortener.ui.routes
 
 import com.tpximpact.urlshortener.app.ShortUrlService
 import com.tpximpact.urlshortener.domain.Alias
 import com.tpximpact.urlshortener.domain.Parsed
+import com.tpximpact.urlshortener.ui.ProblemException
+import com.tpximpact.urlshortener.ui.ProblemType
 import io.ktor.http.HttpHeaders
 import io.ktor.server.response.header
 import io.ktor.server.response.respondRedirect

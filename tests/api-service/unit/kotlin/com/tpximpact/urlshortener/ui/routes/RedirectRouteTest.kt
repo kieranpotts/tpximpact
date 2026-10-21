@@ -1,9 +1,12 @@
-package com.tpximpact.urlshortener.ui
+package com.tpximpact.urlshortener.ui.routes
 
 import com.tpximpact.urlshortener.domain.Alias
 import com.tpximpact.urlshortener.domain.DestinationUrl
 import com.tpximpact.urlshortener.domain.InMemoryShortUrlRepository
 import com.tpximpact.urlshortener.domain.valid
+import com.tpximpact.urlshortener.ui.Problem
+import com.tpximpact.urlshortener.ui.apiTest
+import com.tpximpact.urlshortener.ui.publicBaseUrl
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.header

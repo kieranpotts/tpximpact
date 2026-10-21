@@ -8,12 +8,12 @@ import com.tpximpact.urlshortener.infra.config.ConfigException
 import com.tpximpact.urlshortener.infra.persistence.JdbcShortUrlRepository
 import com.tpximpact.urlshortener.infra.persistence.createDataSource
 import com.tpximpact.urlshortener.infra.persistence.migrate
-import com.tpximpact.urlshortener.ui.contractRoute
 import com.tpximpact.urlshortener.ui.installProblems
 import com.tpximpact.urlshortener.ui.installRequestIds
-import com.tpximpact.urlshortener.ui.redirectRoute
-import com.tpximpact.urlshortener.ui.shortenRoute
-import com.tpximpact.urlshortener.ui.welcomeRoute
+import com.tpximpact.urlshortener.ui.routes.contractRoute
+import com.tpximpact.urlshortener.ui.routes.redirectRoute
+import com.tpximpact.urlshortener.ui.routes.shortenRoute
+import com.tpximpact.urlshortener.ui.routes.welcomeRoute
 import io.ktor.server.application.Application
 import io.ktor.server.application.ApplicationStopped
 import io.ktor.server.engine.connector

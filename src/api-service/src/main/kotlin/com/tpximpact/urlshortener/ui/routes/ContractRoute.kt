@@ -1,4 +1,4 @@
-package com.tpximpact.urlshortener.ui
+package com.tpximpact.urlshortener.ui.routes
 
 import io.ktor.http.ContentType
 import io.ktor.server.response.respondBytes
