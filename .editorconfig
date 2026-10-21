@@ -41,6 +41,11 @@ trim_trailing_whitespace = true
 [*.go]
 indent_style = tab
 
+# Kotlin overrides. ktlint reads its style settings from here.
+[*.{kt,kts}]
+indent_size = 4
+ktlint_code_style = ktlint_official
+
 # Makefile overrides.
 [Makefile]
 indent_style = tab
