@@ -1,0 +1,28 @@
+{
+  "recommendations": [
+
+    /* NOTE: Keep this list synchronized with `../.devcontainer/devcontainer.json`. */
+
+    /* AsciiDoc — Provides language support for AsciiDoc. */
+    "asciidoctor.asciidoctor-vscode",
+
+    /* ESLint — Integrates ESLint for ECMAScript into VS Code. */
+    "dbaeumer.vscode-eslint",
+
+    /* EditorConfig — .editorconfig file support. */
+    "editorconfig.editorconfig",
+
+    /* Prettier — Code formatter. */
+    "esbenp.prettier-vscode",
+
+    /* Kotlin Language — Community plugin.*/
+    "mathiasfrohlich.kotlin",
+
+    /* Playwright — Official Microsoft extension for running Playwright tests in VS Code. */
+    "ms-playwright.playwright",
+
+    /* Gradle for Java — Manage Gradle projects and run Gradle tasks from VS Code. */
+    "vscjava.vscode-gradle"
+
+  ]
+}
