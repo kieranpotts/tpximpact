@@ -162,8 +162,11 @@ push. Push with `git push --follow-tags` once you're happy.
 
 `.devcontainer/devcontainer.json` bind-mounts these from your home directory,
 and Docker fails to start the container if any is missing: `.gitconfig`,
-`local.gitconfig`, `local.gitmessage`, `local.gitignore`, and `.ssh`. Create
-empty files for the ones you don't use.
+`local.gitconfig`, `local.gitmessage`, `local.gitignore`, and `.ssh`. Its
+`initializeCommand` creates empty ones on the host before the container starts,
+so you'll see them in your home directory even if you don't use them. If it
+can't, for example on a Windows host outside WSL, you'll need to create them
+yourself.
 
 ### Files in the project are owned by the wrong user
 

@@ -50,6 +50,15 @@
   // `gpg` in the container then starts its own agent, whose curses pinentry
   // has no TTY to prompt on ("gpg: signing failed: Inappropriate ioctl for
   // device").
+  //
+  // Docker refuses to start the container if the source of a bind mount is
+  // missing, and there's no way to mark a mount as optional. So, before the
+  // container is created, `initializeCommand` runs on the host and creates any
+  // of the mounted files and folders that don't exist yet. Those that already
+  // exist are left untouched. The trade-off is that this leaves empty files in
+  // the host's home directory, for anyone who doesn't use them. This assumes a
+  // POSIX shell on the host; on Windows (outside WSL) it runs in `cmd`.
+  "initializeCommand": "touch ~/.gitconfig ~/local.gitconfig ~/local.gitmessage ~/local.gitignore && mkdir -p -m 700 ~/.ssh",
   "mounts": [
     "source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,readonly",
     "source=${localEnv:HOME}/local.gitconfig,target=/home/vscode/local.gitconfig,type=bind,readonly",
