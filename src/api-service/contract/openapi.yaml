@@ -39,8 +39,9 @@ paths:
                   maxLength: 2048
                   description: |
                     Destination URL. After trimming, it must be an absolute
-                    `http` or `https` URL with a host, no user-info, and not
-                    pointing at the shortener's own host.
+                    `http` or `https` URL, of printable ASCII characters only,
+                    with a host, no user-info, and not pointing at the
+                    shortener's own host.
                   example: https://example.com/very/long/url
                 customAlias:
                   type: string
@@ -342,7 +343,7 @@ components:
               enum: [500]
 
     MalformedRequestProblem:
-      description: The body is not valid JSON, or not a JSON object.
+      description: The body is not valid UTF-8 JSON, is nested too deeply, or is not a JSON object.
       allOf:
         - $ref: '#/components/schemas/Problem'
         - type: object
