@@ -43,6 +43,18 @@ Route handlers handle form posts and page loads. Each handler branches on the
 API client's result (`ok`, `rejected`, or `unavailable`). Pages are rendered
 from Nunjucks views built with GOV.UK Frontend macros.
 
+The home page, `GET /`, holds the shorten form, which posts to `POST /links`.
+A successful post redirects to `/?created=<alias>`, and the home page looks
+that alias up through the API service to show its short URL. It doesn't take
+the short URL from the query, so a crafted link can't make the page show a
+URL the system didn't make.
+
+The layout is GOV.UK Frontend's page template, with its own service
+navigation in place of the GOV.UK header and footer. The web client serves
+GOV.UK Frontend's compiled CSS and JavaScript, but none of its fonts or
+images, and drops the CSS rules that load the font
+([ADR 0008](../../decisions/0008/)).
+
 Handlers depend on the `ShortenerApi` interface, not on `fetch`, so they can be
 tested against a fake. `HttpShortenerApi` is the production implementation. It
 calls the API service over HTTP with a per-call timeout, and parses
