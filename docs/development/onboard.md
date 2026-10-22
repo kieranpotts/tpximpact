@@ -80,16 +80,25 @@ make psql     # Open a psql session on the database.
 
 ### Ports
 
-The web client is published on port `3000`, and the API service on `8080`. If
-either port is taken on your machine, set `WEB_PORT` or `API_PORT` to publish
-on a different one.
+By default, the web client is published on port `3000`, and the API service on
+`8080`. If either port is taken on your machine, set `WEB_PORT` or `API_PORT`
+to publish the services on different ports.
 
 ```sh
-WEB_PORT=3001 make up
-WEB_PORT=3001 make acceptance
+WEB_PORT=3002 make up
 ```
 
-To set them permanently, copy `.env.example` to `.env` and set them there.
+The acceptance tests (executed via `make acceptance`) run a separate instance
+of both services on ports `3001` and `8081`. This allows acceptance tests to be
+run alongside development instances of the system (run via `make up`). Set
+`ACCEPTANCE_WEB_PORT` or `ACCEPTANCE_API_PORT` to change the ports for the
+system-under-test in acceptance tests.
+
+```sh
+ACCEPTANCE_WEB_PORT=3003 make acceptance
+```
+
+To set any of them permanently, copy `.env.example` to `.env` and set them there.
 Docker Compose reads `.env` automatically, and variables set in the shell take
 precedence over it.
 

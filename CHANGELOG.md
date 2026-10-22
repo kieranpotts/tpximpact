@@ -9,6 +9,13 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
+**Fix conflicting ports between acceptance and development instances.**
+
+- `make acceptance` now publishes the system on ports `3001` and `8081`.
+- `make up` continues to publish the system on ports `3000` and `8080`.
+- New environment variables `ACCEPTANCE_WEB_PORT` and `ACCEPTANCE_API_PORT` override default acceptance test ports.
+- `make acceptance` fails fast, with a clear message, if either port is taken.
+
 ## [0.6.0] - 2026-10-22
 
 **First increment of web client behavior.**

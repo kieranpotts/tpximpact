@@ -61,7 +61,7 @@ Thus, to revisit a past decision, write a new record. Do not edit an old one.
 - [0018](./0018/) Configuration through environment variables — ACCEPTED
 
 The records above are in scope for the exercise brief. The records below
-are out of scope, and remain proposals.
+are out of scope, and most of them remain proposals.
 
 - [0019](./0019/) Health and metrics on a separate management port — PROPOSED
 - [0020](./0020/) Structured JSON logs with request-ID propagation — PROPOSED
@@ -69,4 +69,4 @@ are out of scope, and remain proposals.
 - [0022](./0022/) Delivery pipeline (CI/CD) — PROPOSED
 - [0023](./0023/) Idempotent link creation — PROPOSED
 - [0024](./0024/) Contract tests against the running API service — PROPOSED
-- [0025](./0025/) Host ports for the acceptance tests — PROPOSED
+- [0025](./0025/) Host ports for the acceptance tests — ACCEPTED

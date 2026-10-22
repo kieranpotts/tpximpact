@@ -5,8 +5,12 @@
 #
 # The system runs as its own Compose project, with its own database volume, so
 # it doesn't touch the data of a system started with `run/up`. It's
-# removed afterwards, pass or fail. Its ports are the same, though, so stop
-# any other running copy of the system first.
+# removed afterwards, pass or fail.
+#
+# It publishes on its own host ports, too, so it can run alongside a system
+# started with `run/up`. They default to 3001 for the web client and 8081 for
+# the API service. Set `ACCEPTANCE_WEB_PORT` or `ACCEPTANCE_API_PORT`, in the
+# shell or in `.env`, to change them.
 #
 # Arguments are passed on to Playwright, eg. `./run/acceptance --headed`.
 #
@@ -22,19 +26,49 @@ cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 
 export COMPOSE_PROJECT_NAME="url-shortener-acceptance"
 
+# Prints the value of a variable from `.env`, if it's set there. Compose reads
+# `.env` itself, but only for the variables that `compose.yaml` interpolates,
+# so this script must read its own. It handles the simple `KEY=value` lines
+# that `.env.example` shows, with optional quotes.
+env_file_value() {
+  [[ -f .env ]] || return 0
+  sed -nE "s/^[[:space:]]*(export[[:space:]]+)?$1[[:space:]]*=[[:space:]]*['\"]?([^'\"#[:space:]]*).*/\2/p" .env | tail -n 1
+}
+
+# A variable set in the shell takes precedence over `.env`, as with Compose.
+web_port="${ACCEPTANCE_WEB_PORT:-$(env_file_value ACCEPTANCE_WEB_PORT)}"
+api_port="${ACCEPTANCE_API_PORT:-$(env_file_value ACCEPTANCE_API_PORT)}"
+export WEB_PORT="${web_port:-3001}"
+export API_PORT="${api_port:-8081}"
+
+# Short URLs must reach the API service on the port the tests use, whatever
+# `PUBLIC_BASE_URL` is set to for `run/up`.
+export PUBLIC_BASE_URL="http://localhost:${API_PORT}"
+export WEB_CLIENT_URL="http://localhost:${WEB_PORT}"
+
 cleanup() { docker compose down --volumes --remove-orphans; }
+
+# Remove anything a previous run left behind, eg. if it was killed, so it
+# doesn't hold the ports.
+cleanup 2>/dev/null
+
+# Fail fast, with a clear message, if either port is taken, rather than with
+# Compose's bind error after the images are built.
+for port in "${WEB_PORT}" "${API_PORT}"; do
+  if (exec 3<>"/dev/tcp/127.0.0.1/${port}") 2>/dev/null; then
+    owner="$(docker ps --filter "publish=${port}" --format '{{.Names}}' | head -n 1)"
+    echo "Port ${port} is already in use${owner:+ by the container ${owner}}." >&2
+    echo "Free it, eg. with \`make down\`, or set ACCEPTANCE_WEB_PORT and" >&2
+    echo "ACCEPTANCE_API_PORT, in the shell or in .env, to other ports." >&2
+    exit 1
+  fi
+done
+
 trap cleanup EXIT
 
 if ! docker compose up --build --detach --wait; then
   docker compose logs
   exit 1
 fi
-
-# Ask Compose which host ports it published, so that `WEB_PORT` and `API_PORT`
-# are honored whether they're set in the shell or in `.env`.
-web_port="$(docker compose port web 3000)"
-api_port="$(docker compose port api 8080)"
-export WEB_CLIENT_URL="http://localhost:${web_port##*:}"
-export PUBLIC_BASE_URL="http://localhost:${api_port##*:}"
 
 (cd tests/acceptance && npx playwright test "$@")

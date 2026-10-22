@@ -21,7 +21,7 @@ If it's another copy of this system, stop it with `make down`. Otherwise
 publish on different ports, with `WEB_PORT` and `API_PORT`:
 
 ```sh
-WEB_PORT=3001 API_PORT=8081 make up
+WEB_PORT=3002 API_PORT=8082 make up
 ```
 
 To set them permanently, copy `.env.example` to `.env` and set them there. A
@@ -31,17 +31,19 @@ Only the host side of the mapping changes. The applications always listen on
 `3000` and `8080` inside their containers, so containers reach each other at
 the same addresses, regardless.
 
-### `make acceptance` fails to start the system
+### `make acceptance` reports that a port is in use
 
-`make acceptance` publishes the same ports as `make up`. If a copy of the
-system is already running, the acceptance run collides with it. Stop the other
-copy first, with `make down`, or set `WEB_PORT` and `API_PORT` for the acceptance run. The
-script reads the ports back from Compose, so the tests follow wherever they
-were published.
+`make acceptance` publishes on its own ports, `3001` and `8081`, so it doesn't
+collide with `make up`. Before it starts the system, it checks that both are
+free, and names the container holding either, where it can. Stop that, or
+publish the acceptance run on other ports, with `ACCEPTANCE_WEB_PORT` and
+`ACCEPTANCE_API_PORT`, in the shell or in `.env`:
 
 ```sh
-WEB_PORT=3001 API_PORT=8081 make acceptance
+ACCEPTANCE_WEB_PORT=3003 ACCEPTANCE_API_PORT=8083 make acceptance
 ```
+
+`WEB_PORT`, `API_PORT`, and `PUBLIC_BASE_URL` don't apply to acceptance runs.
 
 ### The tests pass against the wrong system
 
