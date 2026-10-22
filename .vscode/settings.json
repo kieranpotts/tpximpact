@@ -30,4 +30,7 @@
     },
   },
 
+  /* Automatically configure Makefile project directories when they're opened. */
+  "makefile.configureOnOpen": true,
+
 }
