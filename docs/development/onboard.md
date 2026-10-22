@@ -34,6 +34,13 @@ cd tpximpact
 make up
 ```
 
+If you have only Docker, run Compose directly instead. It runs in the
+foreground, and the first build takes a few minutes.
+
+```sh
+docker compose up --build
+```
+
 `make up` starts the system in the background, and returns once every container
 is healthy. The first build takes a few minutes. Later builds reuse Docker's
 cache. Run `make up` again after changing the code, to rebuild and restart what
@@ -65,7 +72,7 @@ The database isn't published on the host.
 
 Open the web client to shorten, list, and delete URLs. Short URLs point at the
 API service, which redirects them. To call the API service directly, see
-[Testing the API with Postman](./postman.md), or the API contract it serves:
+[Calling the API](./api.md), or the API contract it serves:
 
 ```sh
 curl http://localhost:8080/openapi.yaml
@@ -87,6 +94,7 @@ to publish the services on different ports.
 
 ```sh
 WEB_PORT=3002 make up
+API_PORT=8090 docker compose up --build
 ```
 
 The acceptance tests (executed via `make acceptance`) run a separate instance
@@ -113,3 +121,29 @@ make down
 
 The stored data is on the `db-data` volume, and survives `make down`. To delete
 it too, run `make reset`.
+
+Without Make, press Ctrl+C, or run `docker compose down`. To delete the stored
+data too, run `docker compose down --volumes`.
+
+## 🧪 Testing
+
+The tests need the JDK and Node.js, which the devcontainer provides. Open the
+repository in it, or install the toolchain on the host, as the requirements
+above describe. Then:
+
+```sh
+make install   # Once, after cloning.
+make check     # Linters, then all tests, stopping at the first failure.
+```
+
+`make check` runs these narrower targets in turn:
+
+```sh
+make lint         # ktlint, ESLint, and tsc.
+make test         # Unit and integration tests for the API service and the web client.
+make acceptance   # Playwright tests against the whole system, under Docker Compose.
+```
+
+`make acceptance` runs its own copy of the system, on ports `3001` and `8081`,
+with its own database, so it doesn't disturb a system that's already running.
+See [Ports](#ports).

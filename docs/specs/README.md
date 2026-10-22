@@ -3,6 +3,11 @@
 What the system does, in business terms — the major operations and business
 rules, and the constraints within which the system must operate.
 
+> [!IMPORTANT]
+> The capitalized words REQUIRED, MUST, MUST NOT, RECOMMENDED, SHOULD,
+> SHOULD NOT, OPTIONAL, and MAY are to be interpreted as described in
+> [IETF RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
+
 ## Context
 
 The system turns long URLs into short ones. A link editor submits a destination URL,

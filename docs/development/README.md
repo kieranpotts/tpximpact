@@ -4,7 +4,7 @@ Setting up a local working environment, and the day-to-day development
 workflow.
 
 - [**Get started**](./onboard.md) \
-  Runtime requirements, how to install the project, and how to use it.
+  Runtime requirements, and how to install, run, and test the system.
 
 - [**Tools**](./tools.md) \
   The `Makefile` and `run/` scripts that drive the development lifecycle.
@@ -12,9 +12,9 @@ workflow.
 - [**Repository filesystem structure**](./structure.md) \
   How the repository is organized on disk.
 
-- [**Testing the API with Postman**](./postman.md) \
-  Import the API's OpenAPI contract into Postman, and call the endpoints by
-  hand.
+- [**Calling the API**](./api.md) \
+  Example requests with `curl`, and how to import the API's OpenAPI contract
+  into Postman.
 
 - [**Troubleshooting**](./troubleshooting.md) \
   Port conflicts, Docker, tooling, and devcontainer problems, and their fixes.
