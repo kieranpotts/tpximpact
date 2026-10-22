@@ -63,11 +63,12 @@ healthy.
 
 The database isn't published on the host.
 
-Currently, each application serves only a placeholder page.
+Open the web client to shorten, list, and delete URLs. Short URLs point at the
+API service, which redirects them. To call the API service directly, see
+[Testing the API with Postman](./postman.md), or the API contract it serves:
 
 ```sh
-curl http://localhost:8080/
-# URL shortener API service
+curl http://localhost:8080/openapi.yaml
 ```
 
 While the system is running:

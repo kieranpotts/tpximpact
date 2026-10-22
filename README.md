@@ -26,7 +26,7 @@ My approach to this project involved the following stages.
    service and the web client. No behavioral requirements implemented yet.
 
 Features are then built incrementally into the walking skeleton against the
-[MVP delivery plan](./docs/plans/mvp/README.md). A total of nine tasks (T01-T09)
+[MVP delivery plan](./docs/plans/mvp/README.md). A total of eight tasks (T01-T08)
 take the system to the requirements specified in the project brief.
 
 All artifacts — requirements specifications, design docs, delivery plans, as

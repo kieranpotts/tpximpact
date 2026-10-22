@@ -23,7 +23,7 @@ The local system consists of three Docker Compose services: `web` and `api` are
 built from `./src/web-client` and `./src/api-service` respectively; `db` is the
 official `postgres:18` image.
 
-Theres's a named Docker volume holding PostgreSQL's data directory. It survives
+There's a named Docker volume holding PostgreSQL's data directory. It survives
 container restarts and `docker compose down`.
 
 ```mermaid
@@ -63,3 +63,12 @@ C4Deployment
 `web` reaches the API service at `http://api:8080` on the Compose network. The
 API service builds short URLs with `PUBLIC_BASE_URL=http://localhost:8080`, the
 address the browser of a link editor or short URL visitor can reach.
+
+The host ports can be changed with `WEB_PORT` and `API_PORT`, and
+`PUBLIC_BASE_URL` follows `API_PORT`. Inside the Compose network, the ports
+never change.
+
+`make acceptance` runs a second copy of the system, as its own Compose project
+with its own volume, published on `localhost:3001` and `localhost:8081`
+([ADR 0025](../../decisions/0025/)). It can run alongside the system started
+with `make up`, and it's removed when the run ends.

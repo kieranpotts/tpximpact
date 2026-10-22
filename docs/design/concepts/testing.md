@@ -8,7 +8,7 @@ suite proves the assembled system works.
 | API service `test`            | JUnit 6                    | Domain, service, and HTTP behavior. Responses validated against the OpenAPI contract. In-memory. | JDK             |
 | API service `integrationTest` | JUnit 6, Testcontainers    | The JDBC repository against real PostgreSQL.                                                     | JDK, Docker     |
 | Web client                    | Vitest, supertest, cheerio | Routes against a fake API service, and the API client against a local stub server.               | Node.js         |
-| Acceptance                    | Playwright                 | The whole system under Docker Compose, plus axe accessibility scans.                             | Docker, Node.js |
+| Acceptance                    | Playwright                 | The whole system under Docker Compose.                                                           | Docker, Node.js |
 
 Run the first three with `make test`, and acceptance with `make acceptance`.
 

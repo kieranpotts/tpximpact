@@ -46,8 +46,7 @@ relationships.
 | `A <\|.. B` | Realization            | B implements the interface A.                                                  | `RandomAliasGenerator` implements `AliasGenerator`. |
 
 Within a class box, `+` marks a public member, and `<<interface>>` marks a type
-with no implementation of its own. `PK` marks the field that forms the entity's
-key (here, `ShortUrl` is identified by its `alias`).
+with no implementation of its own. `ShortUrl` is identified by its `alias`.
 
 The domain objects capture all the logic for implementing the business rules.
 The rules themselves are defined in the [specification](../../specs/).

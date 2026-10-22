@@ -47,7 +47,7 @@ flowchart LR
 | --------- | ----- | ------------------------------------------ | ---------------------------------------- | ------- |
 | Browser   | `web` | HTTP, HTML forms (`POST`), `303` redirects | Browser default                          | None    |
 | Browser   | `api` | HTTP `GET /{alias}`, `302`                 | Browser default                          | None    |
-| `web`     | `api` | HTTP/1.1, JSON, keep-alive                 | 3s per call (`API_TIMEOUT_MS`)           | None    |
+| `web`     | `api` | HTTP/1.1, JSON, keep-alive                 | 3s per call                              | None    |
 | `api`     | `db`  | PostgreSQL wire protocol, via JDBC         | 2s to get a connection, 2s per statement | None    |
 
 The two redirect codes serve different use cases:

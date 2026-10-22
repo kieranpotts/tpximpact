@@ -13,7 +13,7 @@ C4Component
 
   Container_Boundary(webc, "Web client") {
     Boundary(l2, "Presentation", "layer") {
-      Component(views, "Nunjucks views", "GOV.UK Frontend", "Pages and partials")
+      Component(views, "Nunjucks views", "GOV.UK Frontend", "Pages and their layout")
       Component(presenter, "Error presenter", "TypeScript", "Turns API errors into error view models")
     }
     Boundary(l3, "API access", "layer") {

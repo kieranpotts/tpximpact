@@ -11,11 +11,12 @@ IN PROGRESS
 
 ## References
 
-- Implements: [requirements specification](../../specs/), B1 to B14, R1 to
+- Implements: [requirements specification](../../specs/), B1 to B16, R1 to
   R11, and Q1 to Q7.
 
 - Informed by: the accepted architectural decisions,
-  [ADR 0001](../../decisions/0001/) to [ADR 0018](../../decisions/0018/).
+  [ADR 0001](../../decisions/0001/) to [ADR 0018](../../decisions/0018/), and
+  [ADR 0025](../../decisions/0025/).
 
 - Targets design: [`docs/design/`](../../design/), and the
   [repository layout](../../development/structure.md).
@@ -23,7 +24,7 @@ IN PROGRESS
 ## Out-of-scope
 
 - Everything in the proposed decisions, [ADR 0019](../../decisions/0019/) to
-  [ADR 0023](../../decisions/0023/).
+  [ADR 0024](../../decisions/0024/).
 
 - Pagination of `GET /urls`, authentication, and link ownership. Each needs a
   change to the specification first.
@@ -66,10 +67,10 @@ tracker.
 | T01 | Walking skeleton                               | Q4, Q5, Q6                   | ✅ DONE   | —          |
 | T02 | API service foundations, and the contract      | B14, Q1, Q2                  | ✅ DONE   | T01        |
 | T03 | Shorten URLs through the API                   | B1 to B4, B12, B13, R1 to R8 | ✅ DONE   | T02        |
-| T04 | Follow short URLs                              | B5, B8, Q7                   | ✅ DONE   | T03        |
+| T04 | Follow short URLs                              | B5, B8, B15, Q7              | ✅ DONE   | T03        |
 | T05 | Shorten URLs from the web client               | B9, B11, Q3                  | ✅ DONE   | T03        |
 | T06 | List and delete short URLs through the API     | B6, B7, R9 to R11            | ✅ DONE   | T04        |
-| T07 | List and delete short URLs from the web client | B10                          | ✅ DONE   | T05, T06   |
+| T07 | List and delete short URLs from the web client | B10, B16                     | ✅ DONE   | T05, T06   |
 | T08 | Documentation and release                      | —                            | ⭕ TODO   | T07        |
 
 ### Increments
@@ -148,7 +149,7 @@ describes the final code. The release comes last.
 | ID    | Step                                   | Status | Depends on     |
 | ----- | -------------------------------------- | ------ | -------------- |
 | T08.1 | Resolve the `TODO` comments            | ✅ DONE | —              |
-| T08.2 | Correct documentation drift            | ⭕ TODO | T08.1          |
+| T08.2 | Correct documentation drift            | ✅ DONE | T08.1          |
 | T08.3 | README: run and test the system        | ⭕ TODO | T08.2          |
 | T08.4 | README: example requests               | ⭕ TODO | T08.3          |
 | T08.5 | README: notes, assumptions, and limits | ⭕ TODO | T08.2          |
@@ -205,7 +206,9 @@ describes the final code. The release comes last.
   CDN — each with the metric that would justify adding it, linking to
   [ADR 0012](../../decisions/0012/) and [ADR 0021](../../decisions/0021/).
   What's out of scope: pagination of `GET /urls`, authentication, link
-  ownership, the proposed ADRs, and any follow-ups from T08.1.
+  ownership, the proposed ADRs, and any follow-ups from T08.1 and T08.2.
+  T08.2 found one: [ADR 0017](../../decisions/0017/) calls for accessibility
+  scans in the acceptance tests, which aren't implemented.
 
 - **T08.6 — README: debrief and time spent.** Tidy the debriefing notes
   into their final form, fix typos, record the final development time, and

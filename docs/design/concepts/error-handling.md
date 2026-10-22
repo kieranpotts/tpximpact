@@ -16,7 +16,7 @@ response.
 | `malformed-request`      | 400    | Not valid UTF-8 JSON, nested too deeply, or not an object. |
 | `validation-failed`      | 400    | Field rules broken. `errors[]` lists every one.            |
 | `alias-taken`            | 400    | `customAlias` already exists.                              |
-| `not-found`              | 404    | The alias doesn't exist, or can't exist.                   |
+| `not-found`              | 404    | No such alias to follow, or a path that can't be an alias. |
 | `payload-too-large`      | 413    | Body over 16 KiB.                                          |
 | `unsupported-media-type` | 415    | `Content-Type` isn't `application/json`.                   |
 | `internal-error`         | 500    | Unexpected fault. `detail` gives only the request ID.      |

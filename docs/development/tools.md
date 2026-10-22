@@ -41,8 +41,8 @@ libraries). On the host, you must install them yourself.
 
 `make acceptance` runs the system as a separate Compose project, with its own
 database volume, so it doesn't touch the data of a system started with
-`make up`. It publishes the same ports, though, so stop any other running copy
-of the system first, with `make down`.
+`make up`. It publishes on its own ports, `3001` and `8081`, so it can run
+alongside it. See [Ports](./onboard.md#ports).
 
 `make reset` also removes anything a killed `make acceptance` run left behind.
 
