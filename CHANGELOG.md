@@ -9,6 +9,8 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-10-22
+
 **Open short URLs in a new tab from the web client.**
 
 - Short URL links, in the success banner and the table, open in a new tab.
