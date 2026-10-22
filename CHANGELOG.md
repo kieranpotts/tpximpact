@@ -9,6 +9,8 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-10-22
+
 **List and delete short URLs from the web client.**
 
 - The home page lists every short URL, newest first, in a table.
