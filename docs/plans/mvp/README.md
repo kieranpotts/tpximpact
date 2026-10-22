@@ -147,7 +147,7 @@ describes the final code. The release comes last.
 
 | ID    | Step                                   | Status | Depends on     |
 | ----- | -------------------------------------- | ------ | -------------- |
-| T08.1 | Resolve the `TODO` comments            | ⭕ TODO | —              |
+| T08.1 | Resolve the `TODO` comments            | ✅ DONE | —              |
 | T08.2 | Correct documentation drift            | ⭕ TODO | T08.1          |
 | T08.3 | README: run and test the system        | ⭕ TODO | T08.2          |
 | T08.4 | README: example requests               | ⭕ TODO | T08.3          |

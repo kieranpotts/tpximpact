@@ -82,8 +82,6 @@ export class HttpShortenerApi implements ShortenerApi {
   }
 }
 
-// TODO: Extract utility functions to shared modules.
-
 function parseJson (text: string): unknown {
   try {
     return JSON.parse(text)

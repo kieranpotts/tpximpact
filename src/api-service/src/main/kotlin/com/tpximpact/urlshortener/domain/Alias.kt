@@ -21,7 +21,9 @@ value class Alias private constructor(
          * Words that would shadow the API service's routes, today's or
          * tomorrow's. They're compared case-insensitively.
          *
-         * TODO: Move to centralised configuration.
+         * They're part of the alias rules, so they live in code, not in
+         * configuration. Changing them at deploy time could reserve an
+         * alias that's already stored, and shadow it.
          */
         private val reserved = setOf("shorten", "urls", "api", "docs", "health", "metrics", "static", "assets")
 
