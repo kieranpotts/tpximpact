@@ -45,6 +45,11 @@ ACCEPTANCE_WEB_PORT=3003 ACCEPTANCE_API_PORT=8083 make acceptance
 
 `WEB_PORT`, `API_PORT`, and `PUBLIC_BASE_URL` don't apply to acceptance runs.
 
+If no container is named, check VS Code's **Ports** panel. VS Code may have
+forwarded `3000` and `8080` to `3001` and `8081`. The devcontainer turns
+auto-forwarding off, but a container built before that change needs
+rebuilding. Until then, stop forwarding those ports in the panel.
+
 ### The tests pass against the wrong system
 
 The acceptance tests reach the system only through `WEB_CLIENT_URL` and

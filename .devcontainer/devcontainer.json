@@ -93,6 +93,15 @@
   // Configure tool-specific properties.
   "customizations": {
     "vscode": {
+      "settings": {
+        // This container shares the host's network, so every port it, or a
+        // sibling container, listens on is already on the host. Forwarding
+        // gains nothing, and as the host port is taken, VS Code forwards to the
+        // next free one, eg. `3000` to `3001`, which takes ports the acceptance
+        // tests publish on.
+        "remote.autoForwardPorts": false
+      },
+
       // Install these VS Code extensions in the container.
       // NOTE: Keep this list of extensions synchronized with `../.vscode/extensions.json`.
       "extensions": [
