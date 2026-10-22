@@ -16,8 +16,6 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 - Short URL links, in the success banner and the table, open in a new tab.
 - Screen readers announce that each link opens in a new tab.
 
-## [0.8.0] - 2026-10-22
-
 **List and delete short URLs from the web client. Return 204 for all successful alias deletions.**
 
 - The home page lists every short URL, newest first, in a table.
