@@ -9,6 +9,15 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
+**First increment of web client behavior.**
+
+- UI built with GOV.UK Frontend 5 framework.
+- Shorten URL form on homepage.
+- Response shows clickable short URL.
+- Render API service's validation errors against each field.
+- Web client notifies user of unavailability of API service.
+- Security headers, including CSP with a per-response nonce.
+
 ## [0.5.0] - 2026-10-21
 
 - `GET /urls` lists every short URL, newest first, with its alias, destination URL, and short URL.
