@@ -9,17 +9,19 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
+**Open short URLs in a new tab from the web client.**
+
+- Short URL links, in the success banner and the table, open in a new tab.
+- Screen readers announce that each link opens in a new tab.
+
 ## [0.8.0] - 2026-10-22
 
-**List and delete short URLs from the web client.**
+**List and delete short URLs from the web client. Return 204 for all successful alias deletions.**
 
 - The home page lists every short URL, newest first, in a table.
 - Each row has a button to delete that short URL.
-
-**Change return status code for delete alias operation.**
-
 - `DELETE /{alias}` now returns `204`, instead of `404`, for a valid alias that doesn't exist.
-- An alias that can't be found is, effectively, already deleted - so it's a successful outcome.
+  An alias that can't be found is, effectively, already deleted - so it's a successful outcome.
 
 ## [0.7.0] - 2026-10-22
 
