@@ -17,6 +17,15 @@ worth overriding locally are listed in `.env.example`.
 | `DATABASE_USER`     | The database user. It also runs the migrations.                     | `url_shortener`                           |
 | `DATABASE_PASSWORD` | The database user's password. A secret, everywhere but locally.     | `url_shortener`                           |
 
+## Web client
+
+| Setting        | Meaning                                                                             | Local             |
+| -------------- | ----------------------------------------------------------------------------------- | ----------------- |
+| `API_BASE_URL` | Where the web client calls the API service. An `http` or `https` URL, with no path. | `http://api:8080` |
+
+The web client never needs the public base URL. It shows the short URLs that
+the API service returns.
+
 ## Gotchas
 
 The following two settings are easily confused, but are distinct.
