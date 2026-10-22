@@ -29,13 +29,17 @@ Features are then built incrementally into the walking skeleton against the
 [MVP delivery plan](./docs/plans/mvp/README.md). A total of nine tasks (T01-T09)
 take the system to the requirements specified in the project brief.
 
+All artifacts — requirements specifications, design docs, delivery plans, as
+well as source code and tests — are all under source control, maintained together
+in this repository.
+
 Development is AI-assisted. I coordinated coding agents to produce first drafts
 of most of the code and other artifacts. I always review, correct, and refine
 the output manually before committing — though for this task, due to time
 constraints, I have been less rigorous in manual quality controls than I would
 normally be. I match the LLM to the task: Opus for design and deep reasoning,
 Sonnet for general implementation, and alternating between Kimi and GLM for
-documentation drafts and other routine, well-bounded work.
+documentation drafts and other ad hoc work.
 
 Testing follows a loose TDD approach. The [requirements specification](./docs/specs/)
 determines the acceptance tests, and each behavior is committed together with
@@ -78,7 +82,8 @@ be at least 2x this for production-grade work. <!-- TODO: Update final delivery 
 
 - [**🛠️ Development tools and methods**](./docs/development/) \
   Local development requirements and the day-to-day workflow.
-  👉 [Start here.](./docs/development/onboard.md)
+  👉 [Start here](./docs/development/onboard.md) to build and run the system
+  locally.
 
 - [**📋 Requirements specification**](./docs/specs/) \
   Defines the behaviors and qualities of the system.

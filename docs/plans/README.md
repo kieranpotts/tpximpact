@@ -39,4 +39,4 @@ re-sequencing tasks — as reality unfolds.
 
 ## Index
 
-- [mvp](./mvp/) — URL shortener MVP
+- [MVP](./mvp/) — The road to a minimal viable v1.
