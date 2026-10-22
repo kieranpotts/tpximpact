@@ -9,6 +9,8 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-10-22
+
 **Fix conflicting ports between acceptance and development instances.**
 
 - `make acceptance` now publishes the system on ports `3001` and `8081`.
