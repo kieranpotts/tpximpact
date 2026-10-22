@@ -22,10 +22,14 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [0.5.0] - 2026-10-21
 
+**New endpoints to list and delete short URLs.**
+
 - `GET /urls` lists every short URL, newest first, with its alias, destination URL, and short URL.
 - `DELETE /{alias}` deletes a short URL. The deleted alias is free to reuse straight away.
 
 ## [0.4.0] - 2026-10-21
+
+**Redirection endpoint. Small refactorings and tooling improvements.**
 
 - `GET /` (with no path) on the API service now returns a "Welcome to the URL shortener" HTML page.
 - Tighten descriptions of endpoint response types in OpenAPI spec - prettier in Postman.
