@@ -9,6 +9,8 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-10-22
+
 **First increment of web client behavior.**
 
 - UI built with GOV.UK Frontend 5 framework.
