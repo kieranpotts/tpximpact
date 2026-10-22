@@ -9,6 +9,11 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
+**List and delete short URLs from the web client.**
+
+- The home page lists every short URL, newest first, in a table.
+- Each row has a button to delete that short URL.
+
 **Change return status code for delete alias operation.**
 
 - `DELETE /{alias}` now returns `204`, instead of `404`, for a valid alias that doesn't exist.

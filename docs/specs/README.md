@@ -113,6 +113,8 @@ Verified by: [`shorten-from-web-client.spec.ts`](../../tests/acceptance/shorten-
 The web client lists every stored short URL, with its alias and destination
 URL, and lets the link editor delete any of them.
 
+Verified by: [`list-and-delete-from-web-client.spec.ts`](../../tests/acceptance/list-and-delete-from-web-client.spec.ts).
+
 ### B11 — Show API errors in the web client
 
 When the API service rejects a request, or cannot be reached, the web client shows the

@@ -1,5 +1,7 @@
 {#
-  The home page: the shorten form, and the short URL just created, if any.
+  The home page: the shorten form, the short URL just created or deleted, if
+  any, and the table of every short URL. `shortUrls` is undefined when they
+  couldn't be loaded.
 #}
 {% extends "layout.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
@@ -30,6 +32,16 @@
         {{ govukNotificationBanner({
           type: "success",
           html: createdHtml
+        }) }}
+      {% endif %}
+
+      {% if deleted %}
+        {% set deletedHtml %}
+          <h3 class="govuk-notification-banner__heading govuk-!-text-break-word">The short URL {{ deleted }} was deleted</h3>
+        {% endset %}
+        {{ govukNotificationBanner({
+          type: "success",
+          html: deletedHtml
         }) }}
       {% endif %}
 
@@ -65,6 +77,50 @@
           preventDoubleClick: true
         }) }}
       </form>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <h2 class="govuk-heading-m" id="short-urls">All short URLs</h2>
+
+      {% if shortUrls is undefined %}
+        <p class="govuk-body">The short URLs could not be loaded. Try again later.</p>
+      {% elif shortUrls | length == 0 %}
+        <p class="govuk-body">There are no short URLs yet.</p>
+      {% else %}
+        <table class="govuk-table" aria-labelledby="short-urls">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Alias</th>
+              <th scope="col" class="govuk-table__header">Short URL</th>
+              <th scope="col" class="govuk-table__header">Destination URL</th>
+              <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            {% for shortUrl in shortUrls %}
+              {% set deleteHtml %}Delete<span class="govuk-visually-hidden"> {{ shortUrl.alias }}</span>{% endset %}
+              <tr class="govuk-table__row">
+                <th scope="row" class="govuk-table__header govuk-!-text-break-word">{{ shortUrl.alias }}</th>
+                <td class="govuk-table__cell govuk-!-text-break-word">
+                  <a class="govuk-link" href="{{ shortUrl.shortUrl }}">{{ shortUrl.shortUrl }}</a>
+                </td>
+                <td class="govuk-table__cell govuk-!-text-break-word">{{ shortUrl.destinationUrl }}</td>
+                <td class="govuk-table__cell">
+                  <form method="post" action="/links/{{ shortUrl.alias | urlencode }}/delete">
+                    {{ govukButton({
+                      html: deleteHtml,
+                      classes: "govuk-button--warning govuk-!-margin-bottom-0",
+                      preventDoubleClick: true
+                    }) }}
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
     </div>
   </div>
 {% endblock %}

@@ -160,3 +160,46 @@ describe('HttpShortenerApi.list', () => {
     expect(result).toEqual({ kind: 'unavailable' })
   })
 })
+
+describe('HttpShortenerApi.remove', () => {
+  it('deletes the alias', async () => {
+    respond = (res) => res.writeHead(204).end()
+
+    const result = await new HttpShortenerApi(baseUrl, 1_000).remove('my-alias')
+
+    expect(result).toEqual({ kind: 'ok', value: null })
+    expect(received).toMatchObject([{ method: 'DELETE', url: '/my-alias' }])
+  })
+
+  it('encodes the alias, so it stays one path segment', async () => {
+    respond = (res) => res.writeHead(204).end()
+
+    await new HttpShortenerApi(baseUrl, 1_000).remove('../urls?x=1')
+
+    expect(received).toMatchObject([{ method: 'DELETE', url: '/..%2Furls%3Fx%3D1' }])
+  })
+
+  it.each(['.', '..'])('rejects %j without calling the API service', async (alias) => {
+    const result = await new HttpShortenerApi(baseUrl, 1_000).remove(alias)
+
+    expect(result).toEqual({ kind: 'rejected' })
+    expect(received).toEqual([])
+  })
+
+  it('returns a rejection for what cannot be an alias', async () => {
+    const notFound = { type: 'urn:problem:url-shortener:not-found', title: 'Not found', status: 404 }
+    respond = json(404, notFound, 'application/problem+json')
+
+    const result = await new HttpShortenerApi(baseUrl, 1_000).remove('ab')
+
+    expect(result).toEqual({ kind: 'rejected', problem: notFound })
+  })
+
+  it('returns unavailable for a 5xx', async () => {
+    respond = json(503, { type: 'urn:problem:url-shortener:service-unavailable', title: 'x', status: 503 })
+
+    const result = await new HttpShortenerApi(baseUrl, 1_000).remove('my-alias')
+
+    expect(result).toEqual({ kind: 'unavailable' })
+  })
+})

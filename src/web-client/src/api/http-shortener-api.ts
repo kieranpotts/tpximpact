@@ -29,13 +29,24 @@ export class HttpShortenerApi implements ShortenerApi {
     )
   }
 
+  async remove (alias: string): Promise<ApiResult<null>> {
+    // The URL parser would resolve these as dot segments, even encoded, and
+    // call a different path. Neither can be an alias, so the API service
+    // would reject them anyway.
+    if (alias === '.' || alias === '..') {
+      return { kind: 'rejected' }
+    }
+    // A `204` has no body to parse.
+    return this.call(`/${encodeURIComponent(alias)}`, 'DELETE', undefined, () => null)
+  }
+
   /**
    * Makes one call, with an optional JSON body, and sorts its outcome into a
    * result. `parse` returns `undefined` for a `2xx` body it can't understand.
    */
   private async call<T>(
     path: string,
-    method: 'GET' | 'POST',
+    method: 'GET' | 'POST' | 'DELETE',
     json: object | undefined,
     parse: (body: unknown) => T | undefined
   ): Promise<ApiResult<T>> {

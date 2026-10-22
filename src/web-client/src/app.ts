@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url'
 import express, { type ErrorRequestHandler, type Express } from 'express'
 import nunjucks from 'nunjucks'
 import type { ShortenerApi } from './api/shortener-api.js'
-import { shortenRoutes } from './routes/shorten.js'
+import { linkRoutes } from './routes/links.js'
 import { cspNonce, rejectCrossOriginPosts, securityHeaders } from './security.js'
 
 // These paths hold from both `src/` and `dist/`.
@@ -41,7 +41,7 @@ export function createApp ({ api }: AppDependencies): Express {
     res.sendFile(`${govukDir}/govuk/govuk-frontend.min.js`)
   })
 
-  app.use(shortenRoutes(api))
+  app.use(linkRoutes(api))
 
   app.use((_req, res) => {
     res.status(404).render('error.njk', {

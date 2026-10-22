@@ -47,7 +47,19 @@ export function presentRejection (problem: Problem | undefined): FormErrors {
   }
 }
 
-/** What the shorten form shows when the API service can't be reached. */
+/**
+ * What the home page shows when the API service rejects a delete. It only
+ * rejects a path that can't be an alias, which the page's own buttons never
+ * send, so the page the link editor came from is out of date, or was crafted.
+ */
+export function presentDeleteRejection (): FormErrors {
+  return {
+    summary: [{ text: 'The short URL could not be deleted. Refresh the page, and try again.' }],
+    fields: {},
+  }
+}
+
+/** What the home page shows when the API service can't be reached. */
 export function presentUnavailable (): FormErrors {
   return {
     summary: [{ text: 'The service is unavailable. Try again later.' }],

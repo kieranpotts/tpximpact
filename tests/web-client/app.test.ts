@@ -25,6 +25,26 @@ function submit (form: Record<string, string>) {
     .send(form)
 }
 
+/** Presses a row's delete button, as a browser on the web client's own page would. */
+function remove (alias: string) {
+  return request(app())
+    .post(`/links/${encodeURIComponent(alias)}/delete`)
+    .set('Origin', 'http://127.0.0.1')
+    .set('Host', '127.0.0.1')
+}
+
+const listed: ListedShortUrl[] = [
+  { alias: 'newest', destinationUrl: 'https://newest.example/', shortUrl: 'http://localhost:8080/newest' },
+  { alias: 'oldest', destinationUrl: 'https://oldest.example/a?b=c', shortUrl: 'http://localhost:8080/oldest' },
+]
+
+/** Each row of the table of short URLs, as the text of its cells. */
+function tableRows ($: cheerio.CheerioAPI): string[][] {
+  return $('table tbody tr')
+    .map((_, row) => [$(row).children().map((_, cell) => $(cell).text().trim()).get()])
+    .get<string[]>()
+}
+
 function errorSummary ($: cheerio.CheerioAPI) {
   return $('.govuk-error-summary__list li')
     .map((_, element) => $(element).text().trim())
@@ -100,6 +120,86 @@ describe('the home page', () => {
   })
 })
 
+describe('the table of short URLs', () => {
+  it('lists every short URL, in the order the API service gives', async () => {
+    api.listResult = { kind: 'ok', value: listed }
+
+    const response = await request(app()).get('/')
+
+    expect(response.status).toBe(200)
+    const $ = cheerio.load(response.text)
+    expect($('table').attr('aria-labelledby')).toBe('short-urls')
+    expect($('#short-urls').text()).toBe('All short URLs')
+    expect($('table thead th').map((_, th) => $(th).text().trim()).get()).toEqual([
+      'Alias',
+      'Short URL',
+      'Destination URL',
+      'Actions',
+    ])
+    expect(tableRows($)).toEqual([
+      ['newest', 'http://localhost:8080/newest', 'https://newest.example/', 'Delete newest'],
+      ['oldest', 'http://localhost:8080/oldest', 'https://oldest.example/a?b=c', 'Delete oldest'],
+    ])
+    expect($('table tbody a').map((_, a) => $(a).attr('href')).get()).toEqual([
+      'http://localhost:8080/newest',
+      'http://localhost:8080/oldest',
+    ])
+  })
+
+  it('gives each row a delete button that posts to that alias', async () => {
+    api.listResult = { kind: 'ok', value: listed }
+
+    const response = await request(app()).get('/')
+
+    const $ = cheerio.load(response.text)
+    const forms = $('table form')
+    expect(forms.map((_, form) => $(form).attr('method')).get()).toEqual(['post', 'post'])
+    expect(forms.map((_, form) => $(form).attr('action')).get()).toEqual([
+      '/links/newest/delete',
+      '/links/oldest/delete',
+    ])
+    expect(forms.find('button .govuk-visually-hidden').map((_, span) => $(span).text()).get()).toEqual([
+      ' newest',
+      ' oldest',
+    ])
+  })
+
+  it('says when there are no short URLs', async () => {
+    api.listResult = { kind: 'ok', value: [] }
+
+    const response = await request(app()).get('/')
+
+    const $ = cheerio.load(response.text)
+    expect($('table')).toHaveLength(0)
+    expect($('#short-urls').next().text()).toBe('There are no short URLs yet.')
+  })
+
+  it('says when the short URLs cannot be loaded, and still shows the form', async () => {
+    api.listResult = { kind: 'unavailable' }
+
+    const response = await request(app()).get('/')
+
+    expect(response.status).toBe(200)
+    const $ = cheerio.load(response.text)
+    expect($('table')).toHaveLength(0)
+    expect($('#short-urls').next().text()).toBe('The short URLs could not be loaded. Try again later.')
+    expect($('#destinationUrl')).toHaveLength(1)
+  })
+
+  it('escapes what it shows', async () => {
+    api.listResult = {
+      kind: 'ok',
+      value: [{ alias: 'x"y', destinationUrl: 'https://example.com/<script>', shortUrl: 'http://localhost:8080/x' }],
+    }
+
+    const response = await request(app()).get('/')
+
+    expect(response.text).toContain('https://example.com/&lt;script&gt;')
+    expect(response.text).not.toContain('<script>')
+    expect(cheerio.load(response.text)('table form').attr('action')).toBe('/links/x%22y/delete')
+  })
+})
+
 describe('the shorten form', () => {
   it('shortens with a custom alias, and redirects to the home page to show it', async () => {
     api.shortenResult = { kind: 'ok', value: { shortUrl: 'http://localhost:8080/my-alias' } }
@@ -160,6 +260,15 @@ describe('the shorten form', () => {
     expect($('#customAlias').val()).toBe('api')
   })
 
+  it('still shows the table of short URLs after a rejection', async () => {
+    api.shortenResult = { kind: 'rejected' }
+    api.listResult = { kind: 'ok', value: listed }
+
+    const response = await submit({ destinationUrl: 'https://example.com/' })
+
+    expect(tableRows(cheerio.load(response.text))).toHaveLength(2)
+  })
+
   it('shows a taken alias against the alias field', async () => {
     api.shortenResult = {
       kind: 'rejected',
@@ -203,6 +312,7 @@ describe('the shorten form', () => {
     expect(errorSummary($)).toEqual(['The service is unavailable. Try again later.'])
     expect($('#destinationUrl').val()).toBe('https://example.com/')
     expect($('#customAlias').val()).toBe('mine')
+    expect($('#short-urls').next().text()).toBe('The short URLs could not be loaded. Try again later.')
   })
 
   it('treats missing fields as empty', async () => {
@@ -220,6 +330,87 @@ describe('the shorten form', () => {
 
     expect(response.status).toBe(403)
     expect(api.shortenRequests).toEqual([])
+  })
+})
+
+describe('the delete buttons', () => {
+  it('delete the short URL, and redirect to the home page to say so', async () => {
+    const response = await remove('my-alias')
+
+    expect(api.removedAliases).toEqual(['my-alias'])
+    expect(response.status).toBe(303)
+    expect(response.headers.location).toBe('/?deleted=my-alias')
+  })
+
+  it('pass the alias on as it was in the path', async () => {
+    const response = await remove('a b/c')
+
+    expect(api.removedAliases).toEqual(['a b/c'])
+    expect(response.headers.location).toBe('/?deleted=a%20b%2Fc')
+  })
+
+  it('show the rejection, and the table, when the API service rejects the delete', async () => {
+    api.removeResult = { kind: 'rejected' }
+    api.listResult = { kind: 'ok', value: listed }
+
+    const response = await remove('ab')
+
+    expect(response.status).toBe(400)
+    const $ = cheerio.load(response.text)
+    expect($('title').text()).toBe('Error: Shorten a URL - URL shortener')
+    expect(errorSummary($)).toEqual([
+      'The short URL could not be deleted. Refresh the page, and try again.',
+    ])
+    expect(tableRows($)).toHaveLength(2)
+  })
+
+  it('say when the API service is unavailable', async () => {
+    api.removeResult = { kind: 'unavailable' }
+    api.listResult = { kind: 'ok', value: listed }
+
+    const response = await remove('my-alias')
+
+    expect(response.status).toBe(503)
+    const $ = cheerio.load(response.text)
+    expect(errorSummary($)).toEqual(['The service is unavailable. Try again later.'])
+    expect($('#short-urls').next().text()).toBe('The short URLs could not be loaded. Try again later.')
+  })
+
+  it('refuse a post from another website', async () => {
+    const response = await request(app())
+      .post('/links/my-alias/delete')
+      .set('Origin', 'http://evil.example')
+
+    expect(response.status).toBe(403)
+    expect(api.removedAliases).toEqual([])
+  })
+})
+
+describe('the deleted banner', () => {
+  it('says which short URL was deleted', async () => {
+    api.listResult = { kind: 'ok', value: listed }
+
+    const response = await request(app()).get('/?deleted=my-alias')
+
+    expect(response.status).toBe(200)
+    const banner = cheerio.load(response.text)('.govuk-notification-banner--success')
+    expect(banner.find('.govuk-notification-banner__heading').text().trim())
+      .toBe('The short URL my-alias was deleted')
+  })
+
+  it('is not shown for a short URL that still exists', async () => {
+    api.listResult = { kind: 'ok', value: listed }
+
+    const response = await request(app()).get('/?deleted=newest')
+
+    expect(cheerio.load(response.text)('.govuk-notification-banner')).toHaveLength(0)
+  })
+
+  it('escapes the alias', async () => {
+    const response = await request(app()).get('/?deleted=%3Cscript%3E')
+
+    expect(response.text).toContain('The short URL &lt;script&gt; was deleted')
+    expect(response.text).not.toContain('<script>alert')
   })
 })
 

@@ -10,6 +10,12 @@ export interface ShortenerApi {
 
   /** Calls `GET /urls`. */
   list(): Promise<ApiResult<ListedShortUrl[]>>
+
+  /**
+   * Calls `DELETE /{alias}`. An alias that doesn't exist counts as deleted,
+   * so the result is `ok` for it too.
+   */
+  remove(alias: string): Promise<ApiResult<null>>
 }
 
 export interface ShortenRequest {

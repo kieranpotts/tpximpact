@@ -49,6 +49,11 @@ that alias up through the API service to show its short URL. It doesn't take
 the short URL from the query, so a crafted link can't make the page show a
 URL the system didn't make.
 
+Below the form, the home page lists every short URL in a table, in the order
+`GET /urls` returns them, newest first. Each row has a delete button, in a
+form of its own that posts to `POST /links/<alias>/delete`. A successful
+delete redirects to `/?deleted=<alias>`.
+
 The layout is GOV.UK Frontend's page template, with its own service
 navigation in place of the GOV.UK header and footer. The web client serves
 GOV.UK Frontend's compiled CSS and JavaScript, but none of its fonts or
