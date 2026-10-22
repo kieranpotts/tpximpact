@@ -159,6 +159,14 @@ This is an extension to the original API contract supplied by TPXimpact.
 
 Verified by: [`welcome-page.spec.ts`](../../tests/acceptance/welcome-page.spec.ts).
 
+### B16 — Open short URLs in a new tab
+
+Every short URL that the web client shows as a link opens in a new browser
+tab, so the link editor stays on the web client. Screen readers announce
+that each link opens in a new tab.
+
+Verified by: [`open-short-urls-in-new-tab.spec.ts`](../../tests/acceptance/open-short-urls-in-new-tab.spec.ts).
+
 ## Business rules
 
 The following business rules are extensions to the requirements specified

@@ -1,7 +1,8 @@
 {#
   The home page: the shorten form, the short URL just created or deleted, if
   any, and the table of every short URL. `shortUrls` is undefined when they
-  couldn't be loaded.
+  couldn't be loaded. Short URLs open in a new tab, so the link editor keeps
+  this page, and screen readers say so.
 #}
 {% extends "layout.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
@@ -25,7 +26,7 @@
         {% set createdHtml %}
           <h3 class="govuk-notification-banner__heading">Your short URL is ready</h3>
           <p class="govuk-body govuk-!-text-break-word">
-            <a class="govuk-notification-banner__link" href="{{ created.shortUrl }}">{{ created.shortUrl }}</a>
+            <a class="govuk-notification-banner__link" href="{{ created.shortUrl }}" target="_blank" rel="noreferrer noopener">{{ created.shortUrl }}<span class="govuk-visually-hidden"> (opens in new tab)</span></a>
           </p>
           <p class="govuk-body govuk-!-text-break-word">It redirects to {{ created.destinationUrl }}</p>
         {% endset %}
@@ -104,7 +105,7 @@
               <tr class="govuk-table__row">
                 <th scope="row" class="govuk-table__header govuk-!-text-break-word">{{ shortUrl.alias }}</th>
                 <td class="govuk-table__cell govuk-!-text-break-word">
-                  <a class="govuk-link" href="{{ shortUrl.shortUrl }}">{{ shortUrl.shortUrl }}</a>
+                  <a class="govuk-link" href="{{ shortUrl.shortUrl }}" target="_blank" rel="noreferrer noopener">{{ shortUrl.shortUrl }}<span class="govuk-visually-hidden"> (opens in new tab)</span></a>
                 </td>
                 <td class="govuk-table__cell govuk-!-text-break-word">{{ shortUrl.destinationUrl }}</td>
                 <td class="govuk-table__cell">

@@ -54,6 +54,9 @@ Below the form, the home page lists every short URL in a table, in the order
 form of its own that posts to `POST /links/<alias>/delete`. A successful
 delete redirects to `/?deleted=<alias>`.
 
+Every short URL link opens in a new tab. Each link carries visually hidden text,
+"(opens in new tab)", for screen readers, following GOV.UK guidance.
+
 The layout is GOV.UK Frontend's page template, with its own service
 navigation in place of the GOV.UK header and footer. The web client serves
 GOV.UK Frontend's compiled CSS and JavaScript, but none of its fonts or

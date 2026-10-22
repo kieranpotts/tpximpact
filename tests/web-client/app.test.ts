@@ -91,8 +91,19 @@ describe('the home page', () => {
     const banner = cheerio.load(response.text)('.govuk-notification-banner--success')
     expect(banner.find('.govuk-notification-banner__heading').text()).toBe('Your short URL is ready')
     expect(banner.find('a').attr('href')).toBe('http://localhost:8080/my-alias')
-    expect(banner.find('a').text()).toBe('http://localhost:8080/my-alias')
+    expect(banner.find('a').text()).toBe('http://localhost:8080/my-alias (opens in new tab)')
     expect(banner.text()).toContain('It redirects to https://example.com/long')
+  })
+
+  it('opens the short URL just created in a new tab, and says so to screen readers', async () => {
+    api.listResult = { kind: 'ok', value: listed }
+
+    const response = await request(app()).get('/?created=newest')
+
+    const link = cheerio.load(response.text)('.govuk-notification-banner--success a')
+    expect(link.attr('target')).toBe('_blank')
+    expect(link.attr('rel')).toBe('noreferrer noopener')
+    expect(link.find('.govuk-visually-hidden').text()).toBe(' (opens in new tab)')
   })
 
   it.each<[string, ApiResult<ListedShortUrl[]>]>([
@@ -137,12 +148,30 @@ describe('the table of short URLs', () => {
       'Actions',
     ])
     expect(tableRows($)).toEqual([
-      ['newest', 'http://localhost:8080/newest', 'https://newest.example/', 'Delete newest'],
-      ['oldest', 'http://localhost:8080/oldest', 'https://oldest.example/a?b=c', 'Delete oldest'],
+      ['newest', 'http://localhost:8080/newest (opens in new tab)', 'https://newest.example/', 'Delete newest'],
+      ['oldest', 'http://localhost:8080/oldest (opens in new tab)', 'https://oldest.example/a?b=c', 'Delete oldest'],
     ])
     expect($('table tbody a').map((_, a) => $(a).attr('href')).get()).toEqual([
       'http://localhost:8080/newest',
       'http://localhost:8080/oldest',
+    ])
+  })
+
+  it('opens each short URL in a new tab, and says so to screen readers', async () => {
+    api.listResult = { kind: 'ok', value: listed }
+
+    const response = await request(app()).get('/')
+
+    const $ = cheerio.load(response.text)
+    const links = $('table tbody a')
+    expect(links.map((_, a) => $(a).attr('target')).get()).toEqual(['_blank', '_blank'])
+    expect(links.map((_, a) => $(a).attr('rel')).get()).toEqual([
+      'noreferrer noopener',
+      'noreferrer noopener',
+    ])
+    expect(links.map((_, a) => $(a).find('.govuk-visually-hidden').text()).get()).toEqual([
+      ' (opens in new tab)',
+      ' (opens in new tab)',
     ])
   })
 

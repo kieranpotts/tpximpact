@@ -35,7 +35,7 @@ test.describe('Shorten a URL from the web client', () => {
 
     await expect(
       page.getByRole('alert').getByRole('link', {
-        name: new RegExp(`^${publicBaseUrl}/[A-Za-z0-9]{7}$`),
+        name: new RegExp(`^${publicBaseUrl}/[A-Za-z0-9]{7} \\(opens in new tab\\)$`),
       })
     ).toBeVisible()
   })
