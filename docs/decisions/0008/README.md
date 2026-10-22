@@ -1,4 +1,4 @@
-# GOV.UK Front-end for the user interface
+# GOV.UK Frontend for the user interface
 
 - Authors: Kieran Potts [@kieranpotts]
 - Created: 2026-10-19

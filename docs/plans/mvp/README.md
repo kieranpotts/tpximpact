@@ -24,7 +24,7 @@ IN PROGRESS
 ## Out-of-scope
 
 - Everything in the proposed decisions, [ADR 0019](../../decisions/0019/) to
-  [ADR 0024](../../decisions/0024/).
+  [ADR 0024](../../decisions/0024/), and [ADR 0026](../../decisions/0026/).
 
 - Pagination of `GET /urls`, authentication, and link ownership. Each needs a
   change to the specification first.
@@ -206,9 +206,8 @@ describes the final code. The release comes last.
   CDN — each with the metric that would justify adding it, linking to
   [ADR 0012](../../decisions/0012/) and [ADR 0021](../../decisions/0021/).
   What's out of scope: pagination of `GET /urls`, authentication, link
-  ownership, the proposed ADRs, and any follow-ups from T08.1 and T08.2.
-  T08.2 found one: [ADR 0017](../../decisions/0017/) calls for accessibility
-  scans in the acceptance tests, which aren't implemented.
+  ownership, the proposed ADRs (including automated accessibility tests,
+  [ADR 0026](../../decisions/0026/)), and any follow-ups from T08.1.
 
 - **T08.6 — README: debrief and time spent.** Tidy the debriefing notes
   into their final form, fix typos, record the final development time, and

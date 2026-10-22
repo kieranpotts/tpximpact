@@ -28,7 +28,7 @@ Testing will happen at three levels.
    tests against a local stub server, rather than mocked HTTP.
 
 3. **Acceptance tests.** Black-box Playwright tests of the whole system under
-   Compose, with accessibility scans.
+   Compose.
 
 `make test` runs the first two levels. `make acceptance` runs the third.
 

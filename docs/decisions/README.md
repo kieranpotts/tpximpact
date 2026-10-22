@@ -44,7 +44,7 @@ Thus, to revisit a past decision, write a new record. Do not edit an old one.
 - [0001](./0001/) Monorepo — ACCEPTED
 - [0002](./0002/) Ktor for the API service — ACCEPTED
 - [0003](./0003/) PostgreSQL for persistence — ACCEPTED
-- [0004](./0004/) Flyway for schema migrations, run at API service startup — ACCEPTED
+- [0004](./0004/) Flyway for schema migrations — ACCEPTED
 - [0005](./0005/) Plain JDBC with HikariCP for data access — ACCEPTED
 - [0006](./0006/) Server-rendered web client with Express and Nunjucks — ACCEPTED
 - [0007](./0007/) TypeScript for the web client — ACCEPTED
@@ -70,3 +70,4 @@ are out of scope, and most of them remain proposals.
 - [0023](./0023/) Idempotent link creation — PROPOSED
 - [0024](./0024/) Contract tests against the running API service — PROPOSED
 - [0025](./0025/) Host ports for the acceptance tests — ACCEPTED
+- [0026](./0026/) Automated accessibility tests — PROPOSED
