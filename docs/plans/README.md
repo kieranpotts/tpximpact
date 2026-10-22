@@ -39,4 +39,4 @@ re-sequencing tasks — as reality unfolds.
 
 ## Index
 
-- [MVP](./mvp/) — The road to a minimal viable v1.
+- [MVP](./mvp/) — The road to a minimal viable v1. ✅ DONE

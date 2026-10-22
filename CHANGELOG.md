@@ -9,6 +9,12 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
+**Final prep for submission.**
+
+- Project README review.
+- Verified clean project clone.
+- Marked MVP delivery plan as done.
+
 ## [0.8.0] - 2026-10-22
 
 **Open short URLs in a new tab from the web client.**

@@ -71,7 +71,7 @@ tracker.
 | T05 | Shorten URLs from the web client               | B9, B11, Q3                  | ✅ DONE   | T03        |
 | T06 | List and delete short URLs through the API     | B6, B7, R9 to R11            | ✅ DONE   | T04        |
 | T07 | List and delete short URLs from the web client | B10, B16                     | ✅ DONE   | T05, T06   |
-| T08 | Documentation and release                      | —                            | ⭕ TODO   | T07        |
+| T08 | Documentation and release                      | —                            | ✅ DONE   | T07        |
 
 ### Increments
 
@@ -150,12 +150,11 @@ describes the final code. The release comes last.
 | ----- | -------------------------------------- | ------ | -------------- |
 | T08.1 | Resolve the `TODO` comments            | ✅ DONE | —              |
 | T08.2 | Correct documentation drift            | ✅ DONE | T08.1          |
-| T08.3 | README: run and test the system        | ⭕ TODO | T08.2          |
-| T08.4 | README: example requests               | ⭕ TODO | T08.3          |
-| T08.5 | README: notes, assumptions, and limits | ⭕ TODO | T08.2          |
-| T08.6 | README: debrief and time spent         | ⭕ TODO | T08.3 to T08.5 |
-| T08.7 | Verify from a clean clone              | ⭕ TODO | T08.6          |
-| T08.8 | Tag the release, and submit            | ⭕ TODO | T08.7          |
+| T08.3 | README: run and test the system        | ✅ DONE | T08.2          |
+| T08.4 | README: example requests               | ✅ DONE | T08.3          |
+| T08.5 | README: notes, assumptions, and limits | ✅ DONE | T08.2          |
+| T08.6 | README: debrief and time spent         | ✅ TODO | T08.3 to T08.5 |
+| T08.7 | Verify from a clean clone              | ✅ DONE | T08.6          |
 
 - **T08.1 — Resolve the `TODO` comments.** There are two in code:
   - `Alias.kt` — the reserved words. Either move them into the API
@@ -220,12 +219,6 @@ describes the final code. The release comes last.
   the devcontainer, run `make install` and `make check`. Fix anything that
   fails, in the README or the code, and repeat until a clean clone passes
   with no steps the README doesn't mention.
-
-- **T08.8 — Tag the release, and submit.** Add T08's changes to the
-  `[Unreleased]` section of the changelog. Mark T08 and this plan as done,
-  and commit, because `make version` needs a clean working tree. Run
-  `make version` to tag `v1.0.0`, push the commit and tag with
-  `git push --follow-tags`, and submit the repository link.
 
 ## Dependency graph
 
