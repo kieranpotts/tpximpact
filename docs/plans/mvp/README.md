@@ -70,8 +70,7 @@ tracker.
 | T05 | Shorten URLs from the web client               | B9, B11, Q3                  | ✅ DONE   | T03        |
 | T06 | List and delete short URLs through the API     | B6, B7, R9 to R11            | ✅ DONE   | T04        |
 | T07 | List and delete short URLs from the web client | B10                          | ✅ DONE   | T05, T06   |
-| T08 | Accessibility and progressive enhancement      | —                            | ⭕ TODO   | T07        |
-| T09 | Documentation and release                      | —                            | ⭕ TODO   | T08        |
+| T08 | Documentation and release                      | —                            | ⭕ TODO   | T07        |
 
 ### Increments
 
@@ -127,12 +126,7 @@ tracker.
 - **T07 — List and delete short URLs from the web client.** The table of
   short URLs on the home page, and a delete button on each row.
 
-- **T08 — Accessibility and progressive enhancement.** The copy-link button,
-  which the page works without. Automated accessibility scans of every page
-  state in the acceptance suite. A check that every requirement ID has a test
-  named after it.
-
-- **T09 — Documentation and release.** Rewrite the README: prerequisites, how
+- **T08 — Documentation and release.** Rewrite the README: prerequisites, how
   to run and test the system, example requests, notes and assumptions, links
   to the docs, and time spent. Fill in the developer docs that are still
   templates. Correct any design doc the implementation has drifted from.
@@ -154,7 +148,7 @@ graph LR
   T03 --> T05
   T05 --> T07
   T06 --> T07
-  T07 --> T08 --> T09
+  T07 --> T08
 ```
 
 ## Open questions
