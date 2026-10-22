@@ -104,6 +104,8 @@ The web client presents a form with a required destination URL field and an
 optional custom alias field. Submitting a valid form shows the resulting short
 URL.
 
+Verified by: [`shorten-from-web-client.spec.ts`](../../tests/acceptance/shorten-from-web-client.spec.ts).
+
 ### B10 — List and delete short URLs from the web client
 
 The web client lists every stored short URL, with its alias and destination
@@ -114,6 +116,8 @@ URL, and lets the link editor delete any of them.
 When the API service rejects a request, or cannot be reached, the web client shows the
 link editor a message that says what went wrong, and keeps what they entered in the
 form.
+
+Verified by: [`show-api-errors.spec.ts`](../../tests/acceptance/show-api-errors.spec.ts).
 
 ### B12 — Reject an unsupported content type
 
