@@ -56,6 +56,10 @@ services:
     build: ./src/web-client
     ports:
       - "${WEB_PORT:-3000}:3000"
+    environment:
+      # The web client calls the API service on the Compose network, not on
+      # the public base URL.
+      API_BASE_URL: http://api:8080
     # The web client doesn't need the API service to start. This only spares
     # the first page load an "unavailable" error.
     depends_on:

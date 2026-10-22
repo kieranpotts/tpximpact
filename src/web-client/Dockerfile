@@ -18,7 +18,7 @@ COPY tsconfig.json ./
 COPY src ./src
 RUN npm run build
 
-# Runtime stage. Production dependencies and compiled code only.
+# Runtime stage. Production dependencies, compiled code, and views only.
 FROM node:24-trixie-slim
 
 ENV NODE_ENV=production
@@ -27,6 +27,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN --mount=type=cache,target=/root/.npm npm ci --omit=dev
 
+COPY views ./views
 COPY --from=build /build/dist ./dist
 
 # The `node` user (uid 1000) comes with the base image.

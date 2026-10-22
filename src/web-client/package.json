@@ -14,12 +14,16 @@
     "format": "eslint --fix ."
   },
   "dependencies": {
-    "express": "^5.3.0"
+    "express": "^5.3.0",
+    "govuk-frontend": "^5.14.0",
+    "helmet": "^8.3.0",
+    "nunjucks": "^3.2.4"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/express": "^5.0.6",
     "@types/node": "~24.19.2",
+    "@types/nunjucks": "^3.2.6",
     "eslint": "^10.13.0",
     "neostandard": "^0.14.1",
     "typescript": "~6.0.3",

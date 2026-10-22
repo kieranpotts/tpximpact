@@ -1,0 +1,70 @@
+{#
+  The home page: the shorten form, and the short URL just created, if any.
+#}
+{% extends "layout.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% set title = "Shorten a URL" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errors.summary
+        }) }}
+      {% endif %}
+
+      {% if created %}
+        {% set createdHtml %}
+          <h3 class="govuk-notification-banner__heading">Your short URL is ready</h3>
+          <p class="govuk-body govuk-!-text-break-word">
+            <a class="govuk-notification-banner__link" href="{{ created.shortUrl }}">{{ created.shortUrl }}</a>
+          </p>
+          <p class="govuk-body govuk-!-text-break-word">It redirects to {{ created.destinationUrl }}</p>
+        {% endset %}
+        {{ govukNotificationBanner({
+          type: "success",
+          html: createdHtml
+        }) }}
+      {% endif %}
+
+      <h1 class="govuk-heading-l">{{ title }}</h1>
+
+      <form method="post" action="/links" novalidate>
+        {{ govukInput({
+          label: { text: "Destination URL" },
+          hint: { text: "The long URL to shorten, for example https://example.com/very/long/url" },
+          id: "destinationUrl",
+          name: "destinationUrl",
+          type: "url",
+          value: form.destinationUrl,
+          spellcheck: false,
+          autocomplete: "url",
+          errorMessage: { text: errors.fields.destinationUrl } if errors and errors.fields.destinationUrl
+        }) }}
+
+        {{ govukInput({
+          label: { text: "Custom alias (optional)" },
+          hint: { text: "Leave this empty to get a random alias." },
+          id: "customAlias",
+          name: "customAlias",
+          value: form.customAlias,
+          classes: "govuk-!-width-one-half",
+          spellcheck: false,
+          autocomplete: "off",
+          errorMessage: { text: errors.fields.customAlias } if errors and errors.fields.customAlias
+        }) }}
+
+        {{ govukButton({
+          text: "Shorten URL",
+          preventDoubleClick: true
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

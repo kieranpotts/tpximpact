@@ -7,7 +7,7 @@ test.describe('Containerised', () => {
     await page.goto('/')
 
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-      'URL shortener'
+      'Shorten a URL'
     )
   })
 
