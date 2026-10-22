@@ -75,34 +75,50 @@ class DeleteRouteTest {
         test { client ->
             store("MyLink", "https://example.com/")
 
-            assertEquals(HttpStatusCode.NotFound, client.delete("/mylink").status)
-            assertEquals(HttpStatusCode.NoContent, client.delete("/MyLink").status)
+            client.delete("/mylink")
+            assertEquals(1, repository.stored.size)
+
+            client.delete("/MyLink")
+            assertTrue(repository.stored.isEmpty())
         }
 
     // Requirement: B6
     @Test
-    fun `Doesn't find an alias that doesn't exist`() =
+    fun `Succeeds for an alias that doesn't exist`() =
         test { client ->
+            store("other", "https://example.com/")
+
             val response = client.delete("/no-such-alias")
+
+            assertEquals(HttpStatusCode.NoContent, response.status)
+            assertEquals("", response.bodyAsText())
+            assertEquals(1, repository.stored.size)
+        }
+
+    // Requirement: B6
+    @Test
+    fun `Succeeds again for an alias that's already deleted`() =
+        test { client ->
+            store("my-alias", "https://example.com/")
+            client.delete("/my-alias")
+
+            assertEquals(HttpStatusCode.NoContent, client.delete("/my-alias").status)
+        }
+
+    // Requirement: B6
+    @Test
+    fun `Doesn't find what can't be an alias, with the not-found problem`() =
+        test { client ->
+            val response = client.delete("/ab")
 
             assertEquals(HttpStatusCode.NotFound, response.status)
             assertEquals(Problem("urn:problem:url-shortener:not-found", "The alias was not found", 404), response.problem())
         }
 
-    // Requirement: B6
     @Test
-    fun `Doesn't find an alias that's already deleted`() =
+    fun `Answers a browser with a problem, not a page, for what can't be an alias`() =
         test { client ->
-            store("my-alias", "https://example.com/")
-            client.delete("/my-alias")
-
-            assertEquals(HttpStatusCode.NotFound, client.delete("/my-alias").status)
-        }
-
-    @Test
-    fun `Answers a browser with a problem, not a page, for an alias that doesn't exist`() =
-        test { client ->
-            val response = client.delete("/no-such-alias") { header(HttpHeaders.Accept, "text/html") }
+            val response = client.delete("/ab") { header(HttpHeaders.Accept, "text/html") }
 
             assertEquals(HttpStatusCode.NotFound, response.status)
             assertEquals("urn:problem:url-shortener:not-found", response.problem().type)

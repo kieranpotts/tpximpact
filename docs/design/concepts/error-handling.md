@@ -49,5 +49,6 @@ The API client never throws for an expected outcome. It returns one of:
 | `rejected`    | `4xx`, with the problem body parsed if valid            | Re-render the form with `400`, inputs kept, errors shown.  |
 | `unavailable` | Connection failure, timeout, `5xx`, or unparseable body | Re-render with `503`, inputs kept, "service unavailable".  |
 
-A `404` from a delete counts as success. An Express error handler catches
-anything else, logs it, and renders a generic `500` page with no stack trace.
+A delete of a link that's already gone gets a `204`, so it counts as success.
+An Express error handler catches anything else, logs it, and renders a generic
+`500` page with no stack trace.

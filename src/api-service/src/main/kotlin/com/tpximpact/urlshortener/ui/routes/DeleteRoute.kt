@@ -12,7 +12,8 @@ import io.ktor.server.routing.delete
 
 /**
  * `DELETE /{alias}` deletes a short URL. The alias stops redirecting, and is
- * free to use again, at once.
+ * free to use again, at once. Deleting an alias that doesn't exist succeeds
+ * too, so a retried or repeated delete gets the same answer.
  *
  * See: docs > specs > B6 and R10.
  * See: docs > design > scenarios > delete-short-url.
@@ -22,7 +23,9 @@ fun Route.deleteRoute(shortUrls: ShortUrlService) {
         // A path segment that can't be an alias can't exist, so the database
         // isn't asked.
         val alias = (Alias.parse(call.parameters["alias"]!!) as? Parsed.Valid)?.value
-        if (alias == null || !shortUrls.delete(alias)) throw ProblemException(ProblemType.NOT_FOUND)
+        if (alias == null) throw ProblemException(ProblemType.NOT_FOUND)
+
+        shortUrls.delete(alias)
 
         call.respond(HttpStatusCode.NoContent)
     }

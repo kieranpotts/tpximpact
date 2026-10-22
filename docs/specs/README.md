@@ -79,8 +79,10 @@ Verified by: [`redirect-short-url.spec.ts`](../../tests/acceptance/redirect-shor
 ### B6 — Delete a short URL
 
 A `DELETE /{alias}` request for an existing alias returns `204 No Content` and
-removes the alias, after which `GET /{alias}` returns `404 Not Found`. For an
-alias that does not exist, it returns `404 Not Found`.
+removes the alias, after which `GET /{alias}` returns `404 Not Found`. For a
+valid alias that does not exist, including one already deleted, it also returns
+`204 No Content`, so repeating a delete is harmless. For a path that cannot be
+an alias, it returns `404 Not Found`.
 
 Verified by: [`delete-short-url.spec.ts`](../../tests/acceptance/delete-short-url.spec.ts).
 

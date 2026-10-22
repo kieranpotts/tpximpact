@@ -9,6 +9,11 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
+**Change return status code for delete alias operation.**
+
+- `DELETE /{alias}` now returns `204`, instead of `404`, for a valid alias that doesn't exist.
+- An alias that can't be found is, effectively, already deleted - so it's a successful outcome.
+
 ## [0.7.0] - 2026-10-22
 
 **Fix conflicting ports between acceptance and development instances.**

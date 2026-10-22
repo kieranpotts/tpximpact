@@ -20,5 +20,6 @@ sequenceDiagram
   W-->>C: 200 Page: "my-alias was deleted" banner, and the updated table
 ```
 
-If the API service returns `404` (someone else deleted the link first), the web client
-treats the outcome as the one the link editor wanted, and shows the same banner.
+If someone else deleted the link first, the API service still returns `204` (step 4),
+because the outcome is the one the link editor wanted, so the web client shows the
+same banner.

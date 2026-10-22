@@ -25,19 +25,16 @@ test.describe('Delete a short URL', () => {
     expect(aliases).not.toContain(customAlias)
   })
 
-  test('The API service returns not found for an alias that does not exist', async ({
+  test('The API service succeeds for an alias that does not exist', async ({
     request,
   }) => {
     const response = await deleteShortUrl(request, uniqueAlias('missing'))
 
-    expect(response.status()).toBe(404)
-    expect(await response.json()).toMatchObject({
-      type: 'urn:problem:url-shortener:not-found',
-      status: 404,
-    })
+    expect(response.status()).toBe(204)
+    expect(await response.text()).toBe('')
   })
 
-  test('The API service returns not found for an alias that is already deleted', async ({
+  test('The API service succeeds again for an alias that is already deleted', async ({
     request,
   }) => {
     const customAlias = uniqueAlias('delete')
@@ -46,7 +43,7 @@ test.describe('Delete a short URL', () => {
 
     const response = await deleteShortUrl(request, customAlias)
 
-    expect(response.status()).toBe(404)
+    expect(response.status()).toBe(204)
   })
 
   test('The API service returns not found for what cannot be an alias', async ({
@@ -56,6 +53,10 @@ test.describe('Delete a short URL', () => {
       const response = await deleteShortUrl(request, path)
 
       expect(response.status(), path).toBe(404)
+      expect(await response.json(), path).toMatchObject({
+        type: 'urn:problem:url-shortener:not-found',
+        status: 404,
+      })
     }
   })
 })

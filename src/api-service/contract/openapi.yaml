@@ -243,7 +243,9 @@ paths:
         - $ref: '#/components/parameters/RequestId'
       responses:
         '204':
-          description: Short URL deleted
+          description: |
+            Short URL deleted, or no short URL had this alias. Deleting is
+            idempotent.
           headers:
             X-Request-Id:
               $ref: '#/components/headers/RequestId'
