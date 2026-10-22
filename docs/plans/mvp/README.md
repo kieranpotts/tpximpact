@@ -2,7 +2,7 @@
 
 - Authors: Kieran Potts [@kieranpotts]
 - Created: 2026-10-20
-- Last updated: 2026-10-21
+- Last updated: 2026-10-22
 - Plan PR: —
 
 ## Status
@@ -67,7 +67,7 @@ tracker.
 | T02 | API service foundations, and the contract      | B14, Q1, Q2                  | ✅ DONE   | T01        |
 | T03 | Shorten URLs through the API                   | B1 to B4, B12, B13, R1 to R8 | ✅ DONE   | T02        |
 | T04 | Follow short URLs                              | B5, B8, Q7                   | ✅ DONE   | T03        |
-| T05 | Shorten URLs from the web client               | B9, B11, Q3                  | ⭕ TODO   | T03        |
+| T05 | Shorten URLs from the web client               | B9, B11, Q3                  | ✅ DONE   | T03        |
 | T06 | List and delete short URLs through the API     | B6, B7, R9 to R11            | ✅ DONE   | T04        |
 | T07 | List and delete short URLs from the web client | B10                          | ⭕ TODO   | T05, T06   |
 | T08 | Accessibility and progressive enhancement      | —                            | ⭕ TODO   | T07        |
