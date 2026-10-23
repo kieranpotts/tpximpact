@@ -9,15 +9,15 @@ workflow.
 - [**Tools**](./tools.md) \
   The `Makefile` and `run/` scripts that drive the development lifecycle.
 
-- [**Repository filesystem structure**](./structure.md) \
-  How the repository is organized on disk.
-
 - [**Calling the API**](./api.md) \
   Example requests with `curl`, and how to import the API's OpenAPI contract
   into Postman.
 
 - [**Troubleshooting**](./troubleshooting.md) \
   Port conflicts, Docker, tooling, and devcontainer problems, and their fixes.
+
+- [**Repository filesystem structure**](./structure.md) \
+  How the repository is organized on disk.
 
 - [**Committing**](./committing.md) \
   The revision types, commit message format, and committing practices this

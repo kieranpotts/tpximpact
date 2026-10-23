@@ -1,11 +1,10 @@
 # TPXimpact take-home programming project
 
-**A URL shortener MVP in Kotlin and Express.**
+**A URL shortener MVP in Kotlin and Express.** The system is an API service,
+written in Kotlin with Ktor, and a decoupled server-rendered web client, served
+by Express. Short URLs are stored in PostgreSQL.
 
-The system is an API service, written in Kotlin with Ktor, and a decoupled web
-client, served by Express. Short URLs are stored in PostgreSQL.
-
-**🚨 See also Kieran's project [debriefing notes](./NOTES.md). 🚨**
+**🚨🚨🚨 See also Kieran's project [📝 debriefing notes](./NOTES.md). 🚨🚨🚨**
 
 ## 🚀 Quick start
 
@@ -19,17 +18,15 @@ Then open the web client on <http://localhost:3000>. The API service is on
 <http://localhost:8080>.
 
 - [**Get started**](./docs/development/onboard.md) \
-  Requirements, ports, stopping the system, and running the tests.
+  Full documentation for building and running the system, and its tests, locally.
 
 - [**Calling the API**](./docs/development/api.md) \
-  Example requests for every endpoint, and how to use Postman.
+  Example requests for every endpoint.
 
 ## 📓 Developer documentation
 
 - [**🛠️ Development tools and methods**](./docs/development/) \
-  Local development requirements and the day-to-day workflow.
-  👉 [Start here](./docs/development/onboard.md) to build and run the system
-  locally.
+  Local development configuration, and the day-to-day development workflow.
 
 - [**📋 Requirements specification**](./docs/specs/) \
   Defines the behaviors and qualities of the system.
