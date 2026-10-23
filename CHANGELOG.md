@@ -9,6 +9,8 @@ The `[Unreleased]` section of the changelog is maintained by hand. Use
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-10-23
+
 **Final prep for submission.**
 
 - Project README review.
