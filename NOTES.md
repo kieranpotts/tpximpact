@@ -29,8 +29,9 @@ tests — are maintained and evolved together in this repository.
 
 The MVP is an API service, written in Kotlin with Ktor, and a decoupled
 web client served by Express. There is no single-page application framework such
-as React or Vue — the front-end is server-side rendered. Short URLs are
-persisted in PostgreSQL.
+as React or Vue — the front-end is server-side rendered. The GOV.UK Frontend
+framework is used out-of-the-box. PostgreSQL is used to persist the shortened
+URL mappings.
 
 Development was highly AI-assisted. I coordinated coding agents to produce first
 drafts of most of the code and all other artefacts. I then review, correct, and
